@@ -1,0 +1,77 @@
+/* Login.css */
+
+/* Style for the container */
+.Login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  /* Style for the header */
+  .Login-header {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style for form elements */
+  .Login-header form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .Login-header label {
+    margin-bottom: 10px;
+  }
+  
+  .Login-header input[type="email"],
+  .Login-header input[type="password"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+  }
+  
+  /* Style for the submit button */
+  .Login-header Button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .Login-header Button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style for the forget password link */
+  .Login-header label.forget-password {
+    color: #007bff;
+    cursor: pointer;
+  }
+  
+  .Login-header label.forget-password:hover {
+    text-decoration: underline;
+  }
+  
+  /* Style for the sign-up link */
+  .Login-header label.sign-up {
+    color: #007bff;
+    cursor: pointer;
+  }
+  
+  .Login-header label.sign-up span {
+    font-weight: bold;
+  }
+  
+  .Login-header label.sign-up span:hover {
+    text-decoration: underline;
+  }
+  

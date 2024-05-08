@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import './login.css'; // Import CSS file
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -58,12 +59,12 @@ const navigateToForgetPasswordPage = () => {
         <p>Login Credentials</p>
         <form onSubmit={handleSubmit}>
           <label>
-            Enter your Email:
+            Email: 
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </label>
           <br />
           <label>
-            Enter your Password:
+            Password:
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </label>
           <br/>
