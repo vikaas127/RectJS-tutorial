@@ -41,10 +41,7 @@ function Signup() {
       }
       //   console.log("error", error);
       //   setError('Invalid username or password');
-      console.log("response", response.response.data)
-    } catch (error) {
-      console.log("error", error.response.data);
-      setError('Invalid username or password');
+      console.log("response", response.response.data);
     }
   };
 
