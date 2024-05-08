@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './ForgetPassword.css'; // Import CSS file
 
 function ForgetPassword() {
     const [email, setEmail] = useState('');
@@ -10,12 +11,12 @@ function ForgetPassword() {
     };
 
     return (
-        <div>
+        <div className="ForgetPassword">
             <label>To change your password, verify it's you!</label>
             <br />
             <br />
             <label>
-                Enter your email:
+                Email:
                 <input
                     type="email"
                     id="email"
@@ -23,13 +24,11 @@ function ForgetPassword() {
                     onChange={(e) => setEmail(e.target.value)}
                 />
             </label>
-            <br />
-            <br />
+            
             <label> OR </label>
-            <br />
-            <br />
+
             <label>
-                Enter your Contact:
+                Contact:
                 <input
                     type="tel"
                     value={contact}

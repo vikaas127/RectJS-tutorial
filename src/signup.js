@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 import { Button } from 'react-bootstrap';
 //import { response } from 'express';
-
+import './Sign.css';
 function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ function Signup() {
       <header className="Signup-header">
         <p>Signup Credentials</p>
         <form onSubmit={handleSubmit}>
-          <label>Enter your name:
+          <label>Name:
             <input
               type="text"
               value={name}
@@ -49,7 +49,7 @@ function Signup() {
             />
           </label>
           <br />
-          <label>Enter your email:
+          <label>Email:
             <input
               type="email"
               id="email"
@@ -58,7 +58,7 @@ function Signup() {
             />
           </label>
           <br />
-          <label>Enter your Password:
+          <label>Password:
             <input
               type="password"
               value={password}
@@ -66,7 +66,7 @@ function Signup() {
             />
           </label>
           <br />
-          <label>Enter your Contact:
+          <label>Contact:
             <input
               type="tel"
               value={contact}

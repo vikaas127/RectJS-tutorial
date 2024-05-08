@@ -1,0 +1,55 @@
+/* Signup.css */
+
+/* Style for the container */
+.Signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  /* Style for the header */
+  .Signup-header {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style for form elements */
+  .Signup-header form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .Signup-header label {
+    margin-bottom: 10px;
+  }
+  
+  .Signup-header input[type="text"],
+  .Signup-header input[type="email"],
+  .Signup-header input[type="password"],
+  .Signup-header input[type="tel"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+  }
+  
+  /* Style for the submit button */
+  .Signup-header Button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .Signup-header Button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
