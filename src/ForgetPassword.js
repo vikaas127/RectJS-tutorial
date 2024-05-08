@@ -24,7 +24,7 @@ function ForgetPassword() {
                     onChange={(e) => setEmail(e.target.value)}
                 />
             </label>
-            
+
             <label> OR </label>
 
             <label>
