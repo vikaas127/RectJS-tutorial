@@ -37,10 +37,12 @@ console.log("response", response)
     // Check the response status to determine if the user exists
     return response.status === 200;
   } catch (error) {
-    console.log("error",error.response.data)
+    console.log("error",error);
+    alert("User doesn't exist, go to SignUp to create an account")
     // Log any errors and throw them for handling in handleSubmit
     throw error;
   }
+  
 };
 
 const handleSignUpClick = () => {

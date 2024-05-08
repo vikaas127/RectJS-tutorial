@@ -16,7 +16,7 @@ function Signup() {
     try {
       // Sending data to create a new user
       const response = await axios.post(
-        'http://localhost:3001/api/create-user',
+        'http://localhost:3001/api/signup',
         {
           Name: name,
           Email: email,
@@ -28,10 +28,18 @@ function Signup() {
         }
 
       );
-      console.log("response", response.response.data)
-    } catch (error) {
-      console.log("error", error.response.data);
-      setError('Invalid username or password');
+      window.alert(response.data.message);
+    } catch (error) { 
+      // If an error occurs, check if it's due to the user already existing
+    if (error.response && error.response.status === 400) {
+      // User already exists, show a popup message
+      window.alert("User already exists");
+  } else {
+      // For other errors, show a generic error message
+      window.alert("An error occurred. Please try again later.");
+  }
+   //   console.log("error", error);
+   //   setError('Invalid username or password');
     }
   };
 

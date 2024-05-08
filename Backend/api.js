@@ -49,17 +49,32 @@ app.get('/api/userlist', (req, res) => {
       res.json({ result: rows, message: "users lists" });
     });
   });
-  app.post('/api/create-user', (req, res) => {
+
+  app.post('/api/signup', (req, res) => {
     const { Name, Email, Password, Contact } = req.body;
-    const query = "INSERT INTO Users (Name, Email, Password, Contact) VALUES (?, ?, ?, ?)";
-    db.query(query, [Name, Email, Password, Contact ], function(err, result) {
-      if (err) {
-        res.status(500).json({ error: err });
+    // Check if the user already exists in the database
+    const check_query = "SELECT COUNT(*) AS user_count FROM users WHERE Email = ?";
+    db.query(check_query, [ Email ], function(checkErr, checkResult) {
+      if (checkErr) {
+        res.status(500).json({ error: checkErr });
         return;
       }
-      res.json({ message: "User created successfully" });
-    });
+      if (checkResult[0].user_count > 0) {
+        // User with the same email already exists
+        res.status(400).json({ error: "User already exists" });
+        return;
+      }
+      // If the user doesn't exist, insert the user data into the database
+      const insert_query = "INSERT INTO users (Name, Email, Password, Contact) VALUES (?, ?, ?, ?)";
+      db.query(insert_query, [Name, Email, Password, Contact], function(err, result) {
+          if (err) {
+              res.status(500).json({ error: err });
+              return;
+          }
+          res.json({ message: "User created successfully" });
+      });
   });
+});
 
   app.post('/api/login', (req, res) => {
     const { Email, Password } = req.body;
@@ -74,7 +89,6 @@ app.get('/api/userlist', (req, res) => {
       if (result.length > 0) {
         res.json({ message: "User details exist." });
     } else {
-      console.log("User not found")
       res.status(404).json({ error: "User not found." });
     }
     });
