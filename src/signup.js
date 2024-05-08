@@ -29,17 +29,17 @@ function Signup() {
 
       );
       window.alert(response.data.message);
-    } catch (error) { 
+    } catch (error) {
       // If an error occurs, check if it's due to the user already existing
-    if (error.response && error.response.status === 400) {
-      // User already exists, show a popup message
-      window.alert("User already exists");
-  } else {
-      // For other errors, show a generic error message
-      window.alert("An error occurred. Please try again later.");
-  }
-   //   console.log("error", error);
-   //   setError('Invalid username or password');
+      if (error.response && error.response.status === 400) {
+        // User already exists, show a popup message
+        window.alert("User already exists");
+      } else {
+        // For other errors, show a generic error message
+        window.alert("An error occurred. Please try again later.");
+      }
+      //   console.log("error", error);
+      //   setError('Invalid username or password');
     }
   };
 
