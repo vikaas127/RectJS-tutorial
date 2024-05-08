@@ -25,26 +25,26 @@ function Login() {
   };
     
     // Function to check if the user exists in the database
-const checkUserExists = async (email, password) => {
+const checkUserExists = async (Email, Password) => {
   try {
     // Make a request to your backend API to verify user credentials
     const response = await axios.post(
-      'http://localhost:3001/api/check-user',
-      { email, password },
+      'http://localhost:3001/api/login',
+      { Email, Password },
       { headers: { 'Content-Type': 'application/json' } }
     );
 console.log("response", response)
     // Check the response status to determine if the user exists
     return response.status === 200;
   } catch (error) {
-    console.log("error",error)
+    console.log("error",error.response.data)
     // Log any errors and throw them for handling in handleSubmit
     throw error;
   }
 };
 
 const handleSignUpClick = () => {
-  navigate("/signup");
+  navigate("/Signup");
 }
 
 const navigateToForgetPasswordPage = () => {

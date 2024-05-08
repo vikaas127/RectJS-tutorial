@@ -50,7 +50,7 @@ app.get('/api/userlist', (req, res) => {
     });
   });
   app.post('/api/create-user', (req, res) => {
-    const { User_Id, Name, Email, Password, Contact, Product_Id } = req.body;
+    const { Name, Email, Password, Contact } = req.body;
     const query = "INSERT INTO Users (Name, Email, Password, Contact) VALUES (?, ?, ?, ?)";
     db.query(query, [Name, Email, Password, Contact ], function(err, result) {
       if (err) {
@@ -58,6 +58,25 @@ app.get('/api/userlist', (req, res) => {
         return;
       }
       res.json({ message: "User created successfully" });
+    });
+  });
+
+  app.post('/api/login', (req, res) => {
+    const { Email, Password } = req.body;
+    const query = "SELECT Email, Password FROM users WHERE Email= ? AND Password= ?";
+    console.log(query.res);
+    db.query(query, [ Email, Password ], function(err, result) {
+      if (err) {
+        console.log(err);
+       res.status(500).json({ error: err });
+        return;
+      }
+      if (result.length > 0) {
+        res.json({ message: "User details exist." });
+    } else {
+      console.log("User not found")
+      res.status(404).json({ error: "User not found." });
+    }
     });
   });
   
