@@ -24,18 +24,6 @@ function ForgetPassword() {
                     onChange={(e) => setEmail(e.target.value)}
                 />
             </label>
-
-            <label> OR </label>
-
-            <label>
-                Contact:
-                <input
-                    type="tel"
-                    value={contact}
-                    onChange={(e) => setContact(e.target.value)}
-                    maxLength={15}
-                />
-            </label>
             <br />
             <button onClick={handleSubmit}>Submit</button>
         </div>

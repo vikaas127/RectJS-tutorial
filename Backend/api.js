@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql= require('mysql');
+const jwt = require('jsonwebtoken');
 const cors= require('cors');
 
 const bodyParser = require('body-parser');
@@ -16,8 +17,6 @@ const dbConfig = {
   
   var db = mysql.createConnection(dbConfig);
 
-
-
   db.connect((err) => {
     if (err) {
       console.error('Error connecting to database:', err);
@@ -29,6 +28,9 @@ const dbConfig = {
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+// Secret key for JWT signing
+const secretKey = '12KEY77';
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
@@ -87,6 +89,9 @@ app.get('/api/userlist', (req, res) => {
         return;
       }
       if (result.length > 0) {
+        // User credentials are valid, generate JWT token
+        const token = jwt.sign({ email: Email }, '12KEY77', { expiresIn: '10h' });
+        // Send the token along with the response
         res.json({ message: "User details exist." });
     } else {
       res.status(404).json({ error: "User not found." });
