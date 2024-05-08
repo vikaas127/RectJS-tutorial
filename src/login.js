@@ -85,8 +85,7 @@ const generateToken = async (Email, Password) => {
       // If the user exists (status code 200), generate a JWT token
       if (response.status === 200) {
         // Generate a JWT token using user data or some identifier
-        const token = jwt.sign({ email: Email }, 'your_secret_key', { expiresIn: '1h' });
-        return token;
+       
       } else {
         throw new Error("User not found");
       }

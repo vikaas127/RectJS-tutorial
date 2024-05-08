@@ -32,7 +32,7 @@ function Signup() {
       window.alert(response.data.message);
     } catch (error) {
       // If an error occurs, check if it's due to the user already existing
-      if (error.response && error.response.status === 400) {
+      if (error) {
         // User already exists, show a popup message
         window.alert("User already exists");
       } else {
@@ -41,7 +41,7 @@ function Signup() {
       }
       //   console.log("error", error);
       //   setError('Invalid username or password');
-      console.log("response", response.response.data);
+  //    console.log("response", response.response.data);
     }
   };
 
