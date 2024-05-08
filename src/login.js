@@ -35,6 +35,7 @@ const checkUserExists = async (Email, Password) => {
     );
 //console.log("response", response)
     // Check the response status to determine if the user exists
+
 //    return response.status === 200;
  // Check if login was successful (status code 200) and token is received
  if (response.status === 200 && response.data.token) {
@@ -50,6 +51,8 @@ const checkUserExists = async (Email, Password) => {
     // Handle network errors, server errors, etc.
     console.error("Error:", error);
     alert("User doesn't exist, go to SignUp to create an account")
+
+   
     // Log any errors and throw them for handling in handleSubmit
     throw error;
   }

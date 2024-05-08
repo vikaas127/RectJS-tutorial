@@ -16,7 +16,7 @@ function Signup() {
     try {
       // Sending data to create a new user
       const response = await axios.post(
-        'http://localhost:3001/api/signup',
+        'http://localhost:3001/api/create-user',
         {
           Name: name,
           Email: email,
@@ -28,6 +28,7 @@ function Signup() {
         }
 
       );
+
       window.alert(response.data.message);
     } catch (error) {
       // If an error occurs, check if it's due to the user already existing
@@ -40,6 +41,10 @@ function Signup() {
       }
       //   console.log("error", error);
       //   setError('Invalid username or password');
+      console.log("response", response.response.data)
+    } catch (error) {
+      console.log("error", error.response.data);
+      setError('Invalid username or password');
     }
   };
 
