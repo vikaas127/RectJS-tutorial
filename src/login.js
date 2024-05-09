@@ -20,7 +20,7 @@ function Login() {
       // Navigate to the dashboard or wherever you want to go after successful login
       navigate('/home');
     } else {
-      setError('Invalid email or password. Please try again.');
+      setError('Invalid email or password. Please try again', error);
     }
   };
     
@@ -39,8 +39,8 @@ const checkUserExists = async (Email, Password) => {
 //    return response.status === 200;
  // Check if login was successful (status code 200) and token is received
  if (response.status === 200 && response.data.token) {
-    // Save the token in local storage or session storage for later use
-    localStorage.setItem('jwtToken', response.data.token);
+    // Send token as response data
+    console.log("Token created", response.data.token);
     // Return true to indicate that user exists and login was successful
     return true;
   } else {
@@ -51,59 +51,10 @@ const checkUserExists = async (Email, Password) => {
     // Handle network errors, server errors, etc.
     console.error("Error:", error);
     alert("User doesn't exist, go to SignUp to create an account")
-
-   
     // Log any errors and throw them for handling in handleSubmit
     throw error;
   }
 };
-//} catch (error) {
-  // Handle network errors, server errors, etc.
-//  console.error("Error:", error);
-  // Log any errors and throw them for handling in handleSubmit
-//  throw error;
-//}
-// };
-//  } catch (error) {
-//    console.log("error",error);
-//    alert("User doesn't exist, go to SignUp to create an account")
-//    // Log any errors and throw them for handling in handleSubmit
-//    throw error;
-//  }
-// };
-
-    // Function to check if the user exists in the database
-const generateToken = async (Email, Password) => {
-    try {
-      // Make a request to your backend API to verify user credentials
-      const response = await axios.post(
-        'http://localhost:3001/api/login',
-        { Email, Password },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-  
-      // If the user exists (status code 200), generate a JWT token
-      if (response.status === 200) {
-        // Generate a JWT token using user data or some identifier
-       
-      } else {
-        throw new Error("User not found");
-      }
-    } catch (error) {
-      console.error("Error:", error.message);
-      // Throw the error for handling in the calling function
-      throw error;
-    }
-  };
-  
-  // Example usage
-  generateToken('user@example.com', 'password')
-    .then(token => {
-      console.log("JWT Token:", token);
-    })
-    .catch(error => {
-      console.error("Error:", error.message);
-    });
 
 const handleSignUpClick = () => {
   navigate("/Signup");

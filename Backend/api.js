@@ -66,19 +66,29 @@ app.get('/api/userlist', (req, res) => {
   app.post('/api/login', (req, res) => {
     const { Email, Password } = req.body;
     const query = "SELECT Email, Password FROM users WHERE Email= ? AND Password= ?";
-    console.log(query.res);
+   // console.log(query.res);
     db.query(query, [ Email, Password ], function(err, result) {
       if (err) {
-        console.log(err);
+        console.log("Error:", err);
        res.status(500).json({ error: err });
         return;
       }
       if (result.length > 0) {
         // User credentials are valid, generate JWT token
-        const token = jwt.sign({ email: Email }, '12KEY77', { expiresIn: '10h' });
+        const token = jwt.sign({ email: Email }, '12KEY77', { expiresIn: '48h' });
+        token_query = "UPDATE users SET Token = SHA2(UUID(), 256) WHERE Email= ?";
+        // Executing the token query to update the token in the database
+        db.query(token_query,[Email], function(err, tokenResult) {
+          if (err) {
+              console.log("Error updating token:", err);
+              res.status(500).json({ error: "Error updating token" });
+              return;
+          }
+        console.log("Token created", token)
         // Send the token along with the response
-        res.json({ message: "User details exist." });
-    } else {
+        res.json({ message: "User details exist.",token: token });
+    }); 
+  }else {
       console.log("User not found")
       res.status(404).json({ error: "User not found." });
     }
