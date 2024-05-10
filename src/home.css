@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+    margin: 0 20px;
+  }
+  
+  .search-bar input {
+    width: 100%;
+    flex: 1; /* Take up remaining space */
+    padding: 8px 120px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .search-bar button {
+    padding: 8px 15px;
+    background-color: #f90;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  .navigation ul li {
+    margin-right: 20px;
+  }
+  
+  .navigation ul li a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .account-options a {
+    text-decoration: none;
+    color: #333;
+    margin-left: 20px;
+  }
+  
+  .account-options a:hover {
+    text-decoration: underline;
+  }
+  
+  .home {
+    padding: 20px;
+  }
+  
+  .featured-products,
+  .popular-categories,
+  .latest-deals {
+    margin-bottom: 30px;
+  }
+  
+  .product,
+  .category,
+  .deal {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .product img,
+  .category img,
+  .deal img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+  }
+  
+  .product h3,
+  .category h3,
+  .deal h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .product p,
+  .category p,
+  .deal p {
+    margin-bottom: 10px;
+  }
+  
+  .product a,
+  .category a,
+  .deal a {
+    text-decoration: none;
+    color: #007bff;
+    display: block;
+  }
+  

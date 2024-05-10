@@ -1,16 +1,67 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './home.css'; // Import the CSS file
+
+function Header() {
+
+  // Define language options
+  const languageOptions = [
+    { code: 'en', label: 'English' },
+    { code: 'fr', label: 'French' },
+    { code: 'es', label: 'Spanish' },
+    // Add more languages as needed
+  ];
+
+  // State to manage selected language
+  const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0].code);
+
+  // Function to handle language selection
+  const handleLanguageChange = (event) => {
+    setSelectedLanguage(event.target.value);
+    // You can add additional logic here, such as updating language settings in your application
+  };
+
+
+  return (
+    <header className="header">
+      <div className="container">
+        <div className="logo">
+          <img src="https://cdn.pixabay.com/photo/2021/08/10/16/02/amazon-6536326_1280.png" alt="Amazon Logo" height="10" width="80" />
+        </div>
+        <div className="search-bar">
+          <input type="text" placeholder="Search..."/>
+          <button variant="contained" color="primary">Search</button>
+        </div>
+        <nav className="navigation">
+          <ul>
+            <li><select value={selectedLanguage} onChange={handleLanguageChange}>
+                {languageOptions.map((option) => (
+                  <option key={option.code} value={option.code}>{option.label}</option>
+                ))}
+                </select>
+            </li>
+            <li><a href="#">Account & lists</a></li>
+            <li><a href="#">Returns & orders</a></li>
+          </ul>
+        </nav>
+        <div className="account-options">
+          <a href="#">Sign In</a>
+          <a href="#">Account & Lists</a>
+          <a href="#">Orders</a>
+          <a href="#">Cart</a>
+        </div>
+      </div>
+    </header>
+  );
+}
 
 function Home() {
   return (
     <div className="home">
-      <header>
-        <h1>Welcome to Our E-Commerce Store</h1>
-        <p>Find everything you need at great prices!</p>
-      </header>
+      <Header />
       <section className="featured-products">
         <h2>Featured Products</h2>
-        {/* Render featured products here */}
         <div className="product">
           <img src="product-image-url" alt="Product" />
           <h3>Product Name</h3>
