@@ -1,115 +1,150 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-  }
-  
-  .container {
+}
+
+/* Container styles */
+.container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 10px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-  }
-  
-  .logo img {
-    height: 50px;
-  }
-  
-  .search-bar {
+}
+
+/* Header styles */
+.header {
     display: flex;
-    align-items: center; /* Vertically center the items */
-    margin: 0 20px;
-  }
-  
-  .search-bar input {
-    width: 100%;
-    flex: 1; /* Take up remaining space */
-    padding: 8px 120px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+
+
+/* Logo styles */
+.logo img {
+    height: 50px;
+    width: auto; /* Maintain aspect ratio */
+    align-items: center;
+}
+
+/* Search bar styles */
+.search-bar {
+    display: flex;
+    align-items: center;
+    
+}
+
+.search-bar input {
+    width: 200%;
+    padding: 11px 180px ;
     border: 1px solid #ccc;
     border-radius: 5px 0 0 5px;
-  }
-  
-  .search-bar button {
-    padding: 8px 15px;
+}
+
+.search-bar button {
+    padding: 11px 15px;
     background-color: #f90;
     border: none;
     border-radius: 0 5px 5px 0;
     color: #fff;
     cursor: pointer;
-  }
-  
-  .navigation ul {
+}
+
+/* Navigation styles */
+.navigation ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
     display: flex;
-  }
-  
-  .navigation ul li {
+}
+
+.navigation ul li {
     margin-right: 20px;
-  }
-  
-  .navigation ul li a {
+}
+
+.navigation ul li a {
     text-decoration: none;
     color: #333;
-  }
-  
-  .account-options a {
+}
+
+/* Account options styles */
+.account-options a {
     text-decoration: none;
     color: #333;
-    margin-left: 20px;
-  }
-  
-  .account-options a:hover {
+    margin-left: 10px;
+}
+
+.account-options a:hover {
     text-decoration: underline;
-  }
-  
-  .home {
-    padding: 20px;
-  }
-  
-  .featured-products,
-  .popular-categories,
-  .latest-deals {
-    margin-bottom: 30px;
-  }
-  
-  .product,
-  .category,
-  .deal {
+}
+
+/* Product, Category, and Deal styles */
+.product,
+.category,
+.deal {
+    display: inline-block;
+    width: calc(25% - 20px); /* Adjust width as needed */
+    margin: 0 10px 20px 0;
+    vertical-align: top; /* Align items at the top */
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .product img,
-  .category img,
-  .deal img {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-  }
-  
-  .product h3,
-  .category h3,
-  .deal h3 {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}    
+
+.product img,
+.category img,
+.deal img {
+    height: 150px; /* Set your desired height */
+    object-fit: cover; /* Maintain aspect ratio and fill the container */
+}
+
+.product h3,
+.category h3,
+.deal h3 {
     margin-top: 10px;
     margin-bottom: 5px;
-  }
-  
-  .product p,
-  .category p,
-  .deal p {
+}
+
+.product p,
+.category p,
+.deal p {
     margin-bottom: 10px;
-  }
-  
-  .product a,
-  .category a,
-  .deal a {
+}
+
+.product a,
+.category a,
+.deal a {
     text-decoration: none;
     color: #007bff;
-    display: block;
-  }
-  
+    display: block; /* Ensure full width clickable area */
+}
+
+.product a:hover,
+.category a:hover,
+.deal a:hover {
+    text-decoration: underline;
+}
+
+/* Featured Products, Popular Categories, Latest Deals styles */
+.featured-products,
+.popular-categories,
+.latest-deals {
+    object-fit: cover; /* Maintain aspect ratio and fill the container */
+    display: block; /* Ensures the image behaves like a block element */
+    margin: auto; /* Centers the image within its container, if needed */
+}
+
+.featured-products h2,
+.popular-categories h2,
+.latest-deals h2 {
+    margin-bottom: 10px;
+}

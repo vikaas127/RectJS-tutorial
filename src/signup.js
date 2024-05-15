@@ -16,7 +16,7 @@ function Signup() {
     try {
       // Sending data to create a new user
       const response = await axios.post(
-        'http://localhost:3001/api/create-user',
+        'http://localhost:3001/api/signup',
         {
           Name: name,
           Email: email,

@@ -51,19 +51,45 @@ app.get('/api/userlist', (req, res) => {
       res.json({ result: rows, message: "users lists" });
     });
   });
-  app.post('/api/create-user', (req, res) => {
+  
+  app.post('/api/signup', (req, res) => {
     const { Name, Email, Password, Contact } = req.body;
-    const query = "INSERT INTO Users (Name, Email, Password, Contact) VALUES (?, ?, ?, ?)";
-    db.query(query, [Name, Email, Password, Contact ], function(err, result) {
-      if (err) {
-        res.status(500).json({ error: err });
-        return;
-      }
-      res.json({ message: "User created successfully" });
-    });
-  });
 
-  app.post('/api/login', (req, res) => {
+    // Log the incoming request body
+    console.log("Request Body:", req.body);
+
+    // Validate that all fields are provided
+    if (!Name) {
+        res.status(400).json({ error: "Name is required" });
+        return;
+    }
+    if (!Email) {
+        res.status(400).json({ error: "Email is required" });
+        return;
+    }
+    if (!Password) {
+        res.status(400).json({ error: "Password is required" });
+        return;
+    }
+    if (!Contact) {
+        res.status(400).json({ error: "Contact is required" });
+        return;
+    }
+
+    const query = "INSERT INTO Users (Name, Email, Password, Contact) VALUES (?, ?, ?, ?)";
+    db.query(query, [Name, Email, Password, Contact], function(err, result) {
+        if (err) {
+            console.error("Database error:", err);
+            res.status(500).json({ error: "An error occurred while creating the user" });
+            return;
+        }
+        res.json({ message: "User created successfully" });
+    });
+});
+
+
+
+app.post('/api/login', (req, res) => {
     const { Email, Password } = req.body;
     const query = "SELECT Email, Password FROM users WHERE Email= ? AND Password= ?";
    // console.log(query.res);
@@ -121,9 +147,9 @@ app.get('/api/userlist', (req, res) => {
 
  
     app.post('/api/create-products', (req, res) => {
-      const { Product_Id, Product_Name, Description, Price, Category, Brand, Stock_Quantity, Image_URL, Rating } = req.body;
-      const query = "INSERT INTO Products (Product_Name, Description, Price, Category, Brand, Stock_Quantity, Image_URL, Rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-      db.query(query, [Product_Id, Product_Name, Description, Price, Category, Brand, Stock_Quantity, Image_URL, Rating], function(err, result) {
+      const { Cat_Id, P_Name, Desc, Quantity, inStock, Price, P_Thumbnail } = req.body;
+      const query = "INSERT INTO products (Cat_Id, P_Name, `Desc`, Quantity, inStock, Price, P_Thumbnail) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      db.query(query, [Cat_Id, P_Name, Desc, Quantity, inStock, Price, P_Thumbnail], function(err, result) {
         if (err) {
           console.log(err);
           res.status(500).json({ error: err });
@@ -134,9 +160,9 @@ app.get('/api/userlist', (req, res) => {
     });
   
     app.delete('/api/delete-products', (req, res) => {
-      const { Product_Id, Product_Name, Description, Price, Category, Brand, Stock_Quantity, Image_URL, Rating } = req.body;
+      const { Cat_Id, P_Name, Desc, Quantity, inStock, Price, P_Thumbnail } = req.body;
       const query = "DELETE FROM Products WHERE Product_Id = ?";
-      db.query(query, [ Product_Id, Product_Name, Description, Price, Category, Brand, Stock_Quantity, Image_URL, Rating ], function(err, result) {
+      db.query(query, [ Cat_Id, P_Name, `Desc`, Quantity, inStock, Price, P_Thumbnail ], function(err, result) {
         if (err) {
           res.status(500).json({ error: 'Internal Server Error' });
           return;
@@ -146,12 +172,11 @@ app.get('/api/userlist', (req, res) => {
     });
 
     app.get('/api/productlist', (req,res) => {
-      const { Product_Id, Product_Name, Description, Price, Category, Brand, Stock_Quantity, Image_URL, Rating } = req.body;
-      const query = "SELECT p.*, pi.Product_URL FROM products p INNER JOIN product_images pi ON p.Product_Id = pi.Product_Id";
-
+      const { P_Id, Cat_Id, P_Name, Desc, Quantity, inStock, Price, P_Thumbnail } = req.body;
+      const query = "SELECT * FROM products";
       db.query(query, function(err, rows, fields) {
         if(err){
-          res.status(500).json({ error: 'Internal Server Error'});
+          res.status(500).json({ error: err});
           return;
         }
         res.json({message: rows })
