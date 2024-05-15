@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]); // Initialize as an array
-  const [filteredProducts, setFilteredProducts] = useState([]); // Also initialize as an array
-
+ 
   useEffect(() => {
     // Replace 'your-api-endpoint' with the actual URL
     fetch('your-api-endpoint')
@@ -21,7 +20,7 @@ const ProductList = () => {
             P_Thumbnail: item.P_Thumbnail
           }));
           setProducts(productList);
-          setFilteredProducts(productList); // Initialize filteredProducts with the same list initially
+        //  setFilteredProducts(productList); // Initialize filteredProducts with the same list initially
         } else {
           console.error('Data format is incorrect');
         }
@@ -31,8 +30,8 @@ const ProductList = () => {
 
   return (
     <div className="product-list">
-      {Array.isArray(filteredProducts) && filteredProducts.length > 0 ? (
-        filteredProducts.map(product => (
+      {Array.isArray(products) && products.length > 0 ? (
+        products.map(product => (
           <div key={product.P_Id} className="product-item">
             <img src={product.P_Thumbnail} alt={product.P_Name} />
             <h3>{product.P_Name}</h3>
