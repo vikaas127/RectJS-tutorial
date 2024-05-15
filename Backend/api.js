@@ -179,13 +179,16 @@ app.post('/api/login', (req, res) => {
           res.status(500).json({ error: err});
           return;
         }
-        res.json({message: rows })
+        res.status(200).json({
+          message: "Data fetched successfully",
+          data: rows
+      });
       });
     })
 
     app.put('/api/update-product', (req,res) => {
       const { Product_Name, Price } = req.body; 
-      const query = "UPDATE Products SET Price = ? WHERE Product_Name = ?";
+      const query = "UPDATE products SET Price = ? WHERE Product_Name = ?";
       db.query(query, [ Price, Product_Name ], function(err, result) {
         if(err){
           res.status(500).json({ error: 'Internal Server Error'});

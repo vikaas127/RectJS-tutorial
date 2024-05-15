@@ -62,7 +62,7 @@ function Home() {
 
   useEffect(() => {
     // Fetch product data from API
-    axios.get('http://localhost:3001/api/products').then(response => {
+    axios.get('http://localhost:3001/api/productlist').then(response => {
        setProducts(response.data);
         // Extract unique categories from products
         const uniqueCategories = [new Set(response.data.map(product => product.category))];
@@ -86,6 +86,8 @@ function Home() {
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
+
+  
 
   return (
     <div className="home">
