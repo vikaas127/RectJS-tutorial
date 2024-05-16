@@ -90,28 +90,43 @@ function Home() {
     });
   },[]);
 
+  function handleAddToCart(product) {
+    // Add your logic to handle adding the product to the cart
+    // This might include updating state, making an API call, etc.
+    console.log(`Product added to cart: ${product.P_Name}`);
+  }
+  
+
 
   return (
  
-    <div className="product-list">
+  <div className="product-list">
       
 <Header/>
-      {Array.isArray(products) && products.length > 0 ? (
+<div className="product-grid">
+
+{Array.isArray(products) && products.length > 0 ? (
         products.map(product => (
+
           <div key={product.P_Id} className="product-item">
             <img src={product.P_Thumbnail} alt={product.P_Name} />
-            <h3>{product.P_Name}</h3>
-            <p>{product.Desc}</p>
-            <p>Price: ₹{product.Price}</p>
-            <p>Quantity: {product.Quantity}</p>
+            <h3 className="name">{product.P_Name}</h3>
+            <p className="description">{product.Desc}</p>
+            <p className='price'>Price: ₹{product.Price}</p>
+            <p>inStock:
+              <span className={product.inStock ? "available" : "unavailable"}>
+              {product.inStock ? "Available" : "Unavailable"}
+              </span>
+            </p>
+            <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
           </div>
         ))
       ) : (
         <p>No products available</p>
       )}
     </div>
-  );
-
+  </div>
+  ); 
   /*
     return (
       <div className="home">
