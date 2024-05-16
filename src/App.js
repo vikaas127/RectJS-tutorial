@@ -5,6 +5,7 @@ import Home from './home'; // corrected import
 import SignUp from './Signup'; // corrected import
 import ForgetPassword from './ForgetPassword'; // assuming this import is correct
 
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {

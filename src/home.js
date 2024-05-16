@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 import React, { useState, useEffect } from 'react';
 import './home.css'; // Import the CSS file
+import './CategoryList.css';
+import CategoryList from './CategoryList';
 
 function Header() {
 
@@ -57,8 +60,6 @@ function Home() {
 
   const [products, setProducts] = useState([]);
 
-
-
   useEffect(() => {
     // Fetch product data from API
     axios.get('http://localhost:3001/api/productlist',{ headers: { 'Content-Type': 'application/json' }}).then(response => {
@@ -96,13 +97,12 @@ function Home() {
     console.log(`Product added to cart: ${product.P_Name}`);
   }
   
-
-
   return (
  
   <div className="product-list">
       
 <Header/>
+<CategoryList/>
 <div className="product-grid">
 
 {Array.isArray(products) && products.length > 0 ? (
