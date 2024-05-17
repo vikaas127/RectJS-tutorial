@@ -1,5 +1,7 @@
 import React from 'react';
-
+import axios from 'axios';
+import productListAPiCall from './API';
+import setProducts from './home';
 function CategoryList() {
   // Dummy category data for demonstration
   const categories = [
@@ -15,16 +17,37 @@ function CategoryList() {
     { id: 10, name: 'Perfumes', image: 'https://m.media-amazon.com/images/I/61Jb5S5MlYL._SL1080_.jpg' }
     // Add more categories as needed
   ];
+  
+  const CatList = async (event, Cat_Id) => {
+    event.preventDefault();
+    console.log('Category ID:', Cat_Id);
+
+    try {
+      const response = await productListAPiCall(Cat_Id);
+      setProducts(response); // Use setProducts from home.js
+    } catch (error) {
+      console.error('Error fetching product list:', error);
+    }
+  };
 
   return (
     <div className="category-list">
-      {categories.map(category => (
-        <div key={category.id} className="category-item">
-          <img src={category.image} />
-          <span>{category.name}</span>
+            {categories.map(category => (
+                <div 
+                    key={category.id} 
+                    className="category-item" 
+                    onClick={(event) => CatList(event, category.id)} 
+                    style={{ cursor: 'pointer' }} 
+                >
+                    <img 
+                        src={category.image} 
+                        alt={category.name} 
+                        style={{ cursor: 'pointer' }} 
+                    />
+                    <span>{category.name}</span>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
   );
 }
 

@@ -173,8 +173,8 @@ app.post('/api/login', (req, res) => {
 
     app.get('/api/productlist', (req,res) => {
       const { P_Id, Cat_Id, P_Name, Desc, Quantity, inStock, Price, P_Thumbnail } = req.body;
-      const query = "SELECT * FROM products";
-      db.query(query, function(err, rows, fields) {
+      const query = "SELECT * FROM products WHERE ? IS NULL OR Cat_Id = ?";
+      db.query(query, [Cat_Id, Cat_Id], (err, rows) =>{
         if(err){
           res.status(500).json({ error: err});
           return;
