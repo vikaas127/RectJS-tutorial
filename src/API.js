@@ -1,10 +1,6 @@
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import ReactDOM from 'react-dom';
-import React, { useState, useEffect } from 'react';
 import './home.css'; // Import the CSS file
 import './CategoryList.css';
-import CategoryList from './CategoryList';
 
 function productListAPiCall(CatId) {
     return new Promise((resolve, reject) => {

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import productListAPiCall from './API';
-import setProducts from './home';
-function CategoryList() {
-  // Dummy category data for demonstration
+
+/* function CategoryList() {
+  
+ // Dummy category data for demonstration
   const categories = [
     { id: 1, name: 'Mobiles', image: 'https://m.media-amazon.com/images/I/41oNiB-kLuL._SX300_SY300_QL70_FMwebp_.jpg' },
     { id: 2, name: 'Laptops', image: 'https://m.media-amazon.com/images/I/61Pb4vDP8VL._SL1080_.jpg' },
@@ -17,18 +17,6 @@ function CategoryList() {
     { id: 10, name: 'Perfumes', image: 'https://m.media-amazon.com/images/I/61Jb5S5MlYL._SL1080_.jpg' }
     // Add more categories as needed
   ];
-  
-  const CatList = async (event, Cat_Id) => {
-    event.preventDefault();
-    console.log('Category ID:', Cat_Id);
-
-    try {
-      const response = await productListAPiCall(Cat_Id);
-      setProducts(response); // Use setProducts from home.js
-    } catch (error) {
-      console.error('Error fetching product list:', error);
-    }
-  };
 
   return (
     <div className="category-list">
@@ -36,7 +24,7 @@ function CategoryList() {
                 <div 
                     key={category.id} 
                     className="category-item" 
-                    onClick={(event) => CatList(event, category.id)} 
+                    onClick={(event) => (event, category.id)} 
                     style={{ cursor: 'pointer' }} 
                 >
                     <img 
@@ -50,5 +38,66 @@ function CategoryList() {
         </div>
   );
 }
+
+
+export default CategoryList;*/
+const CategoryList = ({ onSelectCategory }) => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+      const fetchCategories = async () => {
+          try {
+              const response = await axios.get('http://localhost:3001/api/Categorylist');
+          //    console.log(response); 
+              console.log(response.data);
+             
+                 if (response && Array.isArray(response.data.data)) {
+              const catList = response.data.data.map(item => ({
+                    Cat_Id: item.Cat_Id,
+                    Cat_Name: item.Cat_Name,
+                    Cat_Image: item.Cat_Image
+              })); 
+                  setCategories(catList); 
+              } else {
+                console.error("Expected an array but got:", response.data);
+                setCategories([]); // Set to empty array if the data is not an array
+              }
+            } catch (error) {
+              console.error("Error fetching categories", error);
+              setCategories([]); // Set to empty array in case of error
+            }
+          };
+
+      fetchCategories();
+  }, []);
+
+  if (!Array.isArray(categories)) {
+    console.error("Categories state is not an array:", categories);
+    return <div>Error: Categories is not an array</div>;
+  }
+
+  function onSelectCategory(category) {
+    // Add your logic to handle adding the product to the cart
+    // This might include updating state, making an API call, etc.
+    console.log(category);
+  }
+  
+
+  return (
+      <div style={{ display: 'inline-block', justifyContent: 'center' }}>
+          {categories.map(category => (
+              <div key={category.Cat_Id} className="categories"
+              onClick={() => onSelectCategory(category.Cat_Name)} style={{ margin: '10px', cursor: 'pointer' }}>
+                  <img 
+                        src={category.Cat_Image} 
+                        alt={category.Cat_Name} 
+                        style={{ cursor: 'pointer' }} 
+                    />
+                  <span>{category.Cat_Name} </span>
+              </div>
+          ))}
+      </div>
+  );
+};
 
 export default CategoryList;

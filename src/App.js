@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Login from './login'; // corrected import
 import Home from './home'; // corrected import
@@ -14,7 +13,6 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/login" element={<Login />} />
-          
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />

@@ -1,46 +1,39 @@
-.category-list {
+/* Container holding the category elements */
+.container {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; /* Allows wrapping of items if needed */
     align-items: center;
-    flex-wrap: wrap;
-    background-color: rgb(239, 152, 65);
+    background-color: rgb(251, 253, 252);
+    padding: 20px 0;
+}
+ 
+  /* Individual category item */
+  .categories {
+    background-color: #f6a92e; /* Light gray background color */
+    margin: 10px; /* Margin around each category item */
+    padding: 10px; /* Padding inside the category item */
+    border-radius: 10%; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-align: center; /* Center align text */
+    transition: transform 0.2s ease; /* Smooth transformation effect */
+    display: inline-block; /* Ensures items flow correctly without a container */
   }
-
-  .category-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    width: 100px;
-    height: 100px;
-    border-radius: 75px;
-   
-}
-
-/*.category-list {
-    display: inline-block;
-    margin: 10px;
-    width: 150px; 
-    height: 150px; 
-    border-radius: 75px; 
-    
-} */
-
-.category-list img {
-    width: 50%;
-    height: 50%;
-    border-radius: 75px; 
-}
-
-.category-list span {
-   bottom:-5%; 
-   left:-5%; 
-   width:auto; 
-   padding-left :10px ;  
-   padding-right :10px ; 
-   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
-   color: white;
-}
-
   
+  .categories:hover {
+    transform: scale(1.05); /* Slightly enlarge the item on hover */
+  }
+  
+  .categories img {
+    width: 100px; /* Width of the image */
+    height: 100px; /* Height of the image */
+    border-radius: 50px; /* Make the image circular */
+    object-fit: cover; /* Ensure the image covers the area without stretching */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow to the image */
+  }
+  
+  .categories span {
+    display: block; /* Make the span element a block element */
+    font-size: 14px; /* Font size of the text */
+    color: white;}
   

@@ -1,9 +1,10 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './home.css'; // Import the CSS file
 import './CategoryList.css';
 import CategoryList from './CategoryList';
 import productListAPiCall from './API';
+import ProductList from './ProductList';
 
 function Header() {
 

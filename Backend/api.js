@@ -312,18 +312,6 @@ app.post('/api/login', (req, res) => {
       });
     });
   
-    app.post('/api/product_cart', (req, res) => {
-      const { Product_Id, Quantity, Price } = req.body;
-      const query = "INSERT INTO product_cart (Product_Id, Quantity, Price) VALUES (?, ?, ?)";
-      db.query(query, [Product_Id, Quantity, Price], function(err, result) {
-        if (err) {
-          res.status(500).json({ error: 'Internal Server Error' });
-          return;
-        }
-        res.json({ message: "Products added to the cart successfully" });
-      });
-    });
-
     app.put('/api/update_product_cart', (req, res) => {
       const { Product_Id, Quantity, Price } = req.body;
       const query = "UPDATE product_cart SET Quantity = ?, Price = ? WHERE Product_Id = ?";
@@ -348,17 +336,29 @@ app.post('/api/login', (req, res) => {
       });
     });
 
-    app.get('/api/product_cart', (req, res) => {
-      const { Product_Id, Quantity, Price } = req.body;
-      const query = "SELECT p.Product_Id,p.Name,p.Description,p.Brand,p.Rating,pi.Product_URL,pc.Quantity,pc.Price * Quantity AS Total_price FROM products p LEFT JOIN product_images pi ON p.Product_Id = pi.Product_Id LEFT JOIN Product_cart pc ON p.Product_Id = pc.Product_Id";
-      
-      db.query(query, [Product_Id, Quantity, Price], function(err, result) {
+    app.get('/api/Categorylist', (req,res) => {
+      const { Cat_Id, Cat_Name, Cat_Image } = req.body;
+      const query = "SELECT * FROM categories WHERE ? IS NULL OR Cat_Id = ?";
+      db.query(query, [Cat_Id, Cat_Id], (err, rows) =>{
+        if(err){
+          res.status(500).json({ error: err});
+          return;
+        }
+        res.status(200).json({
+          message: "Data fetched successfully",
+          data: rows
+      });
+      });
+    })
+
+    app.post('/api/productcart', (req, res) => {
+      const { User_Id, P_Id, Buy_Quantity, Price, Total_Price } = req.body;
+      const query = "INSERT INTO cart (User_Id, P_Id, Buy_Quantity, Price, Total_Price) VALUES (?, ?, ?, ?, Price*Buy_Quantity)";
+      db.query(query, [User_Id, P_Id, Buy_Quantity, Price, Total_Price], function(err, result) {
         if (err) {
           res.status(500).json({ error: err });
           return;
         }
-        res.json({ message: result });
+        res.json({ message: "Products added to the cart successfully" });
       });
     });
-    
-  

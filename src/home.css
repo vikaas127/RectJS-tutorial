@@ -14,9 +14,10 @@ body {
 
 /* Header styles */
 .header {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 1200px;
     padding: 20px 0;
 }
 
