@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const CartItem = ({ item, updateQuantity, removeItem }) => {
   const [quantity, setQuantity] = useState(item.Buy_Quantity);
-  const [Total_Price, setTotalPrice] = useState(item.Total_Price); 
+//  const [Total_Price, setTotalPrice] = useState(item.Total_Price); 
 
 /*  const handleQuantityChange = (newQuantity) => {
     updateQuantity(item.P_Id, newQuantity);
@@ -23,12 +23,13 @@ const CartItem = ({ item, updateQuantity, removeItem }) => {
         if (response.status === 200) {
           // Update the quantity and total price in the local state
           setQuantity(newQuantity);
-          const updatedTotalPrice = newQuantity * item.Price;
-          setTotalPrice(updatedTotalPrice);
+        //  const updatedTotalPrice = newQuantity * item.Price;
+        //  setTotalPrice(updatedTotalPrice);
 
           // Optionally update the quantity in the parent component state if needed
-          updateQuantity(item.P_Id, newQuantity, updatedTotalPrice);
-        } else {
+        //  updateQuantity(item.P_Id, newQuantity, updatedTotalPrice);
+        updateQuantity(item.P_Id, newQuantity);
+      } else {
           console.error('Failed to update quantity in the database');
         }
       } catch (error) {
