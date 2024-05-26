@@ -276,30 +276,7 @@ app.post('/api/login', (req, res) => {
       });
     });
 
-    app.put('/api/update_favproducts', (req, res) => {
-      const { User_id, Fav_Pid } = req.body;
-      const query = "UPDATE favourite_products SET Fav_Pid = ? WHERE User_id = ?";
-      db.query(query, [User_id, Fav_Pid], function(err, result) {
-        if (err) {
-          res.status(500).json({ error: 'Internal Server Error' });
-          return;
-        }
-        res.json({ message: "Favourite products updated successfully" });
-      });
-    });
-
-    app.delete('/api/delete_favproducts', (req, res) => {
-      const { User_id, Fav_Pid } = req.body;
-      const query = "DELETE FROM favourite_products WHERE User_id = ?";
-      db.query(query, [User_id, Fav_Pid], function(err, result) {
-        if (err) {
-          res.status(500).json({ error: 'Internal Server Error' });
-          return;
-        }
-        res.json({ message: "Favourite product deleted successfully" });
-      });
-    });
-    
+       
     app.get('/api/productimage', (req, res) => {
       const { Product_Id, Product_URL } = req.body;
       const query = "SELECT * FROM product_images";
@@ -351,14 +328,92 @@ app.post('/api/login', (req, res) => {
       });
     })
 
-    app.post('/api/productcart', (req, res) => {
-      const { User_Id, P_Id, Buy_Quantity, Price, Total_Price } = req.body;
-      const query = "INSERT INTO cart (User_Id, P_Id, Buy_Quantity, Price, Total_Price) VALUES (?, ?, ?, ?, Price*Buy_Quantity)";
-      db.query(query, [User_Id, P_Id, Buy_Quantity, Price, Total_Price], function(err, result) {
+    app.post('/api/Add_productcart', (req, res) => {
+      try {
+        const { User_Id, P_Id, Buy_Quantity, Price } = req.body;
+    
+        // Calculate Total_Price
+        const Total_Price = Buy_Quantity * Price;
+    
+        const query = "INSERT INTO cart (User_Id, P_Id, Buy_Quantity, Price) VALUES (?, ?, ?, ?)";
+    
+        db.query(query, [User_Id, P_Id, Buy_Quantity, Price], function(err, result) {
+          if (err) {
+            console.error('Database query error:', err); // Log the error for debugging purposes
+            return res.status(500).json({ error: 'Internal Server Error' });
+          }
+          res.json({ message: "Products added to the cart successfully" });
+        });
+      } catch (err) {
+        console.error('Server error:', err); // Log the error for debugging purposes
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
+      
+    app.post('/api/Cartproducts', (req,res) => {
+      const User_Id = req.body.User_Id;
+      console.log('Database User_Id 355 query error:', User_Id); 
+      const query = "SELECT cart.User_Id,products.P_Id,products.P_Name,products.Desc,products.inStock,products.Price,products.P_Thumbnail,cart.Buy_Quantity,cart.Total_Price FROM cart JOIN products ON cart.P_Id = products.P_Id WHERE cart.User_Id = ?";
+      db.query(query, [User_Id], (err, rows) =>{
+        if(err){
+          res.status(500).json({ error: err});
+          return;
+        }
+        res.status(200).json({
+          message: "Data fetched successfully",
+          data: rows
+      });
+      });
+    })
+
+    app.delete('/api/Del_CartProduct', (req, res) => {
+      const { P_Id } = req.body;
+      const query = "DELETE FROM cart WHERE P_Id = ?";
+      db.query(query, [P_Id], function(err, result) {
         if (err) {
           res.status(500).json({ error: err });
           return;
         }
-        res.json({ message: "Products added to the cart successfully" });
+        res.json({ message: "Favourite product deleted successfully" });
       });
     });
+
+    app.put('/api/Update_Cartproduct', (req, res) => {
+      const { Buy_Quantity,User_Id, P_Id} = req.body;
+    
+  if (!User_Id || !P_Id || !Buy_Quantity) {
+    return res.status(400).send('User_Id, P_Id, and Buy_Quantity are required');
+  }
+
+  const sql = `UPDATE cart SET Buy_Quantity = ?, Total_Price = Buy_Quantity * Price WHERE User_Id = ? AND P_Id = ?`;
+
+  db.query(sql, [Buy_Quantity, User_Id, P_Id], (err, result) => {
+    if (err) {
+      return res.status(500).send('Error updating cart product',err);
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send('Cart product not found');
+    }
+    res.send('Cart product updated successfully');
+  });
+});
+
+app.post('/api/ProductDetails', (req,res) => {
+  const User_Id = req.body.User_Id;
+  console.log('Database User_Id 403 query error:', User_Id); 
+  const query = "SELECT products.P_Name,products.Desc,products.inStock,products.Price,products.P_Thumbnail,cart.Buy_Quantity,cart.Total_Price FROM cart JOIN products ON cart.P_Id = products.P_Id WHERE products.User_Id = ?";
+  db.query(query, [User_Id], (err, rows) =>{
+    if(err){
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: err});
+      return;
+    }
+    console.log("Detail fetched: ",rows);
+    res.status(200).json({
+      message: "Data fetched successfully",
+     data: rows
+  });
+  });
+})
+
+

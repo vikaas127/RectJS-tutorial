@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './home.css'; // Import the CSS file
 import './CategoryList.css';
 import CategoryList from './CategoryList';
 import productListAPiCall from './API';
-import ProductList from './ProductList';
+import ProductDetails from './ProductDetails'
+
 
 function Header() {
 
@@ -24,6 +26,7 @@ function Header() {
     setSelectedLanguage(event.target.value);
     // You can add additional logic here, such as updating language settings in your application
   };
+
 
   return (
     <header className="header">
@@ -59,10 +62,12 @@ function Header() {
 function Home() {
 
   const [products, setProducts] = useState([]);
-
+  const [selectedCategory, setSelectedCategory] = useState(1); // Default category ID
+  const navigate = useNavigate(); // Use useNavigate hook
+  
   useEffect(() => {
     // Fetch product data from API
-    productListAPiCall(1)
+    productListAPiCall(selectedCategory)
     .then(response => {
       console.log("API response",response)
       setProducts(response); // Use setProducts from home.js
@@ -70,26 +75,58 @@ function Home() {
      .catch(error => {
       console.error('Error fetching product list:', error);
     });
-  },[]);
+  },[selectedCategory]);
 
-  function handleAddToCart(product) {
-    // Add your logic to handle adding the product to the cart
-    // This might include updating state, making an API call, etc.
-    console.log(`Product added to cart: ${product.P_Name}`);
+  const handleCategorySelect = (catId) => {
+    setSelectedCategory(catId);
+  };
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
+  // Function to handle adding to cart
+async function handleAddToCart(user_id, product_id, buy_quantity, price) {
+
+  try {
+    const response = await axios.post('http://localhost:3001/api/Add_productcart',{
+      User_Id: user_id,
+      P_Id: product_id,
+      Buy_Quantity: buy_quantity,
+      Price: price
+    }, { headers: { 'Content-Type': 'application/json' } }
+  
+  
+  );
+    console.log(response.data.message); // Log success message
+    alert("Product added to cart successfully");
+    
+  } catch (error) {
+    if (error.response) {
+      // Server responded with a status other than 2xx
+      console.error('Error response:', error.response);
+    } else if (error.request) {
+      // Request was made but no response received
+      console.error('Error request:', error.request);
+    } else {
+      // Something else happened while setting up the request
+      console.error('Error message:', error.message);
+    }
+    // Optionally, update the UI to show error feedback to the user
   }
+}
   
   return (
  
   <div className="product-list">
       
 <Header/>
-<CategoryList/>
+<CategoryList onSelectCategory={handleCategorySelect}/>
 <div className="product-grid">
 
 {Array.isArray(products) && products.length > 0 ? (
         products.map(product => (
-
-          <div key={product.P_Id} className="product-item">
+            <div key={product.P_Id} className="product-item" onClick={() => handleProductClick(product.P_Id)}>
             <img src={product.P_Thumbnail} alt={product.P_Name} />
             <h3 className="name">{product.P_Name}</h3>
             <p className="description">{product.Desc}</p>
@@ -99,7 +136,7 @@ function Home() {
               {product.inStock ? "Available" : "Unavailable"}
               </span>
             </p>
-            <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
+            <button onClick={() => handleAddToCart(2, product.P_Id, 2, product.Price,)}>Add to Cart</button>
           </div>
         ))
       ) : (

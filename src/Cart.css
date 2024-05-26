@@ -1,0 +1,119 @@
+.shopping-cart {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f8;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.shopping-cart h2 { /* Heading "Your Shopping Cart" */
+  text-align:left;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  color: #150101;
+}
+
+.shopping-cart p {
+  text-align: flex;/* Qty & Price text update*/
+  margin-right: 10px;
+  color: #020000;
+}
+
+.cart-item { /* border and positioning of items */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 1px solid #f90404;
+}
+
+.quantity-container {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.quantity-container button {
+  background-color: #f50f0f; /* Red background */
+  color: #fff; /* White text */
+  border: none;
+  padding: 1px 10px 0 1px;
+  margin: 0 5px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 3px;
+  width: 15px; /* Set a fixed width for buttons */
+  height: 20px; /* Set a fixed height for buttons */
+}
+
+.quantity-container input {
+  text-align: center;
+  width: 30px; /* Set a fixed width for the input box */
+  height: 20px; /* Set a fixed height for the input box */
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin: 0 5px; /* Add margin to the input for spacing */
+}
+
+
+
+.cart-item img { /* Product image adjustments */
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.cart-item-details { /* Product name and qty box adjustments */
+  flex-grow: 1;;
+  margin-right: 650px;
+  display: block;
+  width: 50%;
+  text-align: left;
+}
+
+.cart-item-details p { /* qty & price text only updates*/
+  margin: 5px 0;
+  color: #0e0101;
+}
+
+.cart-total { /* Total text & button adjustment*/
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cart-total h3 { /* total button */
+  margin: 0;
+  color: #110101;
+}
+
+.cart-total button { /* total button */
+  background-color: #0ac335;
+  color: #fbf7f7;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cart-total button:hover { /* total button */
+  background-color: #12e4f4;
+}
+
+button {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: flex-end;
+}
+
+button:hover {
+  background-color: #54c11d;
+}

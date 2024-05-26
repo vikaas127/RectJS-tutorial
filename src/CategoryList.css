@@ -10,7 +10,6 @@
  
   /* Individual category item */
   .categories {
-    background-color: #f6a92e; /* Light gray background color */
     margin: 10px; /* Margin around each category item */
     padding: 10px; /* Padding inside the category item */
     border-radius: 10%; /* Rounded corners */
@@ -35,5 +34,5 @@
   .categories span {
     display: block; /* Make the span element a block element */
     font-size: 14px; /* Font size of the text */
-    color: white;}
+    color: rgb(7, 7, 7);}
   
