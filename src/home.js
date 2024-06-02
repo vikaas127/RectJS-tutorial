@@ -5,7 +5,8 @@ import './home.css'; // Import the CSS file
 import './CategoryList.css';
 import CategoryList from './CategoryList';
 import productListAPiCall from './API';
-import ProductDetails from './ProductDetails'
+import { Link } from 'react-router-dom';
+import Userlocation from './Location'
 
 
 function Header() {
@@ -26,36 +27,48 @@ function Header() {
     setSelectedLanguage(event.target.value);
     // You can add additional logic here, such as updating language settings in your application
   };
-
-
+  
   return (
-    <header className="header">
-      <div className="container">
-        <div className="logo">
-          <img src="https://cdn.pixabay.com/photo/2021/08/10/16/02/amazon-6536326_1280.png" alt="Amazon Logo" height="10" width="80" />
-        </div>
-        <div className="search-bar">
-          <input type="text" placeholder="Search..." />
-          <button variant="contained" color="primary">Search</button>
-        </div>
-        <nav className="navigation">
-          <ul>
-            <li><select value={selectedLanguage} onChange={handleLanguageChange}>
-              {languageOptions.map((option) => (
-                <option key={option.code} value={option.code}>{option.label}</option>
-              ))}
-            </select>
-            </li>
-            <li><a href="#">Account & lists</a></li>
-            <li><a href="#">Returns & orders</a></li>
-          </ul>
+<div class="header">
+  <div class="container">
+    <div class="logo">
+      <img src="https://cdn.pixabay.com/photo/2021/08/10/16/02/amazon-6536326_1280.png" alt="Amazon Logo"/>
+    </div>
+    <div class="delivery">
+    <p>Delivering to <span id="location"><Userlocation /></span></p>
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search..." />
+      <button variant="contained" color="primary">Search</button>
+    </div>
+    <nav class="navigation">
+      <ul>
+        <li>
+          <select>
+            <option value="en">English</option>
+            <option value="es">Hindi</option>
+            <option value="es">Marathi</option>
+            <option value="es">Gujarati</option>
+            <option value="es">Telugu</option>
+            <option value="es">Tamil</option>
+            <option value="es">Kannada</option>
+          </select>
+        </li>
+        </ul>
         </nav>
-        <div className="account-options">
-          <a href="#">Sign In</a>
-          <a href="#">Cart</a>
-        </div>
-      </div>
-    </header>
+        <div class="account-lists">
+          <span class="greeting">Hello, Akshay</span>
+          <p>Account & Lists</p>
+          </div>
+            
+    <div class="account-options">
+      <a href="#">Returns & orders</a>
+      <a href="/Cart">Cart</a>
+      <a href="/login">Sign Out</a>
+    </div>
+  </div>
+</div>
+
   );
 }
 
@@ -82,8 +95,10 @@ function Home() {
   };
 
   const handleProductClick = (productId) => {
-    navigate(`/product/${productId}`);
+    navigate(`/product/${productId}`); // Navigate to product details page
   };
+    
+
 
   // Function to handle adding to cart
 async function handleAddToCart(user_id, product_id, buy_quantity, price) {
@@ -116,10 +131,9 @@ async function handleAddToCart(user_id, product_id, buy_quantity, price) {
   }
 }
   
-  return (
+/*return (
  
-  <div className="product-list">
-      
+<div className="product-list">
 <Header/>
 <CategoryList onSelectCategory={handleCategorySelect}/>
 <div className="product-grid">
@@ -127,7 +141,7 @@ async function handleAddToCart(user_id, product_id, buy_quantity, price) {
 {Array.isArray(products) && products.length > 0 ? (
         products.map(product => (
             <div key={product.P_Id} className="product-item" onClick={() => handleProductClick(product.P_Id)}>
-            <img src={product.P_Thumbnail} alt={product.P_Name} />
+          /*  <img src={product.P_Thumbnail} alt={product.P_Name} />
             <h3 className="name">{product.P_Name}</h3>
             <p className="description">{product.Desc}</p>
             <p className='price'>Price: ₹{product.Price}</p>
@@ -135,7 +149,7 @@ async function handleAddToCart(user_id, product_id, buy_quantity, price) {
               <span className={product.inStock ? "available" : "unavailable"}>
               {product.inStock ? "Available" : "Unavailable"}
               </span>
-            </p>
+            </p> 
             <button onClick={() => handleAddToCart(2, product.P_Id, 2, product.Price,)}>Add to Cart</button>
           </div>
         ))
@@ -145,6 +159,38 @@ async function handleAddToCart(user_id, product_id, buy_quantity, price) {
     </div>
   </div>
   ); 
+}
+
+export default Home; */
+
+return (
+  <div className="product-list">
+    <Header />
+    <CategoryList onSelectCategory={handleCategorySelect} />
+    <div className="product-grid">
+      {Array.isArray(products) && products.length > 0 ? (
+        products.map(product => (
+          <div key={product.P_Id} className="product-item" >
+            <Link to={`/product/${product.P_Id}`} state={{ product }}> 
+              <img src={product.P_Thumbnail} alt={product.P_Name} />
+              </Link>
+              <h3 className="name">{product.P_Name}</h3>
+              <p className="description">{product.Desc}</p>
+              <p className='price'>Price: ₹{product.Price}</p>
+              <p>inStock:
+                <span className={product.inStock ? "available" : "unavailable"}>
+                  {product.inStock ? "Available" : "Unavailable"}
+                </span>
+              </p>
+            <button onClick={() => handleAddToCart(2, product.P_Id, 2, product.Price)}>Add to Cart</button>
+          </div>
+        ))
+      ) : (
+        <p>No products available</p>
+      )}
+    </div>
+  </div>
+);
 }
 
 export default Home;

@@ -77,16 +77,30 @@ app.get('/api/userlist', (req, res) => {
     }
 
     const query = "INSERT INTO Users (Name, Email, Password, Contact) VALUES (?, ?, ?, ?)";
-    db.query(query, [Name, Email, Password, Contact], function(err, result) {
+db.query(query, [Name, Email, Password, Contact], function(err, result) {
+    if (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: "An error occurred while creating the user" });
+        return;
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ email: Email }, '12Key77', { expiresIn: '48h' });
+
+    // Update the user's token in the database
+    const tokenQuery = "UPDATE Users SET Token = ? WHERE Email = ?";
+    db.query(tokenQuery, [token, Email], function(err, tokenResult) {
         if (err) {
-            console.error("Database error:", err);
-            res.status(500).json({ error: "An error occurred while creating the user" });
+            console.error("Error updating token:", err);
+            res.status(500).json({ error: "Error updating token" });
             return;
         }
-        res.json({ message: "User created successfully" });
+
+        console.log("Token created:", token);
+        res.json({ message: "User created successfully", token: token });
     });
 });
-
+});
 
 
 app.post('/api/login', (req, res) => {
@@ -101,12 +115,12 @@ app.post('/api/login', (req, res) => {
       }
       if (result.length > 0) {
         // User credentials are valid, generate JWT token
-        const token = jwt.sign({ email: Email }, '12KEY77', { expiresIn: '48h' });
+        const token = jwt.sign({ email: Email },'12Key77', { expiresIn: '48h' });
         token_query = "UPDATE users SET Token = SHA2(UUID(), 256) WHERE Email= ?";
         // Executing the token query to update the token in the database
         db.query(token_query,[Email], function(err, tokenResult) {
           if (err) {
-              console.log("Error updating token:", err);
+              console.log("Something went wrong", err);
               res.status(500).json({ error: "Error updating token" });
               return;
           }
@@ -116,7 +130,7 @@ app.post('/api/login', (req, res) => {
     }); 
   }else {
       console.log("User not found")
-      res.status(404).json({ error: "User not found." });
+      res.status(404).json({ error: "No user found." });
     }
     });
   });
@@ -399,16 +413,20 @@ app.post('/api/login', (req, res) => {
 });
 
 app.post('/api/ProductDetails', (req,res) => {
-  const User_Id = req.body.User_Id;
-  console.log('Database User_Id 403 query error:', User_Id); 
-  const query = "SELECT products.P_Name,products.Desc,products.inStock,products.Price,products.P_Thumbnail,cart.Buy_Quantity,cart.Total_Price FROM cart JOIN products ON cart.P_Id = products.P_Id WHERE products.User_Id = ?";
-  db.query(query, [User_Id], (err, rows) =>{
+  const P_Id = req.body.P_Id; // Extract P_Id from the request body
+  if (!P_Id) {
+    res.status(400).json({ error: 'Product ID is required' });
+    return;
+  }
+  console.log('Database Product_Id 403 query error:', P_Id); 
+  const query = "SELECT P_Name, `Desc`, Quantity, inStock, Price, P_Thumbnail FROM products WHERE P_Id = ?";
+  db.query(query, [P_Id], (err, rows) =>{
     if(err){
       console.error('Error executing query:', err);
       res.status(500).json({ error: err});
       return;
     }
-    console.log("Detail fetched: ",rows);
+    console.log("ProductDetails fetched: ",rows);
     res.status(200).json({
       message: "Data fetched successfully",
      data: rows
@@ -416,4 +434,17 @@ app.post('/api/ProductDetails', (req,res) => {
   });
 })
 
-
+app.get('/api/Userlocation', (req,res) => {
+  const { Email } = req.body;
+  const query = "SELECT City, Pincode FROM users WHERE Email = ?";
+  db.query(query, [Email], (err, rows) =>{
+    if(err){
+      res.status(500).json({ error: err});
+      return;
+    }
+    res.status(200).json({
+      message: "Location fetched successfully",
+      data: rows
+  });
+  });
+})
