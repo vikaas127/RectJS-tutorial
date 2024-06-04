@@ -1,7 +1,7 @@
 /* Login.css */
 
 /* Style for the container */
-.Login {
+/* .Login {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,6 @@
     height: 100vh;
   }
   
-  /* Style for the header */
   .Login-header {
     background-color: #f0f0f0;
     padding: 20px;
@@ -17,7 +16,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  /* Style for form elements */
   .Login-header form {
     display: flex;
     flex-direction: column;
@@ -36,7 +34,6 @@
     width: 250px;
   }
   
-  /* Style for the submit button */
   .Login-header Button[type="submit"] {
     background-color: #007bff;
     color: #fff;
@@ -51,7 +48,6 @@
     background-color: #0056b3;
   }
   
-  /* Style for the forget password link */
   .Login-header label.forget-password {
     color: #007bff;
     cursor: pointer;
@@ -61,7 +57,6 @@
     text-decoration: underline;
   }
   
-  /* Style for the sign-up link */
   .Login-header label.sign-up {
     color: #007bff;
     cursor: pointer;
@@ -73,5 +68,67 @@
   
   .Login-header label.sign-up span:hover {
     text-decoration: underline;
+  } */
+
+  .Login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
+  
+  .Login-header {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Login-header p {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 10px;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  Button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  Button:hover {
+    background-color: #0056b3;
+  }
+  
+  label.pointer {
+    cursor: pointer;
+    color: blue;
+  }
+  
+  label.pointer:hover {
+    text-decoration: underline;
+  }
+  
+  
   

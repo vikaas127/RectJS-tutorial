@@ -434,16 +434,17 @@ app.post('/api/ProductDetails', (req,res) => {
   });
 })
 
-app.get('/api/Userlocation', (req,res) => {
+app.post('/api/Userlocation', (req,res) => {
   const { Email } = req.body;
-  const query = "SELECT City, Pincode FROM users WHERE Email = ?";
+  console.log('Database Product_Id 439 query error:', Email);
+  const query = "SELECT Name,City, Pincode FROM users WHERE Email = ?";
   db.query(query, [Email], (err, rows) =>{
     if(err){
       res.status(500).json({ error: err});
       return;
     }
     res.status(200).json({
-      message: "Location fetched successfully",
+      message: "Location and data fetched successfully",
       data: rows
   });
   });

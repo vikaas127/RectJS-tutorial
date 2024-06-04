@@ -21,11 +21,41 @@ function Header() {
 
   // State to manage selected language
   const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0].code);
+  const [userDetails, setUserDetails] = useState({}); // Initialize with an empty object
+  const navigate = useNavigate();
+
+/*  useEffect(() => {
+    const storedUserDetails = window.sessionStorage.getItem('userDetails');
+    if (storedUserDetails) {
+      setUserDetails(JSON.parse(storedUserDetails));
+    } else {
+      // If no user details are found, redirect to login
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const handleUserLocation = (user_id) => {
+    setUserDetails(user_id);
+  };
+
+  const handleSignOut = () => {
+    window.sessionStorage.clear();
+    navigate('/login');
+  }; */
+
+  // Function to handle logout
+  const handleLogout = () => {
+    sessionStorage.removeItem('authToken');
+    sessionStorage.setItem('isLogin', 'False');
+    console.log('User logged out');
+    navigate('/login');
+  }
 
   // Function to handle language selection
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);
     // You can add additional logic here, such as updating language settings in your application
+
   };
   
   return (
@@ -57,19 +87,18 @@ function Header() {
         </ul>
         </nav>
         <div class="account-lists">
-          <span class="greeting">Hello, Akshay</span>
+          <span class="greeting">Hello, {userDetails?.Name} </span>
           <p>Account & Lists</p>
           </div>
             
     <div class="account-options">
       <a href="#">Returns & orders</a>
       <a href="/Cart">Cart</a>
-      <a href="/login">Sign Out</a>
+      <a onClick={handleLogout} style={{cursor: 'pointer'}}>Logout</a>
     </div>
   </div>
 </div>
-
-  );
+);
 }
 
 function Home() {
@@ -97,8 +126,6 @@ function Home() {
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`); // Navigate to product details page
   };
-    
-
 
   // Function to handle adding to cart
 async function handleAddToCart(user_id, product_id, buy_quantity, price) {
@@ -110,10 +137,9 @@ async function handleAddToCart(user_id, product_id, buy_quantity, price) {
       Buy_Quantity: buy_quantity,
       Price: price
     }, { headers: { 'Content-Type': 'application/json' } }
-  
-  
   );
-    console.log(response.data.message); // Log success message
+    
+  console.log(response.data.message); // Log success message
     alert("Product added to cart successfully");
     
   } catch (error) {
