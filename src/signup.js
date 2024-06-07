@@ -11,7 +11,6 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [contact, setContact] = useState('');
-  const [error, setError] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,17 +32,13 @@ function Signup() {
 
       window.alert(response.data.message);
     } catch (error) {
-      // If an error occurs, check if it's due to the user already existing
       if (error) {
-        // User already exists, show a popup message
-        window.alert("User already exists");
+        console.log("error: ", error);
+        window.alert("User already exists", error);
       } else {
         // For other errors, show a generic error message
         window.alert("An error occurred. Please try again later.");
       }
-      //   console.log("error", error);
-      //   setError('Invalid username or password');
-  //    console.log("response", response.response.data);
     }
   };
 

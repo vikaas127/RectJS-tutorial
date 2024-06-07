@@ -6,105 +6,14 @@ import './CategoryList.css';
 import CategoryList from './CategoryList';
 import productListAPiCall from './API';
 import { Link } from 'react-router-dom';
-import Userlocation from './Location'
+import Header from './Header'; // Import the Header component
 
 
-function Header() {
-
-  // Define language options
-  const languageOptions = [
-    { code: 'en', label: 'English' },
-    { code: 'fr', label: 'French' },
-    { code: 'es', label: 'Spanish' },
-    // Add more languages as needed
-  ];
-
-  // State to manage selected language
-  const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0].code);
-  const [userDetails, setUserDetails] = useState({}); // Initialize with an empty object
-  const navigate = useNavigate();
-
-/*  useEffect(() => {
-    const storedUserDetails = window.sessionStorage.getItem('userDetails');
-    if (storedUserDetails) {
-      setUserDetails(JSON.parse(storedUserDetails));
-    } else {
-      // If no user details are found, redirect to login
-      navigate('/login');
-    }
-  }, [navigate]);
-
-  const handleUserLocation = (user_id) => {
-    setUserDetails(user_id);
-  };
-
-  const handleSignOut = () => {
-    window.sessionStorage.clear();
-    navigate('/login');
-  }; */
-
-  // Function to handle logout
-  const handleLogout = () => {
-    sessionStorage.removeItem('authToken');
-    sessionStorage.setItem('isLogin', 'False');
-    console.log('User logged out');
-    navigate('/login');
-  }
-
-  // Function to handle language selection
-  const handleLanguageChange = (event) => {
-    setSelectedLanguage(event.target.value);
-    // You can add additional logic here, such as updating language settings in your application
-
-  };
-  
-  return (
-<div class="header">
-  <div class="container">
-    <div class="logo">
-      <img src="https://cdn.pixabay.com/photo/2021/08/10/16/02/amazon-6536326_1280.png" alt="Amazon Logo"/>
-    </div>
-    <div class="delivery">
-    <p>Delivering to <span id="location"><Userlocation /></span></p>
-    </div>
-    <div class="search-bar">
-      <input type="text" placeholder="Search..." />
-      <button variant="contained" color="primary">Search</button>
-    </div>
-    <nav class="navigation">
-      <ul>
-        <li>
-          <select>
-            <option value="en">English</option>
-            <option value="es">Hindi</option>
-            <option value="es">Marathi</option>
-            <option value="es">Gujarati</option>
-            <option value="es">Telugu</option>
-            <option value="es">Tamil</option>
-            <option value="es">Kannada</option>
-          </select>
-        </li>
-        </ul>
-        </nav>
-        <div class="account-lists">
-          <span class="greeting">Hello, {userDetails?.Name} </span>
-          <p>Account & Lists</p>
-          </div>
-            
-    <div class="account-options">
-      <a href="#">Returns & orders</a>
-      <a href="/Cart">Cart</a>
-      <a onClick={handleLogout} style={{cursor: 'pointer'}}>Logout</a>
-    </div>
-  </div>
-</div>
-);
-}
-
-function Home() {
+ function Home() {
 
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(1); // Default category ID
+  const [userLocation, setUserLocation] = useState([])
   const navigate = useNavigate(); // Use useNavigate hook
   
   useEffect(() => {
@@ -118,6 +27,39 @@ function Home() {
       console.error('Error fetching product list:', error);
     });
   },[selectedCategory]);
+
+  useEffect(() => {
+    // Fetch user location data
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      fetchUserLocation(token);
+    }
+  }, []);
+
+  const fetchUserLocation = async (token) => {
+    try {
+      const response = await axios.post('http://localhost:3001/api/Userlocation', {
+        Token: token // sending email in the request body
+      }, {
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+      });
+
+      console.log('API response:', response.data); // Log the API response
+
+      if (response.data && Array.isArray(response.data.data)) {
+        const userDetails = response.data.data.map(item => ({
+          Name: item.Name,
+          City: item.City,
+          Pincode: item.Pincode
+        }));
+        setUserLocation(userDetails); // Update user location data in state
+      } else {
+        throw new Error('Invalid response format');
+      }
+    } catch (error) {
+      console.error("Error fetching user location:", error);
+    }
+  };
 
   const handleCategorySelect = (catId) => {
     setSelectedCategory(catId);
@@ -157,41 +99,9 @@ async function handleAddToCart(user_id, product_id, buy_quantity, price) {
   }
 }
   
-/*return (
- 
-<div className="product-list">
-<Header/>
-<CategoryList onSelectCategory={handleCategorySelect}/>
-<div className="product-grid">
-
-{Array.isArray(products) && products.length > 0 ? (
-        products.map(product => (
-            <div key={product.P_Id} className="product-item" onClick={() => handleProductClick(product.P_Id)}>
-          /*  <img src={product.P_Thumbnail} alt={product.P_Name} />
-            <h3 className="name">{product.P_Name}</h3>
-            <p className="description">{product.Desc}</p>
-            <p className='price'>Price: ₹{product.Price}</p>
-            <p>inStock:
-              <span className={product.inStock ? "available" : "unavailable"}>
-              {product.inStock ? "Available" : "Unavailable"}
-              </span>
-            </p> 
-            <button onClick={() => handleAddToCart(2, product.P_Id, 2, product.Price,)}>Add to Cart</button>
-          </div>
-        ))
-      ) : (
-        <p>No products available</p>
-      )}
-    </div>
-  </div>
-  ); 
-}
-
-export default Home; */
-
 return (
   <div className="product-list">
-    <Header />
+    <Header userLocation={userLocation} />
     <CategoryList onSelectCategory={handleCategorySelect} />
     <div className="product-grid">
       {Array.isArray(products) && products.length > 0 ? (
@@ -219,4 +129,5 @@ return (
 );
 }
 
-export default Home;
+export default Home; 
+

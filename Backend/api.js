@@ -36,21 +36,6 @@ const port = process.env.PORT || 3001;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
-app.get('/api/hello', (req, res) => {
-    res.json({message: 'Hello, World!' });
-});
-
-app.get('/api/userlist', (req, res) => {
-    db.query("SELECT * FROM Users", function(err, rows, fields){
-      if (err) {
-        res.status(500).json({ error: 'Internal Server Error' });
-        return;
-      }
-      console.log(rows);
-      res.json({ result: rows, message: "users lists" });
-    });
-  });
   
   app.post('/api/signup', (req, res) => {
     const { Name, Email, Password, Contact } = req.body;
@@ -85,11 +70,13 @@ db.query(query, [Name, Email, Password, Contact], function(err, result) {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ email: Email }, '12Key77', { expiresIn: '48h' });
+    const token = jwt.sign({ email: Email }, secretKey, { expiresIn: '1h' });
+    console.log('Bearer Token:', token);
 
     // Update the user's token in the database
     const tokenQuery = "UPDATE Users SET Token = ? WHERE Email = ?";
     db.query(tokenQuery, [token, Email], function(err, tokenResult) {
+      
         if (err) {
             console.error("Error updating token:", err);
             res.status(500).json({ error: "Error updating token" });
@@ -102,36 +89,41 @@ db.query(query, [Name, Email, Password, Contact], function(err, result) {
 });
 });
 
+  // Function to generate a JWT token [ LOGIN API]
+  const generateToken = (email) => {
+  return jwt.sign({ email: email }, 'your-secret-key', { expiresIn: '1h' });
+};
 
-app.post('/api/login', (req, res) => {
+  app.post('/api/login', (req, res) => {
     const { Email, Password } = req.body;
-    const query = "SELECT Email, Password FROM users WHERE Email= ? AND Password= ?";
-   // console.log(query.res);
-    db.query(query, [ Email, Password ], function(err, result) {
+  
+    // Assuming you have a user authentication logic here
+    const query = "SELECT Email, Password FROM users WHERE Email = ? AND Password = ?";
+    db.query(query, [Email, Password], (err, rows) => {
       if (err) {
-        console.log("Error:", err);
-       res.status(500).json({ error: err });
+        console.error('Database query error:', err);
+        res.status(500).json({ error: err });
         return;
       }
-      if (result.length > 0) {
-        // User credentials are valid, generate JWT token
-        const token = jwt.sign({ email: Email },'12Key77', { expiresIn: '48h' });
-        token_query = "UPDATE users SET Token = SHA2(UUID(), 256) WHERE Email= ?";
-        // Executing the token query to update the token in the database
-        db.query(token_query,[Email], function(err, tokenResult) {
-          if (err) {
-              console.log("Something went wrong", err);
-              res.status(500).json({ error: "Error updating token" });
-              return;
+  
+      if (rows.length > 0) {
+        const newToken = generateToken(Email);
+        const updateQuery = "UPDATE users SET Token = ? WHERE Email = ?";
+        db.query(updateQuery, [newToken, Email], (updateErr, updateResult) => {
+          if (updateErr) {
+            console.error('Database update error:', updateErr);
+            res.status(500).json({ error: updateErr });
+            return;
           }
-        console.log("Token created", token)
-        // Send the token along with the response
-        res.json({ message: "User details exist.",token: token });
-    }); 
-  }else {
-      console.log("User not found")
-      res.status(404).json({ error: "No user found." });
-    }
+  
+          res.status(200).json({
+            message: "Login successful",
+            token: newToken
+          });
+        });
+      } else {
+        res.status(401).json({ message: "Invalid email or password" });
+      }
     });
   });
   
@@ -434,11 +426,11 @@ app.post('/api/ProductDetails', (req,res) => {
   });
 })
 
-app.post('/api/Userlocation', (req,res) => {
-  const { Email } = req.body;
-  console.log('Database Product_Id 439 query error:', Email);
-  const query = "SELECT Name,City, Pincode FROM users WHERE Email = ?";
-  db.query(query, [Email], (err, rows) =>{
+/* app.post('/api/Userlocation', (req,res) => {
+  const { Token } = req.body;
+  console.log('Database Product_Id 439 query error:', Token);
+  const query = "SELECT Name,City, Pincode FROM users WHERE Token = ?";
+  db.query(query, [Token], (err, rows) =>{
     if(err){
       res.status(500).json({ error: err});
       return;
@@ -448,4 +440,64 @@ app.post('/api/Userlocation', (req,res) => {
       data: rows
   });
   });
-})
+}) */
+
+
+app.post('/api/Userlocation', (req, res) => {
+  const { Token } = req.body;
+  console.log('Received Token:', Token);
+
+  const query = "SELECT Name, City, Pincode FROM users WHERE Token = ?";
+  db.query(query, [Token], (err, rows) => {
+    if (err) {
+      console.error('Database query error:', err);
+      res.status(500).json({ error: err });
+      return;
+    }
+
+    console.log('Database query result:', rows);
+
+    if (rows.length > 0) {
+      res.status(200).json({
+        message: "Location and data fetched successfully",
+        data: rows
+      });
+    } else {
+      res.status(404).json({
+        message: "No matching records found",
+        data: []
+      });
+    }
+  });
+});
+
+app.post('/api/userDetails', (req, res) => {
+  const { Token } = req.body;
+  if (!Token) {
+    res.status(400).json({ error: 'Token is required' });
+    return;
+  }
+
+  const query = 'SELECT User_id, Name, Email, Contact, City, State, Pincode, Profile_image FROM Users WHERE Token = ?';
+  db.query(query, [Token], (err, rows) => {
+    if (err) {
+      console.error('Database query error:', err);
+      res.status(500).json({ error: err });
+      return;
+    }
+
+    if (rows.length > 0) {
+      res.status(200).json({
+        message: 'User data fetched successfully',
+        data: rows
+      });
+    } else {
+      res.status(404).json({
+        message: 'No matching records found',
+        data: []
+      });
+    }
+  });
+});
+
+	

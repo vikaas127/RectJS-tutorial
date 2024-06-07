@@ -1,0 +1,90 @@
+/* 
+  .AccountDetails {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-top: 100px;
+    border: 1px solid #ccc;
+    width: 100%;
+    background-color:  #021e28;
+  }
+  
+  .AccountDetails img {
+    border-radius: 50%;
+  }
+  
+  .AccountDetails ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .AccountDetails li {
+    margin-bottom: 100px;
+  }
+  
+  .AccountDetails p {
+    margin: 0;
+    padding-top: 20px;
+    color: white;
+  } */
+  
+  /* userAccount.css */
+
+/* Basic reset */
+body, h1, p, ul, li {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Overall styling for the container */
+.AccountDetails {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Styling for the image */
+.AccountDetails img {
+  border-radius: 50%;
+  border: 3px solid #ccc;
+  margin-bottom: 20px;
+}
+
+/* Styling for the name */
+.AccountDetails h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Styling for contact info and address */
+.AccountDetails p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+/* List styling */
+.AccountDetails ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.AccountDetails li {
+  margin-bottom: 20px;
+}
+
+/* Error message styling */
+p.error {
+  color: red;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}

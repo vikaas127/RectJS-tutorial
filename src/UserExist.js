@@ -27,11 +27,4 @@ const checkUserExists = async (Email, Password) => {
   }
 };
 
-// Function to handle user logout
-const handleLogout = () => {
-  sessionStorage.removeItem('authToken');
-  sessionStorage.setItem('isLogin', 'False');
-  console.log('User logged out');
-};
-
 export default checkUserExists;
