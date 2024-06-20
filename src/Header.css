@@ -1,0 +1,107 @@
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Category list Body styles */ 
+body {
+  font-family: Arial, sans-serif;
+  background-color: rgb(254, 252, 252);
+}
+
+/* Header styles */ 
+.header {
+  width: 100%;
+  background-color:white;
+}
+
+/* Logo styles */
+.logo img {
+  height: 50px;
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 100px;  
+ }
+
+.delivery {
+  font-size: 14px;
+  padding-right: 10px;
+}
+
+#location {
+  font-weight: bold;
+}
+
+/* Search bar styles */ 
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+
+.search-bar input {
+  flex: 1; /* Allows the search bar to take up available space */ 
+  width: 20px; /* Adjust the width as needed */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  margin-right: 0; /* Ensure the border between input and button blends */
+}
+
+.search-bar button {
+  padding: 10px;
+  background-color: #f90;
+  border: 1px solid #f90;
+  border-radius: 0 5px 5px 0;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.search-bar button:hover {
+  background-color: #ff8c00; /* Slightly darker orange */ 
+}
+
+/* Navigation header styles */ 
+.navigation ul {
+  list-style-type: none;
+  display: flex;
+}
+
+/* For maintaining gap in header options */
+.navigation ul li {
+  margin-right: 0;
+}
+
+/* Account options styles for Account & lists and Returns & orders in Header */
+.navigation ul li a {
+  text-decoration: none;
+  color: #0b0909;
+  margin-left: 10px;
+}
+
+.greeting {
+  display: block;
+  font-size: 14px;
+  padding-left: 5px;
+  color: #0b0b0b; 
+}
+
+.account-lists {
+  position: relative;
+  display: inline-block;
+  padding: 15px;
+  margin-bottom: 20px;
+  color: #1a1919; 
+  font-family: Arial, sans-serif;
+}
+
+/* Account options styles for Sign In & Cart in Header */
+.account-options a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+}

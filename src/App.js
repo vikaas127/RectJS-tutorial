@@ -1,46 +1,67 @@
 import './App.css';
+import './Signup.css';
+import './login.css'
+import './home.css'; 
+import './CategoryList.css';
+import './ProductDetails.css';
+import './Header.css';
 import React, { useState } from 'react';
-import Login from './login'; 
-import Home from './home'; 
-import SignUp from './Signup'; 
+import HomeView from '../src/View/HomeView'; 
+import SignUpView from '../src/View/SignUpView';
+import LoginController from '../src/Controller/LoginController';
+import cartCartController from './Controller/useCartController';
+import ProductController from '../src/Controller/ProductController';
 import ForgetPassword from './ForgetPassword'; 
-import Cart from './Cart';
-import ProductDetails from './ProductDetails';
+import CartItemView from '../src/View/CartItemView';
+import CartItemController from '../src/Controller/CartItemController';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import UserLocation from './Location'; // Correct import for UserLocation
+import HomeController from './Controller/HomeController';
+import UserLocation from './Location'; 
 import AccountDetails from './userAccount';
+import ProductDetailsController from './Controller/ProductDetailsController';
+import ProductDetailsView from './View/ProductDetailsView';
+import Header from './View/UserView(Header)';
+// import TrialForm from './TrialForm';
 
 
 function App() {
   const [userLocation, setUserLocation] = useState([]);
 
+  const { CartItems, fetchCartData, updateQuantity, removeItem } = cartCartController();
+
     const handleUpdateUserLocation = (locationData) => {
         setUserLocation(locationData);
     };
-  const handleAddToCart = (user_id, product_id, buy_quantity, price) => {
-    // Define your handleAddToCart function here or pass it down from Home
-    // This function can be passed to ProductDetails via route state or context
-  };
+
+    const handleAddToCart = (userId, productId, quantity, price) => {
+      // Implement the logic to add product to cart
+      console.log(`User ${userId} added product ${productId} with quantity ${quantity} and price ${price} to the cart.`);
+    };
 
   return (
     <Router>
       <div>
           <header userLocation={userLocation} />
       <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgetpassword" element={<ForgetPassword />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:productId" element={<ProductDetails handleAddToCart={handleAddToCart} />} /> 
-          <Route path="/account" element={<AccountDetails />} /> 
+          <Route path="/home" element={<HomeView />} />
+          <Route path="/cart" element={<CartItemController />} />
+          <Route path="/login" element={<LoginController />} />
+          <Route path="/" element={<HomeController />} />
+          <Route path="/Signup" element={<SignUpView />} /> 
+          <Route path="/forgetpassword" element={<ForgetPassword />} /> 
+          <Route path="/product-details" element={<ProductDetailsController handleAddToCart={handleAddToCart} />}/> 
+          <Route path="/product/:productId" element={<ProductDetailsView handleAddToCart={handleAddToCart} />} />   
       </Routes>
-      <UserLocation onUpdateUserLocation={handleUpdateUserLocation} />
+     {/*   <UserLocation onUpdateUserLocation={handleUpdateUserLocation} /> 
+      {CartItems.map(item => (
+        <CartItems key={item.P_Id} item={item} updateQuantity={updateQuantity} removeItem={removeItem} />
+      ))}*/}
       </div>
-    </Router>
+     <ProductController />
+    </Router>  
   );
 }
+
+{/*<TrialForm />*/}
 
 export default App;

@@ -1,127 +1,26 @@
-/* Reset default margin and padding */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Category list Body styles */
-body {
-  font-family: Arial, sans-serif;
-  background-color: rgb(248, 247, 247);
-}
-
-/* Header styles */
-.header {
-  width: 100%;
-  background-color:white;
-}
-
-/* Logo styles */
-.logo img {
-  height: 50px;
-  margin-top: 10px;
-  margin-right: 10px;
-  width: 100px; /* Maintain aspect ratio */
- }
-
-.delivery {
-  font-size: 14px;
-  padding-right: 10px;
-}
-
-#location {
-  font-weight: bold;
-}
-
-/* Search bar styles */
-.search-bar {
-  display: flex;
-  align-items: center;
-  width: 40%;
-}
-
-.search-bar input {
-  flex: 1; /* Allows the search bar to take up available space */
-  width: 20px; /* Adjust the width as needed */
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
-  margin-right: 0; /* Ensure the border between input and button blends */
-}
-
-.search-bar button {
-  padding: 10px;
-  background-color: #f90;
-  border: 1px solid #f90;
-  border-radius: 0 5px 5px 0;
-  color: #fff;
-  cursor: pointer;
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
-
-.search-bar button:hover {
-  background-color: #ff8c00; /* Slightly darker orange */
-}
-
-/* Navigation header styles */
-.navigation ul {
-  list-style-type: none;
-  display: flex;
-}
-
-/* For maintaining gap in header options */
-.navigation ul li {
-  margin-right: 0;
-}
-
-/* Account options styles for Account & lists and Returns & orders in Header */
-.navigation ul li a {
-  text-decoration: none;
-  color: #0b0909;
-  margin-left: 10px;
-}
-
-.greeting {
-  display: block;
-  font-size: 14px;
-  padding-left: 5px;
-  color: #0b0b0b; 
-}
-
-.account-lists {
-  position: relative;
-  display: inline-block;
-  padding: 15px;
-  margin-bottom: 20px;
-  color: #1a1919; 
-  font-family: Arial, sans-serif;
-}
-
-/* Account options styles for Sign In & Cart in Header */
-.account-options a {
-  text-decoration: none;
-  color: #333;
-  padding: 10px;
-}
+.product-list {
+  display: grid;
+  height: 50%;
+  }
 
 .product-grid {
   display: grid;
-  background-color: #fdfeff; /* Slightly darker orange */
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  background-color: #ffffff; /* Slightly darker orange */
   gap: 5px; /* Adjust the gap as needed */
+
 }
 
 .product-item {
-  border: 1px solid #0c0c0c; /* Optional: add border to product items */
+  display:-ms-inline-grid;
+  border: 1px solid #110101; /* Optional: add border to product items */
   padding: 10px; /* Optional: add padding to product items */
-  text-align: center; /* Center the text */
+  text-align:justify; /* Center the text */
 }
 
 .product-item img {
-  max-width: 480px; /* Ensure the image fits within the product item */
-  height: 200px; /* Maintain aspect ratio of the image */
+  width: 250px; /* Ensure the image fits within the product item */
+  height: 250px; /* Maintain aspect ratio of the image */
 }
 
 .product-item h3.name {
@@ -161,7 +60,7 @@ body {
   font-size: 17px; /* Change the size of the text here */
 }
 
-.product-item button {
+.cart-btn {
   background-color: #ed3b2b; /* Red background */
   color: white; /* White text */
   border: none; /* Remove border */
@@ -175,6 +74,6 @@ body {
   border-radius: 5px; /* Rounded corners */
 }
 
-.product-item button:hover {
+.cart-btn:hover {
   background-color: #45a049; /* Darker green on hover */
 }

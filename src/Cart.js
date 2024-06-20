@@ -1,70 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import CartItem from './CartItem';
-import './Cart.css';
-import CartAPIcall from './CartAPI'
+// For MVC process
 
-const ShoppingCart = () => {
-    const [products, setProducts] = useState([]);
-    const [selectedProduct, setSelectedProduct] = useState(1);
+import React from 'react';
+import CartItemView from '../src/View/CartItemView';
+import CartItemModel from '../src/Context(Model)/CartItemModel'; // Assuming you have data like this
 
-  useEffect(() => {
-    // Fetch product data from API
-    CartAPIcall(selectedProduct)
-    .then(response => {
-      console.log("API response",response)
-      setProducts(response); // Use setProducts from home.js
-    })
-     .catch(error => {
-      console.error('Error fetching product list:', error);
-    });
-  },[selectedProduct]);
-
-  /*const updateQuantity = (id, quantity) => {
-    setProducts(products.map(item => item.P_Id === id ? { ...item, Buy_Quantity: quantity } : item));
-  };
-  const removeItem = (id) => {
-    setProducts(products.filter(item => item.P_Id !== id));
-  }; */
-
-  const updateQuantity = (id, newQuantity) => {
-    setProducts(products.map(item => 
-      item.P_Id === id ? { ...item, Quantity: newQuantity, Total_Price: newQuantity * item.Price } : item
-    ));
-  };
-  
-  const removeItem = (id) => {
-    setProducts(products.filter(item => item.P_Id !== id));
-  };
-
-  const getTotalPrice = () => {
-    return products.reduce((total, item) =>
-      { return total + item.Total_Price }, 0);
-    //  return products.reduce((total, item) => total + item.Total_Price * item.quantity, 0);
-  };
+const Cart = () => {
+  // Assuming you have cartItems as an array of CartItemModel instances
+  const cartItems = [
+    new CartItemModel({ P_Id: 1, P_Name: 'Product 1', Price: 100, Buy_Quantity: 2, P_Thumbnail: 'thumbnail.jpg' }),
+    new CartItemModel({ P_Id: 2, P_Name: 'Product 2', Price: 50, Buy_Quantity: 1, P_Thumbnail: 'thumbnail2.jpg' }),
+  ];
 
   return (
-    <div className="shopping-cart">
-      <h2>Your Shopping Cart</h2>
-      {products.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        <div>
-          {products.map(item => (
-            <CartItem 
-              key={item.id} 
-              item={item} 
-              className="qty-container" updateQuantity={updateQuantity} 
-              removeItem={removeItem} 
-            />
-          ))}
-          <div className="cart-total">
-            <h3>Total: ₹{getTotalPrice()}</h3>
-            <button onClick={() => alert('Proceeding to checkout...')}>Checkout</button>
-          </div>
-        </div>
-      )}
+    <div className="cart">
+      {cartItems.map((item) => (
+        <CartItemView key={item.P_Id} item={item} />
+      ))}
     </div>
   );
 };
 
-export default ShoppingCart;
+export default Cart;

@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import './ForgetPassword.css'; // Import CSS file
+// import React, { useState } from 'react';
+// import './ForgetPassword.css'; // Import CSS file
 
-function ForgetPassword() {
-    const [email, setEmail] = useState('');
-    const [contact, setContact] = useState('');
+// function ForgetPassword() {
+//     const [email, setEmail] = useState('');
+//     const [contact, setContact] = useState('');
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        // You can put your submission logic here
-    };
+//     const handleSubmit = async (event) => {
+//         event.preventDefault();
+//         // You can put your submission logic here
+//     };
 
-    return (
-        <div className="ForgetPassword">
-            <label>To change your password, verify it's you!</label>
-            <br />
-            <br />
-            <label>
-                Email:
-                <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-            </label>
-            <br />
-            <button onClick={handleSubmit}>Submit</button>
-        </div>
-    );
-}
+//     return (
+//         <div className="ForgetPassword">
+//             <label>To change your password, verify it's you!</label>
+//             <br />
+//             <br />
+//             <label>
+//                 Email:
+//                 <input
+//                     type="email"
+//                     id="email"
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                 />
+//             </label>
+//             <br />
+//             <button onClick={handleSubmit}>Submit</button>
+//         </div>
+//     );
+// }
 
-export default ForgetPassword;
+// export default ForgetPassword;
