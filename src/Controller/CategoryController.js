@@ -1,10 +1,26 @@
-// CategoryController.js
+import { useState, useEffect } from 'react';
 import CategoryModel from '../Context(Model)/CategoryModel';
+import '../CSS/styles.css';
+import CategoryListView from '../View/CategoryListView';
 
-class CategoryController {
-  static async getCategories() {
-    return await CategoryModel.fetchCategories();
-  }
-}
+const CategoryController = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await CategoryModel.fetchCategories();
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  
+    return <CategoryListView categories={categories} />;
+};
 
 export default CategoryController;

@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HomeModel } from '../Context(Model)/HomeModel';
 import HeaderView from '../View/HeaderView';
+import HomeView from '../View/HomeView'; // Import HomeView
+ // Import CategoryModel
 
 const HomeController = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('Eng');
   const [error, setError] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(1);
-  const [userId, setUserId] = useState(null);
+  
+  
   const navigate = useNavigate();
   const isLogin = HomeModel.isLogin();
 
@@ -17,6 +18,7 @@ const HomeController = () => {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       fetchUserLocation(token);
+       // Fetch categories on component mount
     } else {
       setError('Update location');
     }
@@ -25,7 +27,6 @@ const HomeController = () => {
   const fetchUserLocation = async (token) => {
     try {
       const userLocation = await HomeModel.fetchUserLocation(token);
-      console.log("userLocation", userLocation);
       setUserLocation(userLocation); // Assuming only one location is returned
     } catch (error) {
       console.error('Error fetching user location:', error);
@@ -41,24 +42,6 @@ const HomeController = () => {
 
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);
-  };
-
-  const loadProducts = async (categoryId) => {
-    try {
-      const products = await HomeModel.fetchProducts(categoryId);
-      setProducts(products);
-    } catch (error) {
-      console.error('Error loading products:', error);
-    }
-  };
-
-  const loadCategoryList = async (Cat_Id) => {
-    try {
-      const products = await HomeModel.fetchProducts(Cat_Id);
-      setProducts(products);
-    } catch (error) {
-      console.error('Error loading products:', error);
-    }
   };
 
   const handleAddToCart = async (product, userId, token) => {
@@ -103,16 +86,31 @@ const HomeController = () => {
     }
   };
 
+  
+
   return (
-    <HeaderView
-      userLocation={userLocation}
-      isLogin={isLogin}
-      selectedLanguage={selectedLanguage}
-      handleLanguageChange={handleLanguageChange}
-      handleLogout={handleLogout}
-      error={error}
-    />
+    <div>
+      <HeaderView
+        userLocation={userLocation}
+        isLogin={isLogin}
+        selectedLanguage={selectedLanguage}
+        handleLanguageChange={handleLanguageChange}
+        handleLogout={handleLogout}
+        error={error}
+      />
+      <HomeView
+        userLocation={userLocation}
+        isLogin={isLogin}
+        selectedLanguage={selectedLanguage}
+        handleLanguageChange={handleLanguageChange}
+        handleLogout={handleLogout}
+        error={error}
+        
+        handleAddToCart={handleAddToCart}
+        // Pass categories to HomeView
+      />
+    </div>
   );
 };
 
-export default HomeController
+export default HomeController;

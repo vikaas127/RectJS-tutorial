@@ -1,8 +1,14 @@
-// src/views/HeaderView.js
 import React from 'react';
 
-const HeaderView = ({ userLocation, isLogin, selectedLanguage, handleLanguageChange, handleLogout }) => {
-  const locationDisplay = userLocation ? `${userLocation.city}, ${userLocation.pincode}`: 'Update Location';
+const HeaderView = ({
+  userLocation,
+  isLogin,
+  selectedLanguage,
+  handleLanguageChange,
+  handleLogout,
+  // Receive categories from HomeController
+}) => {
+  const locationDisplay = userLocation ? `${userLocation.city}, ${userLocation.pincode}` : 'Update Location';
   const username = userLocation && userLocation.name ? userLocation.name : 'User';
 
   return (
@@ -19,7 +25,7 @@ const HeaderView = ({ userLocation, isLogin, selectedLanguage, handleLanguageCha
         </div>
         <div className="search-bar">
           <input type="text" placeholder="Search..." />
-          <button variant="contained" color="primary">Search</button>
+          <button type="button" onClick={() => console.log('Search clicked')}>Search</button>
         </div>
         <nav className="navigation">
           <ul>
@@ -36,15 +42,16 @@ const HeaderView = ({ userLocation, isLogin, selectedLanguage, handleLanguageCha
             </li>
           </ul>
         </nav>
+      
         <div className="account-lists">
           <span className="greeting">Hello, {isLogin ? username : 'User'}</span>
-          <a href="/account">Account & Lists</a>?
+          <a href="/account">Account & Lists</a>
         </div>
         <div className="account-options">
           <a href="#">Returns & Orders</a>
           <a href="/Cart">Cart</a>
           {isLogin ? (
-            <a onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</a>
+            <button onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</button>
           ) : (
             <a href="/login">Login</a>
           )}

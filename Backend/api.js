@@ -11,7 +11,7 @@ const dbConfig = {
   //  database: 'sql6699432'
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'vikas123',
   database: 'mydatabase'
 };
 

@@ -1,10 +1,11 @@
 import './App.css';
 import './Signup.css';
 import './login.css'
-import './home.css'; 
+import './CSS/home.css'; 
 import './CategoryList.css';
 import './ProductDetails.css';
 import './Header.css';
+import HeaderView from './View/HeaderView';
 import React, { useState } from 'react';
 import HomeView from '../src/View/HomeView'; 
 import SignUpView from '../src/View/SignUpView';
@@ -21,6 +22,7 @@ import AccountDetails from './userAccount';
 import ProductDetailsController from './Controller/ProductDetailsController';
 import ProductDetailsView from './View/ProductDetailsView';
 import Header from './View/UserView(Header)';
+
 // import TrialForm from './TrialForm';
 
 
@@ -41,7 +43,8 @@ function App() {
   return (
     <Router>
       <div>
-          <header userLocation={userLocation} />
+        
+         
       <Routes>
           <Route path="/home" element={<HomeView />} />
           <Route path="/cart" element={<CartItemController />} />
@@ -57,7 +60,8 @@ function App() {
         <CartItems key={item.P_Id} item={item} updateQuantity={updateQuantity} removeItem={removeItem} />
       ))}*/}
       </div>
-     <ProductController />
+      
+     
     </Router>  
   );
 }
