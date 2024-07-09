@@ -1,19 +1,16 @@
-import { useState } from 'react';
-import CartItemModel from '../Actions/CartItemModel';
-import CartItemView from '../View/CartItemView';
+import CartItem from '../Actions/CartItem';
+import CartView from '../View/CartView';
 
-const CartItemController = (item, updateQuantity, removeItem) => {
-  const [quantity, setQuantity] = useState(item.Buy_Quantity);
-  const [totalPrice, setTotalPrice] = useState(item.Buy_Quantity * item.Price);
-
-  const handleQuantityChange = async (newQuantity) => {
-    if (newQuantity >= 1) {
+const CartItemController = ({ cartProducts, updateQuantity, removeItem }) => {
+  
+  const handleQuantityChange = async (productId, newQuantity) => {
+    const item = cartProducts.find(product => product.P_Id === productId);
+    if (item && newQuantity >= 1) {
       try {
-        const success = await CartItemModel.updateCartProduct(2, item.P_Id, newQuantity);
+        const success = await CartItem.updateCartProduct(2, productId, newQuantity);
         if (success) {
-          setQuantity(newQuantity);
           setTotalPrice(newQuantity * item.Price);
-          updateQuantity(item.P_Id, newQuantity);
+          updateQuantity(productId, newQuantity);
         } else {
           console.error('Failed to update quantity in the database');
         }
@@ -25,8 +22,9 @@ const CartItemController = (item, updateQuantity, removeItem) => {
 
   const handleRemoveItem = async (productId) => {
     try {
-      const success = await CartItemModel.removeCartProduct(productId);
+      const success = await CartItem.removeCartProduct(productId);
       if (success) {
+        console.log("HandleRemoveItem from CartItemController", success)
         removeItem(productId);
       } else {
         console.error('Failed to delete the product from the database');
@@ -37,10 +35,8 @@ const CartItemController = (item, updateQuantity, removeItem) => {
   };
 
   return (
-    <CartItemView
-    item={item}
-    quantity={quantity}
-    totalPrice={totalPrice}
+    <CartView
+    cartProducts={cartProducts}
     handleQuantityChange={handleQuantityChange}
     handleRemoveItem={handleRemoveItem}
   />

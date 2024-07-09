@@ -15,7 +15,6 @@ class UserLocationModel {
 
             if (response.data && Array.isArray(response.data.data)) {
                 return response.data.data.map(item => ({
-                    Name: item.Name,
                     City: item.City,
                     Pincode: item.Pincode
                 }),

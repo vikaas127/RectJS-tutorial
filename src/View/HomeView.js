@@ -3,28 +3,31 @@ import '../CSS/styles.css'; // Ensure this path is correct based on your folder 
 import CategoryController from '../Contexts/CategoryController';
 import ProductController from '../Contexts/ProductController';
 import HeaderView from './HeaderView';
+import ProductView from '../View/ProductView';
 import UserLocationController from '../Contexts/UserLocationController';
+
 const HomeView = (
-//   {
-//   userLocation,
-//   isLogin,
-//   selectedLanguage,
-//   handleLanguageChange,
-//   handleLogout,
-//   error,
-//   products,
-//   handleAddToCart,
-//   categories, // Categories passed from HomeController
-// }
+  {
+  LocationData,
+  isLogin,
+  selectedLanguage,
+  handleLanguageChange,
+  handleLogout,
+  error,
+  products,
+  handleAddToCart,
+  categories, // Categories passed from HomeController
+}
 ) => {
   // Example of using categories in useEffect or wherever needed
   
   return (
     <div>
-      <HeaderView/>
-       <CategoryController />
+      <HeaderView isLogin={isLogin}/>
+       <CategoryController categories={categories} />
       <ProductController />
-      <UserLocationController/>
+      <ProductView products={products} handleAddToCart={handleAddToCart}/>
+      {/* <UserLocationController LocationData={LocationData}/> */}
     </div>
   );
 };

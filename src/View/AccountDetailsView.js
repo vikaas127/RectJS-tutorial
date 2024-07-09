@@ -1,6 +1,5 @@
 // userView.js
 import React from 'react';
-// import './userAccount.css';
 
 export const AccountDetailsView = ({ accountDetails, error }) => (
   <div>

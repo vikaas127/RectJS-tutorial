@@ -1,6 +1,6 @@
 // UserLocationController.js
 import React, { useEffect, useState } from 'react';
-import UserLocationModel from '../Actions/UserLocationModel';
+import UserLocationModel from '../Actions/UserLocation';
 import HeaderView from '../View/HeaderView';
 
 const UserLocationController = ({ onUpdateUserLocation }) => {

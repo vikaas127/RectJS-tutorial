@@ -1,5 +1,5 @@
-// src/views/CartView.js
-import React from 'react';
+// src/views/CartAPIView.js
+{/* import React from 'react';
 
 const CartAPIView = ({ cartProducts }) => {
   return (
@@ -21,3 +21,4 @@ const CartAPIView = ({ cartProducts }) => {
 };
 
 export default CartAPIView;
+*/}

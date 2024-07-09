@@ -1,20 +1,27 @@
 // CartController.js
+import React, { useState, useEffect } from 'react';
+import CartModel from '../Actions/Cart';
+import CartView from '../View/CartView';
 
-import CartModel from '../Context(Model)/CartModel';
+const CartController = () => {
+  const [cartProducts, setCartProducts] = useState([]);
+  const User_Id = 2; // Hardcoded for demonstration purposes
 
-class CartController {
-    constructor() {
-        this.cartModel = new CartModel();
-    }
+  useEffect(() => {
+    const fetchCartProducts = async () => {
+      try {
+        const products = await CartModel.fetchCartProducts(User_Id);
+        console.log("products from CartController",products);
+        setCartProducts(products);
+      } catch (error) {
+        console.error('Error fetching cart products:', error);
+      }
+    };
 
-    async fetchCart(userId) {
-        try {
-            return await this.cartModel.fetchCartData(userId);
-        } catch (error) {
-            console.error('Error in fetchCart:', error);
-            throw error;
-        }
-    }
-}
+    fetchCartProducts();
+  }, [User_Id]);
+
+  return <CartView cartProducts={cartProducts} />;
+};
 
 export default CartController;

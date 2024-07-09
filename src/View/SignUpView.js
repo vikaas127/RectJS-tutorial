@@ -1,9 +1,7 @@
 // src/View/SignUpView.js
 
 import React, { useState } from 'react';
-// import './App.css';
 import { Button } from 'react-bootstrap';
-// import './Sign.css';
 import SignupController from '../Contexts/SignupController';
 
 function SignUpView() {

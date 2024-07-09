@@ -1,7 +1,7 @@
 // getUserAccountDetails.js
 import axios from 'axios';
 
-export const getUserAccountDetails = async (token) => {
+export const UserAccountDetails = async (token) => {
   try {
     const response = await axios.post('http://localhost:3001/api/userDetails', {
       Token: token
@@ -11,7 +11,7 @@ export const getUserAccountDetails = async (token) => {
         'Authorization': `Bearer ${token}`
       }
     });
-
+    console.log("Response UserAccountDetails API",response);
     if (response.data && Array.isArray(response.data.data)) {
       return response.data.data.map(item => ({
         User_id: item.User_id,
@@ -23,7 +23,8 @@ export const getUserAccountDetails = async (token) => {
         Pincode: item.Pincode,
         Profile_image: item.Profile_image
       }));
-    } else {
+    } 
+    else {
       throw new Error('Invalid response format');
     }
   } catch (error) {

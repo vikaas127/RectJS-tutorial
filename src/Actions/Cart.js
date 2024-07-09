@@ -1,19 +1,21 @@
-// src/models/CartModel.js
+// CartModel.js
 import axios from 'axios';
 
-class CartAPIModel {
-  static async fetchCartProducts(userId) {
+class CartModel {
+  static async fetchCartProducts(User_Id) {
+    console.log("fetchCartProducts userId",User_Id);
     try {
       const response = await axios.post('http://localhost:3001/api/Cartproducts', {
-        User_Id: userId,
+        User_Id: 2,
       }, {
         headers: { 'Content-Type': 'application/json' },
       });
 
       if (response && Array.isArray(response.data.data)) {
+        console.log("Response data from CartModel", response.data.data);
         const cartList = response.data.data.map(item => ({
           P_Id: item.P_Id,
-          Cat_Id: item.Cat_Id,
+          User_Id: item.User_Id,
           P_Name: item.P_Name,
           Desc: item.Desc,
           inStock: item.inStock,
@@ -22,7 +24,7 @@ class CartAPIModel {
           Total_Price: item.Total_Price,
           P_Thumbnail: item.P_Thumbnail,
         }));
-
+        console.log("CartList from CartModel", cartList);
         return cartList;
       } else {
         console.error("Response data is not an array:", response.data);
@@ -35,4 +37,4 @@ class CartAPIModel {
   }
 }
 
-export default CartAPIModel;
+export default CartModel;

@@ -1,6 +1,6 @@
 // ProductController.js
 import React, { useState, useEffect } from 'react';
-import ProductModel from '../Actions/ProductModel';
+import ProductModel from '../Actions/Product';
 import ProductView from '../View/ProductView';
 
 const ProductController = ({ CatId }) => {

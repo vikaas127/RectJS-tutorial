@@ -5,22 +5,20 @@ import './CSS/home.css';
 import './CategoryList.css';
 import './ProductDetails.css';
 import './Header.css';
+import './CSS/cart.css';
 import React, { useState } from 'react';
 import HomeView from '../src/View/HomeView'; 
 import SignUpView from '../src/View/SignUpView';
 import LoginController from '../src/Contexts/LoginController';
-import CartItemController from './Contexts/CartItemController';
+import CartController from './Contexts/CartController';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProductDetailsController from './Contexts/ProductDetailsController';
 import ProductView from './View/ProductView';
 import HomeController from '../src/Contexts/HomeController';
-import useCartController from '../src/Contexts/useCartController';
-
+import AccountDetailsController from './Contexts/AccountDetailsController';
 
 function App() {
   const [userLocationData, setUserLocationData] = useState([]);
-
-  const { CartItems, fetchCartData, updateQuantity, removeItem } = useCartController();
 
     const handleUpdateUserLocation = (userLocationData) => {
       console.log("handleUpdateUserLocation",handleUpdateUserLocation);
@@ -37,11 +35,11 @@ function App() {
       <div>         
       <Routes>
           <Route path="/home" element={<HomeView />} />
-          <Route path="/cart" element={<CartItemController />} />
+          <Route path="/cart" element={<CartController />} />
           <Route path="/login" element={<LoginController />} />
           <Route path="/" element={<HomeController />} />
           <Route path="/Signup" element={<SignUpView />} /> 
-           
+          <Route path="/Account" element={<AccountDetailsController />} />            
           <Route path="/product-details" element={<ProductDetailsController handleAddToCart={handleAddToCart} />}/> 
           <Route path="/product/:productId" element={<ProductView handleAddToCart={handleAddToCart} />} />   
       </Routes>
@@ -49,4 +47,5 @@ function App() {
     </Router>  
   );
 };
+
 export default App;

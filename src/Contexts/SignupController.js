@@ -1,7 +1,6 @@
 // src/controllers/SignupController.js
 
-import SignUpModel from '../Actions/SignUpModel';
-import { useNavigate } from 'react-router-dom';
+import SignUpModel from '../Actions/SignUp';
 
 export default class SignupController {
   constructor(view) {

@@ -1,12 +1,13 @@
-import { useState } from 'react';
+{/*import { useState } from 'react';
 import CartItemModel from '../Actions/CartItemModel';
 
-const useCartController = () => {
+const UseCartController = () => {
   const [CartItems, setCartItems] = useState([]);
 
   const fetchCartData = async () => {
     try {
       const data = await CartItemModel.fetchCartData(2); // Replace 2 with actual user id
+      console.log("UseCartController data",data);
       setCartItems(data);
     } catch (error) {
       console.error('Error fetching cart data:', error);
@@ -25,12 +26,13 @@ const useCartController = () => {
     setCartItems((prevItems) => prevItems.filter((item) => item.P_Id !== productId));
   };
 
-  return {
+  return ([
     CartItems,
     fetchCartData,
     updateQuantity,
     removeItem,
-  };
+  ]);
 };
 
-export default useCartController;
+export default UseCartController;
+*/}

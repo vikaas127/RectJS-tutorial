@@ -1,6 +1,6 @@
-// src/controllers/CartController.js
-import React, { useState, useEffect } from 'react';
-import CartAPIModel from '../Context(Model)/CartAPIModel';
+// src/controllers/CartAPIController.js
+{/* import React, { useState, useEffect } from 'react';
+import CartAPIModel from '../Actions/CartAPIModel';
 import CartAPIView from '../View/CartAPIView';
 
 const CartAPIController = () => {
@@ -11,16 +11,18 @@ const CartAPIController = () => {
     const fetchCartProducts = async () => {
       try {
         const products = await CartAPIModel.fetchCartProducts(userId);
-        fetchCartProducts(products);
+        console.log("products from CartAPIController",products);
+        setCartProducts(products);
       } catch (error) {
         console.error('Error fetching cart products:', error);
       }
     };
 
     fetchCartProducts();
-  }, []);
+  }, [userId]);
 
   return <CartAPIView cartProducts={cartProducts} />;
 };
 
 export default CartAPIController;
+*/}
