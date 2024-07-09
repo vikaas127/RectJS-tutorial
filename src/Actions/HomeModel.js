@@ -26,7 +26,7 @@ export class HomeModel {
 
     if (isLogin) {
       try {
-        const response = await axios.post('http://localhost:3001/api/create_productcart', cart, {
+        const response = await axios.post('http://localhost:3001/api/Add_productcart', cart, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -62,33 +62,7 @@ export class HomeModel {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
   }
-
-  // User related methods
-  static async fetchUserLocation(token) {
-    try {
-      const response = await axios.post('http://localhost:3001/api/Userlocation', {
-        Token: token
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.data && Array.isArray(response.data.data)) {
-        return response.data.data.map(item => ({
-          Name: item.Name,
-          City: item.City,
-          Pincode: item.Pincode
-        }));
-      } else {
-        throw new Error('Invalid response format');
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
+  
   static isLogin() {
     return sessionStorage.getItem('isLogin') === 'True';
   }

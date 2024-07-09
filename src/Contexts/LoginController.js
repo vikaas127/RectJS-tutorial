@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginView from '../View/LoginView';
-import { checkUserExists } from '../Context(Model)/LoginModel';
+import { checkUserExists } from '../Actions/LoginModel';
 
 const LoginController = () => {
   const [Email, setEmail] = useState('');

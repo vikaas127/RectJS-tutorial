@@ -11,7 +11,7 @@ const dbConfig = {
   //  database: 'sql6699432'
   host: 'localhost',
   user: 'root',
-  password: 'vikas123',
+  password: '',
   database: 'mydatabase'
 };
 
@@ -364,7 +364,7 @@ app.get('/api/Categorylist', (req, res) => {
 app.post('/api/Add_productcart', (req, res) => {
   try {
     const { User_Id, P_Id, Buy_Quantity, Price } = req.body;
-    console.log("API ki details", req.body);
+    console.log("Add Productcart API ki details", req.body);
 
     // Calculate Total_Price
     const Total_Price = Buy_Quantity * Price;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CartItemModel from '../Context(Model)/CartItemModel';
+import CartItemModel from '../Actions/CartItemModel';
 
 const useCartController = () => {
   const [CartItems, setCartItems] = useState([]);

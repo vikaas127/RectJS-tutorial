@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import CartItemModel from '../Context(Model)/CartItemModel';
+import CartItemModel from '../Actions/CartItemModel';
+import CartItemView from '../View/CartItemView';
 
 const CartItemController = (item, updateQuantity, removeItem) => {
   const [quantity, setQuantity] = useState(item.Buy_Quantity);
@@ -35,12 +36,15 @@ const CartItemController = (item, updateQuantity, removeItem) => {
     }
   };
 
-  return {
-    quantity,
-    totalPrice,
-    handleQuantityChange,
-    handleRemoveItem,
-  };
+  return (
+    <CartItemView
+    item={item}
+    quantity={quantity}
+    totalPrice={totalPrice}
+    handleQuantityChange={handleQuantityChange}
+    handleRemoveItem={handleRemoveItem}
+  />
+  );
 };
 
 export default CartItemController;

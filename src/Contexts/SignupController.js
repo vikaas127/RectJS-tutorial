@@ -1,6 +1,6 @@
 // src/controllers/SignupController.js
 
-import SignUpModel from '../Context(Model)/SignUpModel';
+import SignUpModel from '../Actions/SignUpModel';
 import { useNavigate } from 'react-router-dom';
 
 export default class SignupController {

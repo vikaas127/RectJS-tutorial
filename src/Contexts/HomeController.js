@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HomeModel } from '../Context(Model)/HomeModel';
-import HeaderView from '../View/HeaderView';
+import { HomeModel } from '../Actions/HomeModel';
 import HomeView from '../View/HomeView'; // Import HomeView
+import UserLocationModel from '../Actions/UserLocationModel';
+import ProductView from '../View/ProductView';
  // Import CategoryModel
 
 const HomeController = () => {
-  const [userLocation, setUserLocation] = useState(null);
+  const [userLocationData, setUserLocation] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('Eng');
   const [error, setError] = useState(null);
   
@@ -26,8 +27,9 @@ const HomeController = () => {
 
   const fetchUserLocation = async (token) => {
     try {
-      const userLocation = await HomeModel.fetchUserLocation(token);
-      setUserLocation(userLocation); // Assuming only one location is returned
+      const userLocationData = await UserLocationModel.fetchUserLocation(token);
+      console.log("userLocationData on HomeController", userLocationData);
+      setUserLocation(userLocationData); // Assuming only one location is returned
     } catch (error) {
       console.error('Error fetching user location:', error);
       setError('Cannot find user location');
@@ -90,24 +92,22 @@ const HomeController = () => {
 
   return (
     <div>
-      <HeaderView
+      {/* <HeaderView
         userLocation={userLocation}
         isLogin={isLogin}
         selectedLanguage={selectedLanguage}
         handleLanguageChange={handleLanguageChange}
         handleLogout={handleLogout}
         error={error}
-      />
+      /> */}
       <HomeView
-        userLocation={userLocation}
+        userLocationData={userLocationData}
         isLogin={isLogin}
         selectedLanguage={selectedLanguage}
         handleLanguageChange={handleLanguageChange}
         handleLogout={handleLogout}
         error={error}
-        
-        handleAddToCart={handleAddToCart}
-        // Pass categories to HomeView
+        handleAddToCart={handleAddToCart} // Pass handleAddToCart as a prop
       />
     </div>
   );

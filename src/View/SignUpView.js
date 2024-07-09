@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 // import './App.css';
 import { Button } from 'react-bootstrap';
 // import './Sign.css';
-import SignupController from '../Controller/SignupController';
+import SignupController from '../Contexts/SignupController';
 
 function SignUpView() {
   const [name, setName] = useState('');

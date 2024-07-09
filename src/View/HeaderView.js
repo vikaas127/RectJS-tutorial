@@ -1,15 +1,17 @@
 import React from 'react';
 
+
 const HeaderView = ({
-  userLocation,
+  LocationData,
   isLogin,
   selectedLanguage,
   handleLanguageChange,
   handleLogout,
   // Receive categories from HomeController
 }) => {
-  const locationDisplay = userLocation ? `${userLocation.city}, ${userLocation.pincode}` : 'Update Location';
-  const username = userLocation && userLocation.name ? userLocation.name : 'User';
+  // const { Name = ' ', City = '', Pincode = '' } = LocationData || {};
+  // const locationDisplay = LocationData ? `${City}, ${Pincode}` : 'Update Location';
+  // const username = LocationData ? `${Name}` : 'User';
 
   return (
     <div className="header">
@@ -20,7 +22,7 @@ const HeaderView = ({
         <div className="delivery">
           <p>Delivering to</p>
           <span id="location">
-            {isLogin ? locationDisplay : 'Update location'}
+            {isLogin ? LocationData : 'Update location'}
           </span>
         </div>
         <div className="search-bar">
@@ -44,7 +46,7 @@ const HeaderView = ({
         </nav>
       
         <div className="account-lists">
-          <span className="greeting">Hello, {isLogin ? username : 'User'}</span>
+          <span className="greeting">Hello, {isLogin ? LocationData : 'User'}</span>
           <a href="/account">Account & Lists</a>
         </div>
         <div className="account-options">
