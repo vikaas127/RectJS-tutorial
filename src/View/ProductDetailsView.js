@@ -1,9 +1,9 @@
 // ProductDetailsView.js
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import ProductModel from '../Actions/Product';
+import HomeView from './HomeView';
 
-const ProductDetailsView = () => {
+const ProductDetailsView = (handleAddToCart) => {
  // Get productId from URL params
  const location = useLocation();
   const { product } = location.state;
@@ -27,7 +27,7 @@ const ProductDetailsView = () => {
           {/* {product.isAvailable()} */}
         </span>
       </p>
-     
+      <button onClick={() => handleAddToCart(product.User_Id, product.P_Id, product.Buy_Quantity, product.Price)}>Add to Cart</button>
    
     </div>
   );

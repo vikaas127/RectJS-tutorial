@@ -1,16 +1,17 @@
-import CartItem from '../Actions/CartItem';
-import CartView from '../View/CartView';
+import React from 'react';
+import CartView from '../View/CartView'; // Ensure the path is correct
 
-const CartItemController = ({ cartProducts, quantityChange, RemoveItem }) => {
-  
+const CartItemController = ({ cartProducts, setTotalPrice, updateQuantity, removeItem }) => {
+
   const handleQuantityChange = async (productId, newQuantity) => {
     const item = cartProducts.find(product => product.P_Id === productId);
     if (item && newQuantity >= 1) {
       try {
-        const success = await CartItem.updateCartProduct(2, productId, newQuantity);
-        console.log("Success of handleQuantityChange from CartItemController",success);
+        // Mocking the API call success
+        const success = true; // Simulate successful API response
+        console.log("Success of handleQuantityChange from CartItemController", success);
         if (success) {
-          setTotalPrice(newQuantity * item.Price);
+          setTotalPrice(productId, newQuantity * item.Price);
           updateQuantity(productId, newQuantity);
         } else {
           console.error('Failed to update quantity in the database');
@@ -23,10 +24,10 @@ const CartItemController = ({ cartProducts, quantityChange, RemoveItem }) => {
 
   const handleRemoveItem = async (productId) => {
     try {
-      const success = await CartItem.removeCartProduct(productId);
-      console.log("success of handleRemoveItem from CartItemController",success);
+      // Mocking the API call success
+      const success = true; // Simulate successful API response
+      console.log("Success of handleRemoveItem from CartItemController", success);
       if (success) {
-        console.log("HandleRemoveItem from CartItemController", success)
         removeItem(productId);
       } else {
         console.error('Failed to delete the product from the database');
@@ -36,12 +37,14 @@ const CartItemController = ({ cartProducts, quantityChange, RemoveItem }) => {
     }
   };
 
+  console.log("cartProducts from CartItemController",cartProducts);
+  
   return (
     <CartView
-    cartProducts={cartProducts}
-    handleQuantityChange={handleQuantityChange}
-    handleRemoveItem={handleRemoveItem}
-  />
+      cartProducts={cartProducts}
+      handleQuantityChange={handleQuantityChange}
+      handleRemoveItem={handleRemoveItem}
+    />
   );
 };
 

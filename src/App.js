@@ -1,42 +1,73 @@
 import './App.css';
 import './Signup.css';
-import './login.css'
+import './login.css';
 import './CSS/home.css'; 
 import './CategoryList.css';
 import './ProductDetails.css';
 import './Header.css';
 import './CSS/cart.css';
 import React, { useState } from 'react';
-import HomeView from '../src/View/HomeView'; 
-import SignUpView from '../src/View/SignUpView';
-import LoginController from '../src/Contexts/LoginController';
-import CartController from './Contexts/CartController';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ProductDetailsController from './Contexts/ProductDetailsController';
+import HomeView from './View/HomeView'; 
+import SignUpView from './View/SignUpView';
+import LoginController from './Contexts/LoginController';
+import CartItemController from './Contexts/CartItemController';
 import ProductDetailsView from './View/ProductDetailsView';
-import HomeController from '../src/Contexts/HomeController';
+import HomeController from './Contexts/HomeController';
 import AccountDetailsController from './Contexts/AccountDetailsController';
 
-function App() {
+const App = () => {
+  const [cartProducts, setCartProducts] = useState([
+    { P_Id: 1, P_Thumbnail: 'thumb1.jpg', P_Name: 'Product 1', Price: 100, Buy_Quantity: 2, Total_Price: 200 },
+    // Add more products here
+  ]);
 
-    const handleAddToCart = (userId, productId, quantity, price) => {
-      // Implement the logic to add product to cart
-      console.log(`User ${userId} added product ${productId} with quantity ${quantity} and price ${price} to the cart.`);
-    };
+  const setTotalPrice = (productId, newTotalPrice) => {
+    setCartProducts(prevProducts => 
+      prevProducts.map(product =>
+        product.P_Id === productId ? { ...product, Total_Price: newTotalPrice } : product
+      )
+    );
+  };
+
+  const updateQuantity = (productId, newQuantity) => {
+    setCartProducts(prevProducts => 
+      prevProducts.map(product =>
+        product.P_Id === productId ? { ...product, Buy_Quantity: newQuantity } : product
+      )
+    );
+  };
+
+  const removeItem = (productId) => {
+    setCartProducts(prevProducts => 
+      prevProducts.filter(product => product.P_Id !== productId)
+    );
+  };
+
+  const handleAddToCart = (userId, productId, quantity, price) => {
+    // Implement the logic to add product to cart
+    console.log(`User ${userId} added product ${productId} with quantity ${quantity} and price ${price} to the cart.`);
+  };
 
   return (
     <Router>
-      <div>         
-      <Routes>
+      <div>
+        <Routes>
           <Route path="/home" element={<HomeView />} />
-          <Route path="/cart" element={<CartController />} />
+          <Route path="/cart" element={
+            <CartItemController 
+              cartProducts={cartProducts} 
+              setTotalPrice={setTotalPrice}
+              updateQuantity={updateQuantity}
+              removeItem={removeItem}
+            />
+          } />
           <Route path="/login" element={<LoginController />} />
           <Route path="/" element={<HomeController />} />
           <Route path="/Signup" element={<SignUpView />} /> 
           <Route path="/Account" element={<AccountDetailsController />} />            
-          <Route path="/product-details" element={<ProductDetailsView />} />
-          <Route path="/product/:productId" element={<ProductDetailsView handleAddToCart={handleAddToCart}  />} />   
-      </Routes>
+          <Route path="/product-details" element={<ProductDetailsView handleAddToCart={handleAddToCart}/>} />
+        </Routes>
       </div>     
     </Router>  
   );

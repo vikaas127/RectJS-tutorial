@@ -23,8 +23,8 @@ const ProductView = ({ products, onProductClick }) => {
     return (
         <div className="product-list">
             {products.map(product => (
-                <div key={product.P_Id} className='image' onClick={()=> onProductClick(product)}>
-                    <a href='/product/:productId'>
+                <div key={product.P_Id} className='image'>
+                    <a href='/product/:productId' onClick={()=> onProductClick(product)}>
                     <img src={product.P_Thumbnail} alt={product.P_Name} />
                     </a>
                     <h3>{product.P_Name}</h3>
