@@ -2,6 +2,7 @@
 import React from 'react';
 
 const ProductDetailsView = ({ product, handleAddToCart }) => {
+  console.log("Product on ProductDetailsView", product);
   if (!product) {
     return <p>No product details available</p>;
   }

@@ -1,9 +1,9 @@
 // userController.js
 import React, { useState, useEffect } from 'react';
-import { getUserAccountDetails } from '../Context(Model)/AccountDetailsModel';
+import { UserAccountDetails } from '../Actions/AccountDetails';
 import { AccountDetailsView } from '../View/AccountDetailsView';
 
-const AccountDetailsController = () => {
+const AccountDetailsController = (onFetchComplete) => {
   const [accountDetails, setAccountDetails] = useState([]);
   const [error, setError] = useState(null);
 
@@ -18,8 +18,9 @@ const AccountDetailsController = () => {
 
   const handleUserAccount = async (token) => {
     try {
-      const details = await getUserAccountDetails(token);
-      setAccountDetails(details);
+      const accountDetails = await UserAccountDetails(token);
+      console.log("UserDetails from AccountDetailsController", accountDetails);
+      setAccountDetails(accountDetails);
     } catch (error) {
       setError('Cannot find user account');
     }

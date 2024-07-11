@@ -3,7 +3,7 @@ import axios from 'axios';
 const updateCartProduct = async (userId, productId, newQuantity) => {
   try {
     const response = await axios.put('http://localhost:3001/api/Update_Cartproduct', {
-      User_Id: userId,
+      User_Id: 2,
       P_Id: productId,
       Buy_Quantity: newQuantity,
     });

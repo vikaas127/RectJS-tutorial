@@ -11,7 +11,7 @@ const dbConfig = {
   //  database: 'sql6699432'
   host: 'localhost',
   user: 'root',
-  password: 'vikas123',
+  password: '',
   database: 'mydatabase'
 };
 
@@ -363,20 +363,30 @@ app.get('/api/Categorylist', (req, res) => {
 
 app.post('/api/Add_productcart', (req, res) => {
   try {
-    const { User_Id, P_Id, Buy_Quantity, Price } = req.body;
-    console.log("API ki details", req.body);
+    const { P_Id, Buy_Quantity, Price } = req.body;
+    console.log("Add Productcart API ki details", req.body);
+
+     // Additional logging for individual fields
+     
+     console.log("P_Id:", P_Id);
+     console.log("Buy_Quantity:", Buy_Quantity);
+     console.log("Price:", Price);
+    
+    if( typeof P_Id !== 'number' || typeof Buy_Quantity !== 'number' || typeof Price !== 'number' ){
+      return res.status(400).json({error: "Invalid input data"});
+    }
 
     // Calculate Total_Price
     const Total_Price = Buy_Quantity * Price;
 
-    const query = "INSERT INTO cart (User_Id, P_Id, Buy_Quantity, Price, Total_Price) VALUES (?, ?, ?, ?, ?)";
+    const query = "INSERT INTO cart ( P_Id, Buy_Quantity, Price, Total_Price) VALUES (?, ?, ?, ?)";
 
-    db.query(query, [User_Id, P_Id, Buy_Quantity, Price, Total_Price], function (err, result) {
+    db.query(query, [ P_Id, Buy_Quantity, Price, Total_Price], function (err, result) {
       if (err) {
         console.error('Database query error:', err); // Log the error for debugging purposes
         return res.status(500).json({ error: 'Internal Server Error' });
       }
-      res.json({ message: "Products added to the cart successfully" });
+      res.status(200).json({res: "Products added to the cart successfully"});
     });
   } catch (err) {
     console.error('Server error:', err); // Log the error for debugging purposes
@@ -386,7 +396,7 @@ app.post('/api/Add_productcart', (req, res) => {
 
 app.post('/api/Cartproducts', (req, res) => {
   const User_Id = req.body.User_Id;
-  console.log('Database User_Id 374 query error:', User_Id);
+  console.log('Database User_Id 400 query error:', User_Id);
   const query = "SELECT cart.User_Id,products.P_Id,products.P_Name,products.Desc,products.inStock,products.Price,products.P_Thumbnail,cart.Buy_Quantity,cart.Total_Price FROM cart JOIN products ON cart.P_Id = products.P_Id WHERE cart.User_Id = ?";
   db.query(query, [User_Id], (err, rows) => {
     if (err) {
@@ -414,24 +424,41 @@ app.delete('/api/Del_CartProduct', (req, res) => {
 
 app.put('/api/Update_Cartproduct', (req, res) => {
   const { Buy_Quantity, User_Id, P_Id } = req.body;
-  console.log("req.body", req.body);
 
-  if (!User_Id || !P_Id || !Buy_Quantity) {
-    return res.status(400).send('User_Id, P_Id, and Buy_Quantity are required');
+  // Input validation
+  if (!User_Id || !P_Id || !Buy_Quantity || isNaN(parseInt(Buy_Quantity))) {
+    return res.status(400).send('User_Id, P_Id, and Buy_Quantity (a valid number) are required');
   }
 
-  const sql = `UPDATE cart SET Buy_Quantity = ?, Total_Price = Buy_Quantity * Price WHERE User_Id = ? AND P_Id = ?`;
-
-  db.query(sql, [Buy_Quantity, Buy_Quantity, User_Id, P_Id], (err, result) => {
+  // Fetch the price of the product
+  const fetchPrice = 'SELECT Price FROM products WHERE P_Id = ?';
+  db.query(fetchPrice, [P_Id], (err, priceResult) => {
     if (err) {
-      console.error('Error updating cart product', err);
-      return res.status(500).send('Error updating cart product');
+      console.error('Error fetching product price', err);
+      return res.status(500).send('Error fetching product price');
     }
-    if (result.affectedRows === 0) {
-      //console.log(result);
-      return res.status(404).send('Cart product not found');
+
+    if (priceResult.length === 0) {
+      return res.status(404).send('Product not found');
     }
-    res.send('Cart product updated successfully');
+
+    const Price = priceResult[0].Price;
+    const Total_Price = Buy_Quantity * Price;
+
+    // Update the cart
+    const updateCart = 'UPDATE cart SET Buy_Quantity = ?, Total_Price = ? WHERE User_Id = ? AND P_Id = ?';
+    db.query(updateCart, [Buy_Quantity, Total_Price, User_Id, P_Id], (err, result) => {
+      if (err) {
+        console.error('Error updating cart product', err);
+        return res.status(500).send('Error updating cart product');
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).send('Cart product not found');
+      }
+
+      res.send('Cart product updated successfully');
+    });
   });
 });
 

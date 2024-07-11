@@ -1,38 +1,33 @@
 // CartView.js
+import React from 'react';
 
-import React, { useState, useEffect } from 'react';
-import CartController from '../Controller/CartController';
+const CartView = ({ cartProducts, handleQuantityChange, handleRemoveItem }) => {
+  console.log("cartProducts from CartView",cartProducts);
 
-function CartView() {
-    const [cartList, setCartList] = useState([]);
-
-    useEffect(() => {
-        async function fetchCartData() {
-            const cartController = new CartController();
-            try {
-                const cartData = await cartController.fetchCart(4); // Assuming User_Id is 2
-                setCartList(cartData);
-            } catch (error) {
-                console.error('Error fetching cart data in component:', error);
-            }
-        }
-        
-        fetchCartData();
-    }, []);
-
-    return (
-        <div>
-            <h2>Shopping Cart</h2>
-            {/*<ul>
-                {cartList.map(item => (
-                    <li key={item.P_Id}>
-                        {item.P_Name} - {item.Price}
-                    </li>
-                ))}
-            </ul> */}
-            Waiting for akshay's item cart.
+  return (
+    <div className="cart-container">
+      {cartProducts.map(product => (
+        <div key={product.P_Id} className="cart-item">
+          <img src={product.P_Thumbnail} alt={product.P_Name} />
+          <div className="cart-details">
+            <h3>{product.P_Name}</h3>
+            {/* <p>{product.Desc}</p> */}
+            <p>Price: ${product.Price}</p>
+            <div className='quantity-container'>
+            <p>Quantity:</p>
+              <button onClick={()=> handleQuantityChange(product.P_Id, product.Buy_Quantity - 1)}>-</button>
+              <span>{product.Buy_Quantity}</span>
+              <button onClick={()=> handleQuantityChange(product.P_Id, product.Buy_Quantity + 1)}>+</button>
+            </div>
+            </div> 
+            <div className='subtotal'>                
+            <p>Total Price: ₹{product.Total_Price}</p>
+            <button onClick={()=>{console.log("Remove button clicked",product.P_Id); handleRemoveItem(product.P_Id);}}>Remove</button>
+            </div>
         </div>
-    );
-}
+      ))}
+    </div>
+  );
+};
 
 export default CartView;

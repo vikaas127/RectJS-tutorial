@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import CategoryModel from '../Context(Model)/CategoryModel';
+import CategoryModel from '../Actions/Category';
 import '../CSS/styles.css';
 import CategoryListView from '../View/CategoryListView';
 
