@@ -13,17 +13,11 @@ import LoginController from '../src/Contexts/LoginController';
 import CartController from './Contexts/CartController';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProductDetailsController from './Contexts/ProductDetailsController';
-import ProductView from './View/ProductView';
+import ProductDetailsView from './View/ProductDetailsView';
 import HomeController from '../src/Contexts/HomeController';
 import AccountDetailsController from './Contexts/AccountDetailsController';
 
 function App() {
-  const [userLocationData, setUserLocationData] = useState([]);
-
-    const handleUpdateUserLocation = (userLocationData) => {
-      console.log("handleUpdateUserLocation",handleUpdateUserLocation);
-      setUserLocationData(userLocationData);
-    };
 
     const handleAddToCart = (userId, productId, quantity, price) => {
       // Implement the logic to add product to cart
@@ -40,8 +34,8 @@ function App() {
           <Route path="/" element={<HomeController />} />
           <Route path="/Signup" element={<SignUpView />} /> 
           <Route path="/Account" element={<AccountDetailsController />} />            
-          <Route path="/product-details" element={<ProductDetailsController handleAddToCart={handleAddToCart} />}/> 
-          <Route path="/product/:productId" element={<ProductView handleAddToCart={handleAddToCart} />} />   
+          <Route path="/product-details" element={<ProductDetailsView />} />
+          <Route path="/product/:productId" element={<ProductDetailsView handleAddToCart={handleAddToCart}  />} />   
       </Routes>
       </div>     
     </Router>  

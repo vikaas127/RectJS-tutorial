@@ -1,79 +1,65 @@
-.product-list {
-  display: grid;
+.product-list .image {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  width: 280px;
+  height: 400px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-list .image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-list .image a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-list .image img {
+  max-width: 100%;
   height: 50%;
-  }
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  background-color: #ffffff; /* Slightly darker orange */
-  gap: 5px; /* Adjust the gap as needed */
-
+  border-radius: 10px;
 }
 
-.product-item {
-  display:-ms-inline-grid;
-  border: 1px solid #110101; /* Optional: add border to product items */
-  padding: 10px; /* Optional: add padding to product items */
-  text-align:justify; /* Center the text */
+.product-list .image h3 {
+  font-size: 1.2em;
+  margin: 10px 0;
+  color: #333;
 }
 
-.product-item img {
-  width: 250px; /* Ensure the image fits within the product item */
-  height: 250px; /* Maintain aspect ratio of the image */
+.product-list .image p {
+  font-size: 1em;
+  margin: 5px 0;
+  color: #666;
 }
 
-.product-item h3.name {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 3em; /* Adjust based on line-height */
-  line-height: 1.5em; /* Adjust line-height if necessary */
-  font-size: 17px; /* Change the size of the text here */
+.stock p {
+  font-weight: bold;
 }
 
-/* To limit the description text for a product */
-.product-item p.description {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 3em; /* Adjust based on line-height */
-  line-height: 1.5em; /* Adjust line-height if necessary */
-  font-size: 14px; /* Change the size of the text here */
+.stock .available {
+  color: rgb(2, 159, 2);
 }
 
-.product-item p span.available {
-  color: rgb(13, 238, 13);
-}
-
-.product-item p span.unavailable {
+.stock .unavailable {
   color: red;
 }
 
-.product-item p.price {
-  margin-top: 10px; /* Add margin to create space above the price */
-  color: rgb(246, 4, 4); /* White text */
-  font-size: 17px; /* Change the size of the text here */
+.product-list .image .cart-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.cart-btn {
-  background-color: #ed3b2b; /* Red background */
-  color: white; /* White text */
-  border: none; /* Remove border */
-  padding: 10px 20px; /* Padding */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* Remove underline */
-  display: inline-block; /* Get block-level element */
-  font-size: 16px; /* Font size */
-  margin-top: 10px; /* Margin on top */
-  cursor: pointer; /* Pointer cursor on hover */
-  border-radius: 5px; /* Rounded corners */
-}
-
-.cart-btn:hover {
-  background-color: #45a049; /* Darker green on hover */
+.product-list .image .cart-btn:hover {
+  background-color: #0056b3;
 }

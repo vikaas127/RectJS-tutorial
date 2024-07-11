@@ -4,30 +4,36 @@ import CategoryController from '../Contexts/CategoryController';
 import ProductController from '../Contexts/ProductController';
 import HeaderView from './HeaderView';
 import ProductView from '../View/ProductView';
-import UserLocationController from '../Contexts/UserLocationController';
+import { useNavigate } from 'react-router-dom';
 
 const HomeView = (
   {
-  LocationData,
   isLogin,
-  selectedLanguage,
-  handleLanguageChange,
-  handleLogout,
-  error,
   products,
   handleAddToCart,
   categories, // Categories passed from HomeController
 }
 ) => {
-  // Example of using categories in useEffect or wherever needed
+  const navigate = useNavigate(); // Initialize useHistory
+
+  // Function to handle product image click
+  const handleProductClick = (productId) => {
+    console.log("Product clicked",productId);
+    navigate(`/product/${productId}`);
+  };
+
+  console.log("products on HomeView",products);
   
   return (
     <div>
       <HeaderView isLogin={isLogin}/>
        <CategoryController categories={categories} />
       <ProductController />
-      <ProductView products={products} handleAddToCart={handleAddToCart}/>
-      {/* <UserLocationController LocationData={LocationData}/> */}
+      <ProductView 
+      products={products} 
+      handleAddToCart={handleAddToCart}
+      onProductClick={handleProductClick}
+      />
     </div>
   );
 };

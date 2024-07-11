@@ -1,10 +1,18 @@
 // ProductDetailsView.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import ProductModel from '../Actions/Product';
 
-const ProductDetailsView = ({ product, handleAddToCart }) => {
-  console.log("Product on ProductDetailsView", product);
+const ProductDetailsView = () => {
+ // Get productId from URL params
+ const location = useLocation();
+  const { product } = location.state;
+
+ console.log("ProductView Product",product.P_Id);
+
+
   if (!product) {
-    return <p>No product details available</p>;
+    return <p>Loading....</p>;
   }
 
   return (
@@ -16,10 +24,11 @@ const ProductDetailsView = ({ product, handleAddToCart }) => {
       <p>
         inStock: 
         <span className={product.inStock ? "available" : "unavailable"}>
-          {product.isAvailable()}
+          {/* {product.isAvailable()} */}
         </span>
       </p>
-      <button onClick={() => handleAddToCart(product.User_Id, product.P_Id, product.Buy_Quantity, product.Price)}>Add to Cart</button>
+     
+   
     </div>
   );
 };

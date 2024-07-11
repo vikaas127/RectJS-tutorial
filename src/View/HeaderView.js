@@ -93,7 +93,9 @@ const HeaderView = ({
     <div className="header">
       <div className="container">
         <div className="logo">
+        <a href="/product-details">
           <img src="https://cdn.pixabay.com/photo/2021/08/10/16/02/amazon-6536326_1280.png" alt="Amazon Logo" />
+          </a>
         </div>
         <div className="delivery">
           <p>Delivering to</p>

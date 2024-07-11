@@ -9,10 +9,15 @@ const ProductDetailsController = ({ handleAddToCart }) => {
   const { product } = location.state || {};
 
   if (!product) {
+    console.log("Null products")
     return <ProductView product={null} handleAddToCart={handleAddToCart} />;
   }
 
+  
+
   const productModel = new ProductDetailsModel(product);
+
+  console.log("productModel on ProductDetailsController", productModel);
 
   return <ProductView product={productModel} handleAddToCart={handleAddToCart} />;
 };
