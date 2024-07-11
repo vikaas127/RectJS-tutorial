@@ -1,17 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import CartModel from '../Actions/Cart';
 import { UserAccountDetails } from '../Actions/AccountDetails';
+import UserLocationModel from '../Actions/UserLocation';
 
 const HeaderView = ({
-  LocationData,
-  isLogin,
   selectedLanguage,
   handleLanguageChange,
   handleLogout,
   // Receive categories from HomeController
 }) => {
   const [username, setUsername] = useState('User');
+  const [error, setError] = useState(null);
+  const [LocationData, setLocationData] = useState(null);
 
+  const userLocationModel = new UserLocationModel();
+  const isLogin = sessionStorage.getItem('isLogin');
+  const token = sessionStorage.getItem('authToken');
+
+  // const isLogin = sessionStorage.getItem('isLogin');
+  console.log("isLogin from HeaderView",isLogin);
+  console.log("LocationData from HeaderView",LocationData);
+  console.log("handleLogout from HeaderView",handleLogout);
+  console.log("selectedLanguage from HeaderView",selectedLanguage);
+  console.log("handleLanguageChange from HeaderView",handleLanguageChange);
+  // const isLogin = sessionStorage.getItem('isLogin');
+
+  
+  
   // console.log("LocationData",LocationData);
 
   // const { Name = ' ', City = '', Pincode = '' } = LocationData || {};
@@ -23,7 +38,8 @@ const HeaderView = ({
 
   useEffect(() => {
     const handleUserAccount = async () => {
-      const token = sessionStorage.getItem('authToken');
+      
+      console.log("token under handleUserAccount",token);
       if (!token) {
         console.error("User is not logged in");
         return;
@@ -32,7 +48,9 @@ const HeaderView = ({
       try {
         const accountDetails = await UserAccountDetails(token);
         if (accountDetails.length > 0) {
-          setUsername(accountDetails[0].Name);
+          const fullName = accountDetails[0].Name;
+          const firstName = fullName.split(' ')[0]; // Extract the first name
+          setUsername(firstName);
           console.log("User from HeaderView", accountDetails[0].Name);
         }
       } catch (error) {
@@ -40,13 +58,26 @@ const HeaderView = ({
         alert('Error fetching user account details');
       }
     };
+    
+    const fetchUserLocation = async () => {
+      console.log("under fetchUserLocation on HeaderView",token);
+      try {
+          const LocationData = await userLocationModel.fetchUserLocation(token);
+          console.log("userLocationData from HeaderView",LocationData);
+          setLocationData(LocationData);
+      } catch (error) {
+          console.error("Error fetching user location:", error);
+          setError('Cannot find user location');
+      }
+    };
 
     if (isLogin) {
+      console.log("isLogin on HeaderView line 76", isLogin);
       handleUserAccount();
+      fetchUserLocation();
     }
   }, [isLogin]);
 
-  
   const handleCartClick = async() => {
     try{
    const userId= 2; // Assuming the user ID is 2, you can replace this with the actual user ID
@@ -67,7 +98,7 @@ const HeaderView = ({
         <div className="delivery">
           <p>Delivering to</p>
           <span id="location">
-            {isLogin ? LocationData : 'Update location'}
+          {isLogin ? (LocationData ? `${LocationData.City}, ${LocationData.Pincode}` : 'Loading...') : 'Update location'}
           </span>
         </div>
         <div className="search-bar">
@@ -98,7 +129,7 @@ const HeaderView = ({
           <a href="#">Returns & Orders</a>
           <a href="/Cart" onClick={handleCartClick}>Cart</a>
           {isLogin ? (
-            <button onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</button>
+            <a onClick={() => {console.log("Logout clicked"); handleLogout();}} style={{ cursor: 'pointer' }}>Logout</a>
           ) : (
             <a href="/login">Login</a>
           )}

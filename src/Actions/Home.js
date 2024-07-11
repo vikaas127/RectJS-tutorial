@@ -72,5 +72,6 @@ export class HomeModel {
   static handleLogout() {
     sessionStorage.removeItem('authToken');
     sessionStorage.setItem('isLogin', 'False');
+    console.log("handleLogout is working fine, session storage updated");
   }
 }

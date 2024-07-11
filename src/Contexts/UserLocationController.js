@@ -22,7 +22,7 @@ const UserLocationController = ({ onUpdateUserLocation }) => {
     const fetchUserLocation = async (token) => {
         try {
             const LocationData = await userLocationModel.fetchUserLocation(token);
-            console.log("userLocationData",LocationData);
+            console.log("userLocationData from UserLocationController",LocationData);
             setUserLocationData(LocationData);
             onUpdateUserLocation(LocationData);
         } catch (error) {

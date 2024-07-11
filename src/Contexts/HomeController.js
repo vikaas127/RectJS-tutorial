@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HomeModel } from '../Actions/Home';
-import HomeView from '../View/HomeView'; 
+import HeaderView from '../View/HeaderView';
 import UserLocationModel from '../Actions/UserLocation';
 
 export const handleAddToCart = async (P_Id, Buy_Quantity ,Price) => {
@@ -57,54 +57,59 @@ export const handleAddToCart = async (P_Id, Buy_Quantity ,Price) => {
   };  
 
 const HomeController = () => {
-  const [LocationData, setUserLocation] = useState(null);
+  const [LocationData, setUserLocationData] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('Eng');
   const [error, setError] = useState(null);
-  
+  const userLocationModel = new UserLocationModel();
   
   const navigate = useNavigate();
-  const isLogin = HomeModel.isLogin();
 
-  useEffect(() => {
     const token = sessionStorage.getItem('authToken');
-    if (token) {
-      fetchUserLocation(token);
-       // Fetch categories on component mount
+    console.log("Token on HomeController", token);
+    const isLogin = sessionStorage.getItem('isLogin');
+    console.log("isLogin on HomeController", isLogin)
+
+    if (isLogin === 'True' && token) {
+      console.log("before fetchUserLocation function call")
+        fetchUserLocation(token);
     } else {
-      setError('Update location');
+        setError('Update location');
     }
-  }, []);
 
-  const fetchUserLocation = async (token) => {
-    const userLocationModel = new UserLocationModel();
-    try {
+const fetchUserLocation = async (token) => {
+  console.log("under fetchUserLocation on HomeController");
+  
+  try {
       const LocationData = await userLocationModel.fetchUserLocation(token);
-      console.log("userLocationData on HomeController", LocationData);
-      setUserLocation(LocationData); // Assuming only one location is returned
-    } catch (error) {
-      console.error('Error fetching user location:', error);
+      console.log("userLocationData from UserLocationController",LocationData);
+      setUserLocationData(LocationData);
+      // onUpdateUserLocation(LocationData);
+  } catch (error) {
+      console.error("Error fetching user location:", error);
       setError('Cannot find user location');
-    }
-  };
+  }
+};
 
-  const handleLogout = () => {
+   const handleLogout =()=> {
+    console.log("inside handleLogout function");
     HomeModel.handleLogout();
     console.log('User logged out');
     navigate('/login');
   };
 
+
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);
   };
-
+ 
   return (
     <div>
-      <HomeView
+      <HeaderView
         LocationData={LocationData}
-        isLogin={isLogin}
-        selectedLanguage={selectedLanguage}
+        selectedLanguage= "Eng"      /*{selectedLanguage}*/
         handleLanguageChange={handleLanguageChange}
-        handleLogout={handleLogout}
+        handleLogout={handleLogout} // Pass handleLogout as a prop to HeaderView
+        isLogin={sessionStorage.getItem('isLogin') === 'True'}
         error={error}
         handleAddToCart={handleAddToCart} // Pass handleAddToCart as a prop
       />
