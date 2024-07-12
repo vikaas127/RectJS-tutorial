@@ -1,7 +1,7 @@
 // CartController.js
 import React, { useState, useEffect } from 'react';
-import CartModel from '../Actions/Cart';
-import CartView from '../View/CartView';
+import CartModel from '../Action/Cart';
+import CartView from '../Views/CartView';
 
 const CartController = () => {
   const [cartProducts, setCartProducts] = useState([]);
