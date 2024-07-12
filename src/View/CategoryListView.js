@@ -1,18 +1,14 @@
 // CategoryList.js
 import React from 'react';
 
-
-const CategoryListView = ({ categories }) => {
-
-
-
+const CategoryListView = ({ categories, onCategoryClick }) => {
 
   return (
     <div style={{ display: 'inline-block', justifyContent: 'center' }}>
       {categories.map(category => (
-        <div key={category.Cat_Id} className="categories"
+        <div key={category.Cat_Id} className="categories" onClick={()=>onCategoryClick(category.Cat_Id)}
           style={{ margin: '10px', cursor: 'pointer' }}>
-          <img
+          <img 
             src={category.Cat_Image}
             alt={category.Cat_Name}
             style={{ cursor: 'pointer' }}

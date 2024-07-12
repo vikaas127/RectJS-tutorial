@@ -204,7 +204,7 @@ app.delete('/api/delete-products', (req, res) => {
   });
 });
 
-app.get('/api/productlist', (req, res) => {
+app.post('/api/productlist', (req, res) => {
   const { P_Id, Cat_Id, P_Name, Desc, Quantity, inStock, Price, P_Thumbnail } = req.body;
   const query = "SELECT * FROM products WHERE ? IS NULL OR Cat_Id = ?";
   db.query(query, [Cat_Id, Cat_Id], (err, rows) => {
@@ -594,3 +594,4 @@ app.post('/api/FormData', (req, res) => {
     res.json({ message: "Form data added successfully" });
   });
 });
+

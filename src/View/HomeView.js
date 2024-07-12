@@ -4,7 +4,6 @@ import CategoryController from '../Contexts/CategoryController';
 import ProductController from '../Contexts/ProductController';
 import HeaderView from './HeaderView';
 import ProductView from '../View/ProductView';
-import { useNavigate } from 'react-router-dom';
 
 const HomeView = (
   {
@@ -14,14 +13,8 @@ const HomeView = (
   categories, // Categories passed from HomeController
 }
 ) => {
-  const navigate = useNavigate(); // Initialize useHistory
 
-  // Function to handle product image click
-  const handleProductClick = (productId) => {
-    console.log("Product clicked",productId);
-    navigate(`/product/${productId}`);
-  };
-
+ 
   console.log("products on HomeView",products);
   
   return (
@@ -31,8 +24,7 @@ const HomeView = (
       <ProductController />
       <ProductView 
       products={products} 
-      handleAddToCart={handleAddToCart}
-      onProductClick={handleProductClick}
+      handleAddToCart={handleAddToCart}     
       />
     </div>
   );

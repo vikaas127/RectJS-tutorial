@@ -1,7 +1,6 @@
 // ProductDetailsView.js
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import HomeView from './HomeView';
 
 const ProductDetailsView = (handleAddToCart) => {
  // Get productId from URL params

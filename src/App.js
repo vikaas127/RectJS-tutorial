@@ -53,9 +53,9 @@ const App = () => {
     <Router>
       <div>
         <Routes>
-          <Route path="/home" element={<HomeView />} />
+          <Route path="/home" element={<HomeView /> } />
           <Route path="/cart" element={
-            <CartItemController 
+          <CartItemController 
               cartProducts={cartProducts} 
               setTotalPrice={setTotalPrice}
               updateQuantity={updateQuantity}
@@ -67,7 +67,7 @@ const App = () => {
           <Route path="/Signup" element={<SignUpView />} /> 
           <Route path="/Account" element={<AccountDetailsController />} />            
           <Route path="/product-details" element={<ProductDetailsView handleAddToCart={handleAddToCart}/>} />
-        </Routes>
+        </Routes>  
       </div>     
     </Router>  
   );

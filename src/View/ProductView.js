@@ -15,18 +15,15 @@ const ProductView = ({ products, onProductClick }) => {
     console.log("Price",Price);
     };
 
-
     if (!products || products.length === 0) {
-        return <div>No products available</div>;
+        return <div></div>;
       }
 
     return (
         <div className="product-list">
             {products.map(product => (
-                <div key={product.P_Id} className='image'>
-                    <a href='/product/:productId' onClick={()=> onProductClick(product)}>
+                <div key={product.P_Id} onClick={()=> onProductClick(product)} className='image'>
                     <img src={product.P_Thumbnail} alt={product.P_Name} />
-                    </a>
                     <h3>{product.P_Name}</h3>
                    {/* <p>{product.Desc}</p> */}
                     <p>Price: ₹{product.Price}</p>

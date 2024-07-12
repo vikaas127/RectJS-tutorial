@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import CategoryModel from '../Actions/Category';
 import '../CSS/styles.css';
+import CategoryModel from '../Actions/Category';
+import ProductController from './ProductController';
 import CategoryListView from '../View/CategoryListView';
 
 const CategoryController = () => {
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -19,8 +21,15 @@ const CategoryController = () => {
     fetchCategories();
   }, []);
 
-  
-    return <CategoryListView categories={categories} />;
+  const handleCategoryClick = (category) => {
+    console.log("handleCategoryClick working",category);
+    setSelectedCategory(category);
+  };
+
+    return <div>
+      <CategoryListView categories={categories} onCategoryClick={handleCategoryClick} />
+      {selectedCategory && <ProductController category={selectedCategory} />};
+    </div>
 };
 
 export default CategoryController;
