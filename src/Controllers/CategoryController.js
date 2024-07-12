@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import '../CSS/styles.css';
-import CategoryModel from '../Actions/Category';
-import ProductController from './ProductController';
-import CategoryListView from '../View/CategoryListView';
+import CategoryModel from '../Action/Category';
+import ProductController from '../Controllers/ProductController';
+import CategoryListView from '../Views/CategoryListView';
 
 const CategoryController = () => {
   const [categories, setCategories] = useState([]);

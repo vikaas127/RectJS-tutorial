@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import CartItemView from '../View/CartItemView';
+import CartItemView from '../Views/CartItemView';
 
 const useCartView = ({ cartItems, updateQuantity, removeItem, fetchCartData }) => {
   useEffect(() => {

@@ -1,8 +1,8 @@
 // ForgetPassword.js
 import React, { useState } from 'react';
 import './ForgetPassword.css'; // Import CSS file
-import PasswordResetModel from './PasswordResetModel';
-import PasswordResetController from './PasswordResetController';
+import PasswordResetModel from '../Action/ForgotPassword';
+import PasswordResetController from '../Controllers/ForgotPasswordController';
 
 function ForgetPassword() {
     const [model] = useState(new PasswordResetModel());

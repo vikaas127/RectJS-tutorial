@@ -1,8 +1,8 @@
 // ProductDetailsController.js
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import ProductDetailsModel from '../Actions/ProductDetails';
-import ProductView from '../View/ProductView';
+import ProductDetailsModel from '../Action/ProductDetails';
+import ProductView from '../Views/ProductView';
 
 const ProductDetailsController = ({ handleAddToCart }) => {
   const location = useLocation();

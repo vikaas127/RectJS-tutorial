@@ -1,5 +1,5 @@
 import React from 'react';
-import CartView from '../View/CartView'; // Ensure the path is correct
+import CartView from '../Views/CartView'; // Ensure the path is correct
 
 const CartItemController = ({ cartProducts, setTotalPrice, updateQuantity, removeItem }) => {
 

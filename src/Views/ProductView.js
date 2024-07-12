@@ -1,6 +1,6 @@
 // ProductView.js
 import React from 'react';
-import {handleAddToCart} from '../Contexts/HomeController';
+import {handleAddToCart} from '../Controllers/HomeController';
 
 const ProductView = ({ products, onProductClick }) => {
 

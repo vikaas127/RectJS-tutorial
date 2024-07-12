@@ -1,7 +1,7 @@
 // userController.js
 import React, { useState, useEffect } from 'react';
-import { UserAccountDetails } from '../Actions/AccountDetails';
-import { AccountDetailsView } from '../View/AccountDetailsView';
+import { UserAccountDetails } from '../Action/AccountDetails';
+import { AccountDetailsView } from '../Views/AccountDetailsView';
 
 const AccountDetailsController = (onFetchComplete) => {
   const [accountDetails, setAccountDetails] = useState([]);

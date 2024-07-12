@@ -8,13 +8,13 @@ import './Header.css';
 import './CSS/cart.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomeView from './View/HomeView'; 
-import SignUpView from './View/SignUpView';
-import LoginController from './Contexts/LoginController';
-import CartItemController from './Contexts/CartItemController';
-import ProductDetailsView from './View/ProductDetailsView';
-import HomeController from './Contexts/HomeController';
-import AccountDetailsController from './Contexts/AccountDetailsController';
+import HomeView from './Views/HomeView'; 
+import SignUpView from './Views/SignUpView';
+import LoginController from './Controllers/LoginController';
+import CartItemController from './Controllers/CartItemController';
+import ProductDetailsView from './Views/ProductDetailsView';
+import HomeController from './Controllers/HomeController';
+import AccountDetailsController from './Controllers/AccountDetailsController';
 
 const App = () => {
   const [cartProducts, setCartProducts] = useState([

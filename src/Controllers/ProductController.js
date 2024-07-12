@@ -1,7 +1,7 @@
 // ProductController.js
 import React, { useState, useEffect } from 'react';
-import ProductModel from '../Actions/Product';
-import ProductView from '../View/ProductView';
+import ProductModel from '../Action/Product';
+import ProductView from '../Views/ProductView';
 import { useNavigate } from 'react-router-dom';
 
 const ProductController = ({ category }) => {

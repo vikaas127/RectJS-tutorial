@@ -1,6 +1,6 @@
 // src/controllers/SignupController.js
 
-import SignUpModel from '../Actions/SignUp';
+import SignUpModel from '../Action/SignUp';
 
 export default class SignupController {
   constructor(view) {

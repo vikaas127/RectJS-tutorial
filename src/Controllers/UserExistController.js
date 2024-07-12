@@ -1,6 +1,6 @@
 // controllers/UserExistController.js
-import UserModel from '../models/UserModel';
-import LoginView from '../views/LoginView';
+import UserModel from '../Action/UserModel';
+import LoginView from '../Views/LoginView';
 
 class UserExistController {
   static async handleLogin(Email, Password) {

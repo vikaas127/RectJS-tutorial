@@ -1,9 +1,9 @@
 import React from 'react';
 import '../CSS/styles.css'; // Ensure this path is correct based on your folder structure
-import CategoryController from '../Contexts/CategoryController';
-import ProductController from '../Contexts/ProductController';
+import CategoryController from '../Controllers/CategoryController';
+import ProductController from '../Controllers/ProductController';
 import HeaderView from './HeaderView';
-import ProductView from '../View/ProductView';
+import ProductView from '../Views/ProductView';
 
 const HomeView = (
   {

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import CartModel from '../Actions/Cart';
-import { UserAccountDetails } from '../Actions/AccountDetails';
-import UserLocationModel from '../Actions/UserLocation';
+import CartModel from '../Action/Cart';
+import { UserAccountDetails } from '../Action/AccountDetails';
+import UserLocationModel from '../Action/UserLocation';
 
 const HeaderView = ({
   selectedLanguage,

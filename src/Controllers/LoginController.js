@@ -1,8 +1,8 @@
 // LoginController.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginView from '../View/LoginView';
-import { checkUserExists } from '../Actions/Login';
+import LoginView from '../Views/LoginView';
+import { checkUserExists } from '../Action/Login';
 
 const LoginController = () => {
   const [Email, setEmail] = useState('');

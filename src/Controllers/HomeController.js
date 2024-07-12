@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HomeModel } from '../Actions/Home';
-import HeaderView from '../View/HeaderView';
-import UserLocationModel from '../Actions/UserLocation';
+import { HomeModel } from '../Action/Home';
+import HeaderView from '../Views/HeaderView';
+import UserLocationModel from '../Action/UserLocation';
 
 export const handleAddToCart = async (P_Id, Buy_Quantity ,Price) => {
   const token = sessionStorage.getItem('authToken');      

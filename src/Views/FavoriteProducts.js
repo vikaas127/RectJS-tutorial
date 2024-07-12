@@ -1,8 +1,8 @@
 // FavoriteProducts.js
 
 import React, { useState, useEffect } from 'react';
-import FavoriteProductModel from './FavoriteProductModel';
-import FavoriteProductsController from './FavoriteProductsController';
+import FavoriteProductModel from '../Action/FavoriteProduct';
+import FavoriteProductsController from '../Controllers/FavoriteProductsController';
 
 const FavoriteProducts = () => {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
