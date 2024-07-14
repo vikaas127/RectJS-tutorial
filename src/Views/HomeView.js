@@ -14,8 +14,7 @@ const HomeView = (
 }
 ) => {
 
- 
-  console.log("products on HomeView",products);
+ console.log("products on HomeView",products);
   
   return (
     <div>

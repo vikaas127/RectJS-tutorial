@@ -13,8 +13,6 @@ const ProductDetailsController = ({ handleAddToCart }) => {
     return <ProductView product={null} handleAddToCart={handleAddToCart} />;
   }
 
-  
-
   const productModel = new ProductDetailsModel(product);
 
   console.log("productModel on ProductDetailsController", productModel);

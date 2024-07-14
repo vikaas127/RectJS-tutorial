@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const updateCartProduct = async (userId, productId, newQuantity) => {
+class CartItemModel {
+static updateCartProduct = async ( productId, newQuantity) => {
+  console.log('productId on CartItem:', productId);
+  console.log('newQuantity on CartItem:', newQuantity);
   try {
     const response = await axios.put('http://localhost:3001/api/Update_Cartproduct', {
       User_Id: 2,
@@ -14,7 +17,7 @@ const updateCartProduct = async (userId, productId, newQuantity) => {
   }
 };
 
-const removeCartProduct = async (productId) => {
+static removeCartProduct = async (productId) => {
   try {
     const response = await fetch('http://localhost:3001/api/Del_CartProduct', {
       method: 'DELETE',
@@ -30,7 +33,7 @@ const removeCartProduct = async (productId) => {
   }
 };
 
-const fetchCartData = async (userId) => {
+static fetchCartData = async (userId) => {
   try {
     const response = await axios.get(`http://localhost:3001/api/Get_Cart/${userId}`);
     return response.data;
@@ -39,9 +42,6 @@ const fetchCartData = async (userId) => {
     throw error;
   }
 };
+}
 
-export default {
-  updateCartProduct,
-  removeCartProduct,
-  fetchCartData,
-};
+export default CartItemModel

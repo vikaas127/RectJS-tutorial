@@ -18,12 +18,6 @@ const HeaderView = ({
   const token = sessionStorage.getItem('authToken');
 
   // const isLogin = sessionStorage.getItem('isLogin');
-  console.log("isLogin from HeaderView",isLogin);
-  console.log("LocationData from HeaderView",LocationData);
-  console.log("handleLogout from HeaderView",handleLogout);
-  console.log("selectedLanguage from HeaderView",selectedLanguage);
-  console.log("handleLanguageChange from HeaderView",handleLanguageChange);
-  // const isLogin = sessionStorage.getItem('isLogin');
 
   
   
@@ -89,6 +83,11 @@ const HeaderView = ({
   }
   };
 
+  console.log("LocationData on HeaderView",LocationData);
+
+  const locationDisplay = LocationData ? `${LocationData.City}, ${LocationData.Pincode}` : 'Update Location';
+  console.log("locationdisplay",locationDisplay);
+
   return (
     <div className="header">
       <div className="container">
@@ -100,7 +99,7 @@ const HeaderView = ({
         <div className="delivery">
           <p>Delivering to</p>
           <span id="location">
-          {isLogin ? (LocationData ? `${LocationData.City}, ${LocationData.Pincode}` : 'Loading...') : 'Update location'}
+          {isLogin ? (locationDisplay ? locationDisplay : 'Loading...') : 'Update location'}
           </span>
         </div>
         <div className="search-bar">

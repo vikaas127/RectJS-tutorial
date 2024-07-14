@@ -1,8 +1,7 @@
 import React from 'react';
 
-const CartView = ({ cartProducts, handleQuantityChange, handleRemoveItem }) => {
-  console.log("cartProducts from CartView", cartProducts);
-
+const CartView = ({ cartProducts, updateQuantity, removeItem }) => {
+  
   return (
     <div className="cart-container">
       {cartProducts.map(product => (
@@ -13,14 +12,14 @@ const CartView = ({ cartProducts, handleQuantityChange, handleRemoveItem }) => {
             <p>Price: ₹{product.Price}</p>
             <div className='quantity-container'>
               <p>Quantity:</p>
-              <button onClick={() => handleQuantityChange(product.P_Id, product.Buy_Quantity - 1)}>-</button>
+              <button onClick={() => updateQuantity(product.P_Id, product.Buy_Quantity - 1)}>-</button>
               <span>{product.Buy_Quantity}</span>
-              <button onClick={() => handleQuantityChange(product.P_Id, product.Buy_Quantity + 1)}>+</button>
+              <button onClick={() => updateQuantity(product.P_Id, product.Buy_Quantity + 1)}>+</button>
             </div>
           </div> 
           <div className='subtotal'>
             <p>Total Price: ₹{product.Total_Price}</p>
-            <button onClick={() => { console.log("Remove button clicked", product.P_Id); handleRemoveItem(product.P_Id); }}>Remove</button>
+            <button onClick={() => { console.log("Remove button clicked", product.P_Id); removeItem(product.P_Id); }}>Remove</button>
           </div>
         </div>
       ))}

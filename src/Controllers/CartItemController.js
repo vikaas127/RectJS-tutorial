@@ -2,8 +2,12 @@ import React from 'react';
 import CartView from '../Views/CartView'; // Ensure the path is correct
 
 const CartItemController = ({ cartProducts, setTotalPrice, updateQuantity, removeItem }) => {
+  console.log("cartProducts from CartItemController", cartProducts);
+  console.log("setTotalPrice from CartItemController", setTotalPrice);
+  console.log("updateQuantity from CartItemController", updateQuantity);
+  console.log("removeItem from CartItemController", removeItem);
 
-  const handleQuantityChange = async (productId, newQuantity) => {
+  const updateQuantity = async (productId, newQuantity) => {
     const item = cartProducts.find(product => product.P_Id === productId);
     if (item && newQuantity >= 1) {
       try {
@@ -22,7 +26,7 @@ const CartItemController = ({ cartProducts, setTotalPrice, updateQuantity, remov
     }
   };
 
-  const handleRemoveItem = async (productId) => {
+  const removeItem = async (productId) => {
     try {
       // Mocking the API call success
       const success = true; // Simulate successful API response

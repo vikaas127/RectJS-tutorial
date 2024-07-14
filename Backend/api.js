@@ -418,7 +418,7 @@ app.delete('/api/Del_CartProduct', (req, res) => {
       res.status(500).json({ error: err });
       return;
     }
-    res.json({ message: "Favourite product deleted successfully" });
+    res.json({ message: "Product deleted from the cart successfully" });
   });
 });
 
@@ -426,7 +426,7 @@ app.put('/api/Update_Cartproduct', (req, res) => {
   const { Buy_Quantity, User_Id, P_Id } = req.body;
 
   // Input validation
-  if (!User_Id || !P_Id || !Buy_Quantity || isNaN(parseInt(Buy_Quantity))) {
+  if (!User_Id || !P_Id || !Buy_Quantity ) {
     return res.status(400).send('User_Id, P_Id, and Buy_Quantity (a valid number) are required');
   }
 
