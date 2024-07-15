@@ -92,9 +92,14 @@ const HeaderView = ({
   };
 
   console.log("LocationData on HeaderView",LocationData);
+// Assuming LocationData is an array with an object inside
+const locationObject = LocationData && LocationData.length > 0 ? LocationData[0] : null;
 
-  const locationDisplay = LocationData ? `${LocationData.City}, ${LocationData.Pincode}` : 'Update Location';
-  console.log("locationdisplay",locationDisplay);
+// Extract city and pincode from locationObject
+const city = locationObject ? locationObject.City : '';
+console.log("city",city);
+const pincode = locationObject ? locationObject.Pincode : '';
+console.log("pincode",pincode);
 
   const handleSearch = async () => {
     const P_Name = "Apple iPhone 15 Pro" ;
@@ -129,7 +134,7 @@ const HeaderView = ({
         <div className="delivery">
           <p>Delivering to</p>
           <span id="location">
-          {isLogin ? (locationDisplay ? locationDisplay : 'Loading...') : 'Update location'}
+          {isLogin ? `${city}, ${pincode}` : 'Update location'}
           </span>
         </div>
         <div className="search-bar">

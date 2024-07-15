@@ -8,7 +8,7 @@ const ProductDetailsController = ({ handleAddToCart }) => {
   const location = useLocation();
   const { product } = location.state || {};
 
-  console.log("product id on productdetailscontroller",product.P_Id);
+  console.log("product id on productdetailscontroller",product);
 
   if (!product) {
     console.log("Null products")
