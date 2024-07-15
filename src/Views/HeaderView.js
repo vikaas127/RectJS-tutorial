@@ -1,21 +1,29 @@
+import axios from 'axios';
 import React, {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { HomeModel } from '../Action/Home';
 import CartModel from '../Action/Cart';
 import { UserAccountDetails } from '../Action/AccountDetails';
 import UserLocationModel from '../Action/UserLocation';
 
 const HeaderView = ({
+  User_Id,
   selectedLanguage,
   handleLanguageChange,
-  handleLogout,
-  // Receive categories from HomeController
 }) => {
   const [username, setUsername] = useState('User');
   const [error, setError] = useState(null);
   const [LocationData, setLocationData] = useState(null);
+  const [Login, setLogin] = useState(sessionStorage.getItem('isLogin') === 'true');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const userLocationModel = new UserLocationModel();
   const isLogin = sessionStorage.getItem('isLogin');
   const token = sessionStorage.getItem('authToken');
+  const navigate = useNavigate();
+
+  console.log("User_Id on HeaderView",User_Id);
 
   // const isLogin = sessionStorage.getItem('isLogin');
 
@@ -73,9 +81,9 @@ const HeaderView = ({
   }, [isLogin]);
 
   const handleCartClick = async() => {
+    console.log("User_Id handleCartClick on HeaderView",User_Id);
     try{
-   const userId= 2; // Assuming the user ID is 2, you can replace this with the actual user ID
-    const cartproducts = await CartModel.fetchCartProducts(userId);
+    const cartproducts = await CartModel.fetchCartProducts(User_Id);
     console.log("cartproducts on header view",cartproducts);
   }
   catch (error) {
@@ -87,6 +95,28 @@ const HeaderView = ({
 
   const locationDisplay = LocationData ? `${LocationData.City}, ${LocationData.Pincode}` : 'Update Location';
   console.log("locationdisplay",locationDisplay);
+
+  const handleSearch = async () => {
+    const P_Name = "Apple iPhone 15 Pro" ;
+    try {
+      const searchResults = await axios.post('http://localhost:3001/api/search_products', { P_Name });
+      console.log("P_Name on HeaderView",P_Name);
+      setSearchResults(searchResults.data.data);
+      console.log('Search results:', searchResults.data.data);
+    } catch (error) {
+      console.error('Error searching products:', error);
+    }
+  };
+
+  
+  const handleLogout =()=> {
+    console.log("inside handleLogout function");
+    HomeModel.handleLogout();
+    console.log('User logged out');
+    setLogin(false);
+    navigate('/login');
+  };
+
 
   return (
     <div className="header">
@@ -103,8 +133,11 @@ const HeaderView = ({
           </span>
         </div>
         <div className="search-bar">
-          <input type="text" placeholder="Search..." />
-          <button type="button" onClick={() => console.log('Search clicked')}>Search</button>
+          <input type="text" 
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} />
+          <button type="button" onClick={handleSearch}>Search</button>
         </div>
         <nav className="navigation">
           <ul>

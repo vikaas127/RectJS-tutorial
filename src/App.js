@@ -8,6 +8,8 @@ import './Header.css';
 import './CSS/cart.css';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HeaderView from './Views/HeaderView';
+import { HomeModel } from './Action/Home';
 import HomeView from './Views/HomeView'; 
 import SignUpView from './Views/SignUpView';
 import CartModel from '../src/Action/Cart';
@@ -17,27 +19,33 @@ import CartIView from './Views/CartView';
 import ProductDetailsView from './Views/ProductDetailsView';
 import HomeController from './Controllers/HomeController';
 import AccountDetailsController from './Controllers/AccountDetailsController';
+import CartController from './Controllers/CartController';
 
 const App = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [updateProducts, setUpdateProducts] = useState([]);
   const [removeProduct, setremoveProduct] = useState ([]);
-  //   { P_Id: 1, P_Thumbnail: 'thumb1.jpg', P_Name: 'Product 1', Price: 100, Buy_Quantity: 2, Total_Price: 200 },
-  //   // Add more products here
+  const [User_Id, setUserId] = useState(null); // State variable for storing User_Id
+
+  console.log("User_Id on App after initializing",User_Id);
   
   useEffect(() => {
-    const User_Id =2;
     const handleCartClick = async (User_Id) => {
-        try {
+      if(User_Id){  
+        console.log("User_Id on App in handleCartClick", User_Id);
+      try {
             const cartProduts = await CartModel.fetchCartProducts(User_Id);
+            console.log("User_Id on App", User_Id);
             console.log("cartProduts from App:", cartProduts);
             setCartProducts(cartProduts);
         } catch (error) {
             console.error('Error setting product list:', error);
         }
+      }
     };
+
     handleCartClick();
-}, []);
+}, [User_Id]);
 
 const updateQuantity = async ( productId, newQuantity) => {
   try{
@@ -73,9 +81,17 @@ const removeItem = async (productId) => {
     );
   };
 
-  const handleAddToCart = (userId, productId, quantity, price) => {
+  const handleAddToCart = (User_Id, productId, quantity, price) => {
     // Implement the logic to add product to cart
-    console.log(`User ${userId} added product ${productId} with quantity ${quantity} and price ${price} to the cart.`);
+    console.log(`User ${User_Id} added product ${productId} with quantity ${quantity} and price ${price} to the cart.`);
+  };
+
+  console.log("User_Id on App before sending as prop",User_Id);
+
+  const handleLogout =()=> {
+    console.log("inside handleLogout function");
+    HomeModel.handleLogout();
+    console.log('User logged out');
   };
 
   return (
@@ -93,10 +109,11 @@ const removeItem = async (productId) => {
           } />
           <Route path="/login" element={<LoginController />} />
           <Route path="/" element={<HomeController />} />
-          <Route path="/Signup" element={<SignUpView />} /> 
-          <Route path="/Account" element={<AccountDetailsController />} />            
+          <Route path="/Signup" element={<SignUpView />} />  
+          <Route path="/Account" element={<AccountDetailsController setUserId={setUserId}/>} />           
           <Route path="/product-details" element={<ProductDetailsView handleAddToCart={handleAddToCart}/>} />
-        </Routes>  
+        </Routes> 
+        {User_Id && <CartController userId={User_Id} />} {/* Render CartController if User_Id is set */} 
       </div>     
     </Router>  
   );

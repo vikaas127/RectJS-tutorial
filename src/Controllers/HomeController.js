@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HomeModel } from '../Action/Home';
 import HeaderView from '../Views/HeaderView';
@@ -62,9 +62,7 @@ const HomeController = () => {
   const [error, setError] = useState(null);
   const userLocationModel = new UserLocationModel();
   
-  const navigate = useNavigate();
-
-    const token = sessionStorage.getItem('authToken');
+  const token = sessionStorage.getItem('authToken');
     console.log("Token on HomeController", token);
     const isLogin = sessionStorage.getItem('isLogin');
     console.log("isLogin on HomeController", isLogin)
@@ -90,14 +88,6 @@ const fetchUserLocation = async (token) => {
   }
 };
 
-   const handleLogout =()=> {
-    console.log("inside handleLogout function");
-    HomeModel.handleLogout();
-    console.log('User logged out');
-    navigate('/login');
-  };
-
-
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);
   };
@@ -108,8 +98,7 @@ const fetchUserLocation = async (token) => {
         LocationData={LocationData}
         selectedLanguage= "Eng"      /*{selectedLanguage}*/
         handleLanguageChange={handleLanguageChange}
-        handleLogout={handleLogout} // Pass handleLogout as a prop to HeaderView
-        isLogin={sessionStorage.getItem('isLogin') === 'True'}
+        isLogin={isLogin}
         error={error}
         handleAddToCart={handleAddToCart} // Pass handleAddToCart as a prop
       />

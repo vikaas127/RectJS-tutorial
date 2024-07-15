@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { UserAccountDetails } from '../Action/AccountDetails';
 import { AccountDetailsView } from '../Views/AccountDetailsView';
 
-const AccountDetailsController = (onFetchComplete) => {
+const AccountDetailsController = ({setUserId}) => {
   const [accountDetails, setAccountDetails] = useState([]);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     const token = sessionStorage.getItem('authToken');
@@ -20,6 +21,9 @@ const AccountDetailsController = (onFetchComplete) => {
     try {
       const accountDetails = await UserAccountDetails(token);
       console.log("UserDetails from AccountDetailsController", accountDetails);
+      const User_Id = accountDetails.length > 0 ? accountDetails[0].User_id : null;
+      console.log("User_Id on AccountDetailsController", User_Id);
+      setUserId(User_Id); 
       setAccountDetails(accountDetails);
     } catch (error) {
       setError('Cannot find user account');

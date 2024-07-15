@@ -8,6 +8,8 @@ const ProductDetailsController = ({ handleAddToCart }) => {
   const location = useLocation();
   const { product } = location.state || {};
 
+  console.log("product id on productdetailscontroller",product.P_Id);
+
   if (!product) {
     console.log("Null products")
     return <ProductView product={null} handleAddToCart={handleAddToCart} />;

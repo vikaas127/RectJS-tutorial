@@ -6,7 +6,7 @@ class CartModel {
     console.log("fetchCartProducts userId",User_Id);
     try {
       const response = await axios.post('http://localhost:3001/api/Cartproducts', {
-        User_Id: 2,
+        User_Id,
       }, {
         headers: { 'Content-Type': 'application/json' },
       });

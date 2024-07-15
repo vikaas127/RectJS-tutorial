@@ -3,10 +3,9 @@ import React, { useState, useEffect } from 'react';
 import CartModel from '../Action/Cart';
 import CartView from '../Views/CartView';
 
-const CartController = () => {
+const CartController = ({User_Id}) => {
   const [cartProducts, setCartProducts] = useState([]);
-  const User_Id = 2; // Hardcoded for demonstration purposes
-
+  
   useEffect(() => {
     const fetchCartProducts = async () => {
       try {

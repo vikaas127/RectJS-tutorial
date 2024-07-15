@@ -595,3 +595,20 @@ app.post('/api/FormData', (req, res) => {
   });
 });
 
+app.post('/api/search_products', (req, res) => {
+  const {P_Name}  = req.body;
+  console.log('Search Term:', P_Name);
+
+  const query = "SELECT * FROM products WHERE P_Name LIKE ?";
+
+  db.query(query, [P_Name], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err });
+      return;
+    }
+    res.status(200).json({
+      message: "Search Data fetched successfully",
+      data: rows
+    });
+  });
+});
