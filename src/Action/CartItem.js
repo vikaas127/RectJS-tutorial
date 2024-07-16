@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 class CartItemModel {
-static updateCartProduct = async ( productId, newQuantity) => {
+static updateCartProduct = async (productId, newQuantity) => {
   console.log('productId on CartItem:', productId);
   console.log('newQuantity on CartItem:', newQuantity);
   try {
     const response = await axios.put('http://localhost:3001/api/Update_Cartproduct', {
-      User_Id: 2,
+      User_Id: User_Id ,
       P_Id: productId,
       Buy_Quantity: newQuantity,
     });

@@ -1,0 +1,97 @@
+.header {
+    background-color: #090d10;
+    color: #f5eeee;
+    padding: 10px 20px;
+  }
+  
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo img {
+    height: 40px;
+  }
+  
+  .delivery {
+    margin-left: 20px;
+  }
+  
+  .delivery p {
+    margin: 0;
+    font-size: 12px;
+  }
+  
+  #location {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .search-bar {
+    flex-grow: 1;
+    display: flex;
+    margin: 0 20px;
+  }
+  
+  .search-bar input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .search-bar button {
+    padding: 8px 16px;
+    background-color: #febd69;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+  
+  .navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navigation ul li {
+    margin-right: 20px;
+  }
+  
+  .navigation select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .account-lists {
+    margin-left: 20px;
+    text-align: right;
+  }
+  
+  .account-lists .greeting {
+    display: block;
+  }
+  
+  .account-options {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .account-options a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .account-options a:hover {
+    text-decoration: underline;
+  }
+  
+  .account-options a:nth-child(3) {
+    cursor: pointer;
+  }
+  

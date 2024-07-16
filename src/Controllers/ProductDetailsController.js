@@ -3,6 +3,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import ProductDetailsModel from '../Action/ProductDetails';
 import ProductView from '../Views/ProductView';
+import ProductDetailsView from '../Views/ProductDetailsView';
 
 const ProductDetailsController = ({ handleAddToCart }) => {
   const location = useLocation();
@@ -19,7 +20,7 @@ const ProductDetailsController = ({ handleAddToCart }) => {
 
   console.log("productModel on ProductDetailsController", productModel);
 
-  return <ProductView product={productModel} handleAddToCart={handleAddToCart} />;
+  return <ProductDetailsView product={productModel} handleAddToCart={handleAddToCart} />;
 };
 
 export default ProductDetailsController;

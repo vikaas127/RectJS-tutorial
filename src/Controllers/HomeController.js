@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { HomeModel } from '../Action/Home';
 import HeaderView from '../Views/HeaderView';
 import UserLocationModel from '../Action/UserLocation';
 
-export const handleAddToCart = async (P_Id, Buy_Quantity ,Price) => {
+export const handleAddToCart = async ( User_Id, P_Id, Buy_Quantity ,Price) => {
+  // const User_Id = sessionStorage.getItem("User_Id");
   const token = sessionStorage.getItem('authToken');      
- // console.log("User_Id on HomeController", User_Id);
+  console.log("User_Id on HomeController", User_Id);
   console.log("P_Id on HomeController", P_Id);
   console.log("Buy_Quantity on HomeController", Buy_Quantity);
   console.log("Price on HomeController", Price);
@@ -42,9 +42,9 @@ export const handleAddToCart = async (P_Id, Buy_Quantity ,Price) => {
    if (token) {
     console.log("Token on HomeController", token);
       try {
-        const response = await HomeModel.handleAddToCart( P_Id, Buy_Quantity ,Price);
+        const response = await HomeModel.handleAddToCart(User_Id, P_Id, Buy_Quantity ,Price);
         console.log("RESPONSE on HomeController", response);
-      //  console.log("User_Id RESPONSE on HomeController", User_Id);
+        console.log("User_Id RESPONSE on HomeController", User_Id);
         console.log("P_Id RESPONSE on HomeController", P_Id);
         console.log("Buy_Quantity RESPONSE on HomeController", Buy_Quantity);
         console.log("Price RESPONSE on HomeController", Price);

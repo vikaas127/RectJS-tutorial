@@ -2,11 +2,14 @@ import axios from 'axios';
 
 class ProductModel {
     
-    static async fetchProductList(category) {
+    static async fetchProductList(category, searchTerm) {
+        console.log("Category:", category, "Search Term:", searchTerm);
         const Cat_Id = category ;
+        const P_Name = searchTerm;
+        
         try {
             const response = await axios.post('http://localhost:3001/api/productlist', {
-                Cat_Id
+                Cat_Id, P_Name
             }, {
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -22,6 +25,7 @@ class ProductModel {
                     Price: item.Price,
                     P_Thumbnail: item.P_Thumbnail
                 }));
+                console.log("P_Name check from Product: ", P_Name);
                 console.log("Cat_Id check from Product: ", Cat_Id);
                 console.log("Product List from API:", productList);
                 return productList;

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HomeModel } from '../Action/Home';
@@ -10,21 +9,20 @@ const HeaderView = ({
   User_Id,
   selectedLanguage,
   handleLanguageChange,
+  handleSearch,
 }) => {
   const [username, setUsername] = useState('User');
   const [error, setError] = useState(null);
   const [LocationData, setLocationData] = useState(null);
   const [Login, setLogin] = useState(sessionStorage.getItem('isLogin') === 'true');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState();
+  
 
   const userLocationModel = new UserLocationModel();
   const isLogin = sessionStorage.getItem('isLogin');
   const token = sessionStorage.getItem('authToken');
   const navigate = useNavigate();
-
-  console.log("User_Id on HeaderView",User_Id);
-
+  
   // const isLogin = sessionStorage.getItem('isLogin');
 
   
@@ -65,7 +63,7 @@ const HeaderView = ({
       console.log("under fetchUserLocation on HeaderView",token);
       try {
           const LocationData = await userLocationModel.fetchUserLocation(token);
-          console.log("userLocationData from HeaderView",LocationData);
+          // console.log("userLocationData from HeaderView",LocationData);
           setLocationData(LocationData);
       } catch (error) {
           console.error("Error fetching user location:", error);
@@ -80,7 +78,7 @@ const HeaderView = ({
     }
   }, [isLogin]);
 
-  const handleCartClick = async() => {
+  const handleCartClick = async(User_Id) => {
     console.log("User_Id handleCartClick on HeaderView",User_Id);
     try{
     const cartproducts = await CartModel.fetchCartProducts(User_Id);
@@ -91,8 +89,7 @@ const HeaderView = ({
   }
   };
 
-  console.log("LocationData on HeaderView",LocationData);
-// Assuming LocationData is an array with an object inside
+// When LocationData is an array with an object inside
 const locationObject = LocationData && LocationData.length > 0 ? LocationData[0] : null;
 
 // Extract city and pincode from locationObject
@@ -101,33 +98,28 @@ console.log("city",city);
 const pincode = locationObject ? locationObject.Pincode : '';
 console.log("pincode",pincode);
 
-  const handleSearch = async () => {
-    const P_Name = "Apple iPhone 15 Pro" ;
-    try {
-      const searchResults = await axios.post('http://localhost:3001/api/search_products', { P_Name });
-      console.log("P_Name on HeaderView",P_Name);
-      setSearchResults(searchResults.data.data);
-      console.log('Search results:', searchResults.data.data);
-    } catch (error) {
-      console.error('Error searching products:', error);
-    }
-  };
-
-  
-  const handleLogout =()=> {
-    console.log("inside handleLogout function");
+    const handleLogout =()=> {
     HomeModel.handleLogout();
     console.log('User logged out');
     setLogin(false);
     navigate('/login');
   };
 
+  const handleSearchClick = () => {
+    console.log("Search term before triggering handleSearch:", searchTerm);
+    if(handleSearch){
+      console.log("Search term after triggering handleSearch:", searchTerm);
+      handleSearch(searchTerm);
+    } else {
+      console.log("handleSearch function is not defined");
+    }
+  };
 
   return (
     <div className="header">
       <div className="container">
         <div className="logo">
-        <a href="/product-details">
+        <a href="/home">
           <img src="https://cdn.pixabay.com/photo/2021/08/10/16/02/amazon-6536326_1280.png" alt="Amazon Logo" />
           </a>
         </div>
@@ -142,7 +134,7 @@ console.log("pincode",pincode);
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} />
-          <button type="button" onClick={handleSearch}>Search</button>
+          <button type="button" onClick={handleSearchClick}>Search</button>
         </div>
         <nav className="navigation">
           <ul>

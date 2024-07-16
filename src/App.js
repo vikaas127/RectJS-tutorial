@@ -10,7 +10,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HeaderView from './Views/HeaderView';
 import { HomeModel } from './Action/Home';
-import HomeView from './Views/HomeView'; 
 import SignUpView from './Views/SignUpView';
 import CartModel from '../src/Action/Cart';
 import CartItemModel from './Action/CartItem';
@@ -20,17 +19,21 @@ import ProductDetailsView from './Views/ProductDetailsView';
 import HomeController from './Controllers/HomeController';
 import AccountDetailsController from './Controllers/AccountDetailsController';
 import CartController from './Controllers/CartController';
+import CategoryController from './Controllers/CategoryController';
+import ProductController from './Controllers/ProductController';
 
 const App = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [updateProducts, setUpdateProducts] = useState([]);
   const [removeProduct, setremoveProduct] = useState ([]);
-  const [User_Id, setUserId] = useState(null); // State variable for storing User_Id
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
+  const User_Id = sessionStorage.getItem("User_Id");
   console.log("User_Id on App after initializing",User_Id);
   
   useEffect(() => {
-    const handleCartClick = async (User_Id) => {
+    const handleCartClick = async () => {
       if(User_Id){  
         console.log("User_Id on App in handleCartClick", User_Id);
       try {
@@ -48,6 +51,8 @@ const App = () => {
 }, [User_Id]);
 
 const updateQuantity = async ( productId, newQuantity) => {
+  console.log("productId in updateQuantity",productId);
+  console.log("newQuantity in updateQuantity",newQuantity);
   try{
     const updateProducts = await CartItemModel.updateCartProduct ( productId, newQuantity);
     console.log("updateQuantity is working", updateProducts);
@@ -93,12 +98,21 @@ const removeItem = async (productId) => {
     HomeModel.handleLogout();
     console.log('User logged out');
   };
+  
+  const handleSearch = (searchTerm) => {
+    console.log("Setting searchTerm on App", searchTerm);
+    setSearchTerm(searchTerm);
+  };
 
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/home" element={<HomeView /> } />
+        <Route path="/home" element={<>
+          <HeaderView User_Id = {User_Id} handleSearch={handleSearch}/>
+          <CategoryController />
+          <ProductController searchTerm={searchTerm} User_Id={User_Id} />
+        </>} />
           <Route path="/cart" element={
           <CartIView 
               cartProducts={cartProducts} 
@@ -110,10 +124,10 @@ const removeItem = async (productId) => {
           <Route path="/login" element={<LoginController />} />
           <Route path="/" element={<HomeController />} />
           <Route path="/Signup" element={<SignUpView />} />  
-          <Route path="/Account" element={<AccountDetailsController setUserId={setUserId}/>} />           
+          <Route path="/Account" element={<AccountDetailsController />} />           
           <Route path="/product-details" element={<ProductDetailsView handleAddToCart={handleAddToCart}/>} />
         </Routes> 
-        {User_Id && <CartController userId={User_Id} />} {/* Render CartController if User_Id is set */} 
+        {User_Id && <CartController />} {/* Render CartController if User_Id is set */} 
       </div>     
     </Router>  
   );

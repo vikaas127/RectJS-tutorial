@@ -13,9 +13,9 @@ export class HomeModel {
     }
   }
 
-  static async handleAddToCart( P_Id, Buy_Quantity ,Price) {
-  //  const userId = sessionStorage.getItem('userId'); // Assuming userId is stored in sessionStorage
-    const isLogin = this.isLogin();
+  static async handleAddToCart( User_Id, P_Id, Buy_Quantity ,Price) {
+    console.log("handleAddToCart on Home");
+    const isLogin = sessionStorage.getItem("isLogin");
 
     // // if (!userId) {
     // //   alert("User ID not found. Please try again.");
@@ -26,9 +26,16 @@ export class HomeModel {
 
     if (isLogin) {
       console.log("isLogin on HomeModel working",isLogin);
+      console.log("User_Id on home",User_Id);
+      console.log("P_Id on home",P_Id);
+      console.log("Buy_Quantity on home",Buy_Quantity);
+      console.log("Price on home",Price);
       try {
         const response = await axios.post('http://localhost:3001/api/Add_productcart', 
-          { P_Id, Buy_Quantity ,Price },          
+          { User_Id: Number(User_Id), 
+            P_Id: Number(P_Id), 
+            Buy_Quantity: Number(Buy_Quantity), 
+            Price: Number(Price) },          
           { headers: { 'Content-Type': 'application/json' }
         });
         console.log("Add_productcart API response", response);

@@ -10,7 +10,7 @@ const CategoryModel = {
           Cat_Name: item.Cat_Name,
           Cat_Image: item.Cat_Image
         }));
-        console.log("category List from API:", categoryList);
+        // console.log("category List from API:", categoryList);
      return categoryList;
       } else {
         console.error("Expected an array but got:", response.data);

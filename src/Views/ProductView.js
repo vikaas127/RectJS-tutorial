@@ -2,14 +2,19 @@
 import React from 'react';
 import {handleAddToCart} from '../Controllers/HomeController';
 
-const ProductView = ({ products, onProductClick }) => {
+const ProductView = ({ products, onProductClick, User_Id }) => {
 
-   const handleclick = (P_Id, Buy_Quantity ,Price) =>{                           
     console.log("ProductView handleclick Product",products);
+    
+   const handleclick = ( User_Id, P_Id, Buy_Quantity ,Price) =>{                          
     Buy_Quantity = Buy_Quantity || 1;
-    // const userId = sessionStorage.getItem('userId'); 
-    // const token =sessionStorage.getItem('authToken');
-    handleAddToCart(P_Id, Buy_Quantity, Price);           
+    console.log("User_Id",User_Id);
+    console.log("P_Id",P_Id);
+    console.log("Buy_Quantity",Buy_Quantity);
+    console.log("Price",Price);
+    
+    handleAddToCart(User_Id, P_Id, Buy_Quantity, Price);           
+    console.log("User_Id",User_Id);
     console.log("P_Id",P_Id);
     console.log("Buy_Quantity",Buy_Quantity);
     console.log("Price",Price);
@@ -30,7 +35,7 @@ const ProductView = ({ products, onProductClick }) => {
                     <div className='stock'>
                     <p>{product.inStock ? "In Stock" : "Out of Stock"}</p>
                     </div>                    
-                    <button className= 'cart-btn' onClick={() => handleclick( product.P_Id, product.Buy_Quantity , product.Price)}>Add to Cart</button>
+                    <button className= 'cart-btn' onClick={() => handleclick(User_Id, product.P_Id, product.Buy_Quantity , product.Price)}>Add to Cart</button>
                 </div>
             ))}
         </div>

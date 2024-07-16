@@ -125,7 +125,7 @@ app.post('/api/login', (req, res) => {
   console.log("CHecking on Email & password for login", req.body);
 
   // Assuming you have a user authentication logic here
-  const query = "SELECT Email, Password FROM users WHERE Email = ? AND Password = ?";
+  const query = "SELECT User_Id, Email, Password FROM users WHERE Email = ? AND Password = ?";
   db.query(query, [Email, Password], (err, rows) => {
     if (err) {
       console.error('Database query error:', err);
@@ -134,6 +134,7 @@ app.post('/api/login', (req, res) => {
     }
 
     if (rows.length > 0) {
+      const userId = rows[0].User_Id;
       const newToken = generateToken(Email);
       const updateQuery = "UPDATE users SET Token = ? WHERE Email = ?";
       db.query(updateQuery, [newToken, Email], (updateErr, updateResult) => {
@@ -145,7 +146,8 @@ app.post('/api/login', (req, res) => {
 
         res.status(200).json({
           message: "Login successful",
-          token: newToken
+          token: newToken,
+          User_Id: userId
         });
       });
     } else {
@@ -205,9 +207,22 @@ app.delete('/api/delete-products', (req, res) => {
 });
 
 app.post('/api/productlist', (req, res) => {
-  const { P_Id, Cat_Id, P_Name, Desc, Quantity, inStock, Price, P_Thumbnail } = req.body;
-  const query = "SELECT * FROM products WHERE ? IS NULL OR Cat_Id = ?";
-  db.query(query, [Cat_Id, Cat_Id], (err, rows) => {
+  const { Cat_Id, P_Name } = req.body;
+  console.log("Cat_Id is: ", Cat_Id);
+  console.log("P_Name is: ", P_Name);
+
+  let query = "SELECT * FROM products";
+  let queryParams = [];
+
+  if (Cat_Id) {
+    query += " WHERE Cat_Id = ?";
+    queryParams.push(Cat_Id);
+  } else if (P_Name) {
+    query += " WHERE P_Name LIKE ?";
+    queryParams.push(`%${P_Name}%`);
+  }
+
+  db.query(query, queryParams, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err });
       return;
@@ -217,7 +232,8 @@ app.post('/api/productlist', (req, res) => {
       data: rows
     });
   });
-})
+});
+
 
 app.put('/api/update-product', (req, res) => {
   const { Product_Name, Price } = req.body;
@@ -363,25 +379,25 @@ app.get('/api/Categorylist', (req, res) => {
 
 app.post('/api/Add_productcart', (req, res) => {
   try {
-    const { P_Id, Buy_Quantity, Price } = req.body;
+    const { User_Id, P_Id, Buy_Quantity, Price } = req.body;
     console.log("Add Productcart API ki details", req.body);
 
      // Additional logging for individual fields
-     
+     console.log("User_Id:", User_Id);
      console.log("P_Id:", P_Id);
      console.log("Buy_Quantity:", Buy_Quantity);
      console.log("Price:", Price);
     
-    if( typeof P_Id !== 'number' || typeof Buy_Quantity !== 'number' || typeof Price !== 'number' ){
+    if( typeof User_Id !== 'number' ||typeof P_Id !== 'number' || typeof Buy_Quantity !== 'number' || typeof Price !== 'number' ){
       return res.status(400).json({error: "Invalid input data"});
     }
 
     // Calculate Total_Price
     const Total_Price = Buy_Quantity * Price;
 
-    const query = "INSERT INTO cart ( P_Id, Buy_Quantity, Price, Total_Price) VALUES (?, ?, ?, ?)";
+    const query = "INSERT INTO cart ( User_Id, P_Id, Buy_Quantity, Price, Total_Price) VALUES (?, ?, ?, ?, ?)";
 
-    db.query(query, [ P_Id, Buy_Quantity, Price, Total_Price], function (err, result) {
+    db.query(query, [User_Id, P_Id, Buy_Quantity, Price, Total_Price], function (err, result) {
       if (err) {
         console.error('Database query error:', err); // Log the error for debugging purposes
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -396,7 +412,7 @@ app.post('/api/Add_productcart', (req, res) => {
 
 app.post('/api/Cartproducts', (req, res) => {
   const User_Id = req.body.User_Id;
-  console.log('Database User_Id 400 query error:', User_Id);
+  console.log('Database User_Id 415 query error:', User_Id);
   const query = "SELECT cart.User_Id,products.P_Id,products.P_Name,products.Desc,products.inStock,products.Price,products.P_Thumbnail,cart.Buy_Quantity,cart.Total_Price FROM cart JOIN products ON cart.P_Id = products.P_Id WHERE cart.User_Id = ?";
   db.query(query, [User_Id], (err, rows) => {
     if (err) {
@@ -456,7 +472,6 @@ app.put('/api/Update_Cartproduct', (req, res) => {
       if (result.affectedRows === 0) {
         return res.status(404).send('Cart product not found');
       }
-
       res.send('Cart product updated successfully');
     });
   });
@@ -595,20 +610,3 @@ app.post('/api/FormData', (req, res) => {
   });
 });
 
-app.post('/api/search_products', (req, res) => {
-  const {P_Name}  = req.body;
-  console.log('Search Term:', P_Name);
-
-  const query = "SELECT * FROM products WHERE P_Name LIKE ?";
-
-  db.query(query, [P_Name], (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err });
-      return;
-    }
-    res.status(200).json({
-      message: "Search Data fetched successfully",
-      data: rows
-    });
-  });
-});

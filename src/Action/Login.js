@@ -11,6 +11,7 @@ export const checkUserExists = async (Email, Password) => {
     if (response.status === 200 && response.data.token) {
       // Store token in sessionStorage
       console.log("checkUserExist login API response", response.data);
+      sessionStorage.setItem('User_Id', response.data.User_Id);
       sessionStorage.setItem('authToken', response.data.token);
       sessionStorage.setItem('isLogin', 'True');
       console.log('Token stored in sessionStorage:', response.data.token);
