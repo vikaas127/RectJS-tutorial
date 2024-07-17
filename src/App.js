@@ -18,7 +18,6 @@ import CartIView from './Views/CartView';
 import ProductDetailsView from './Views/ProductDetailsView';
 import HomeController from './Controllers/HomeController';
 import AccountDetailsController from './Controllers/AccountDetailsController';
-import CartController from './Controllers/CartController';
 import CategoryController from './Controllers/CategoryController';
 import ProductController from './Controllers/ProductController';
 
@@ -28,17 +27,16 @@ const App = () => {
   const [removeProduct, setremoveProduct] = useState ([]);
   const [searchResults, setSearchResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState('');
 
-  const User_Id = sessionStorage.getItem("User_Id");
-  console.log("User_Id on App after initializing",User_Id);
-  
+  const User_Id = sessionStorage.getItem("User_Id")
+
   useEffect(() => {
     const handleCartClick = async () => {
       if(User_Id){  
         console.log("User_Id on App in handleCartClick", User_Id);
       try {
             const cartProduts = await CartModel.fetchCartProducts(User_Id);
-            console.log("User_Id on App", User_Id);
             console.log("cartProduts from App:", cartProduts);
             setCartProducts(cartProduts);
         } catch (error) {
@@ -51,10 +49,10 @@ const App = () => {
 }, [User_Id]);
 
 const updateQuantity = async ( productId, newQuantity) => {
-  console.log("productId in updateQuantity",productId);
-  console.log("newQuantity in updateQuantity",newQuantity);
+  console.log("productId in updateQuantity on App",productId);
+  console.log("newQuantity in updateQuantity on App",newQuantity);
   try{
-    const updateProducts = await CartItemModel.updateCartProduct ( productId, newQuantity);
+    const updateProducts = await CartItemModel.updateCartProduct (User_Id, productId, newQuantity);
     console.log("updateQuantity is working", updateProducts);
     setUpdateProducts(updateProducts => 
       updateProducts.map(product =>
@@ -86,12 +84,16 @@ const removeItem = async (productId) => {
     );
   };
 
-  const handleAddToCart = (User_Id, productId, quantity, price) => {
-    // Implement the logic to add product to cart
-    console.log(`User ${User_Id} added product ${productId} with quantity ${quantity} and price ${price} to the cart.`);
+  const handleAddToCart = async(User_Id, productId, Buy_Quantity, price) => {
+    try {
+      const products = await HomeModel.handleAddToCart(User_Id, productId, Buy_Quantity, price);
+      console.log("productList on ProductController",products)
+      setProducts(products);
+  } catch (error) {
+      console.error('Error setting product list:', error);
+  }
+    console.log(`User ${User_Id} added product ${productId} with quantity ${Buy_Quantity} and price ${price} to the cart.`);
   };
-
-  console.log("User_Id on App before sending as prop",User_Id);
 
   const handleLogout =()=> {
     console.log("inside handleLogout function");
@@ -125,9 +127,9 @@ const removeItem = async (productId) => {
           <Route path="/" element={<HomeController />} />
           <Route path="/Signup" element={<SignUpView />} />  
           <Route path="/Account" element={<AccountDetailsController />} />           
-          <Route path="/product-details" element={<ProductDetailsView handleAddToCart={handleAddToCart}/>} />
+          <Route path="/product-details" element={<ProductDetailsView User_Id = {User_Id} handleAddToCart={handleAddToCart}/>} />
         </Routes> 
-        {User_Id && <CartController />} {/* Render CartController if User_Id is set */} 
+        
       </div>     
     </Router>  
   );
