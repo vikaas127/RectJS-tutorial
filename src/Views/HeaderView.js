@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HomeModel } from '../Action/Home';
 import CartModel from '../Action/Cart';
-import { UserAccountDetails } from '../Action/AccountDetails';
+import {UserAccountDetails} from '../Action/AccountDetails';
 import UserLocationModel from '../Action/UserLocation';
 
 const HeaderView = ({

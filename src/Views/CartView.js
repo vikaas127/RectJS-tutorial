@@ -1,7 +1,8 @@
 import React from 'react';
 
 const CartView = ({ cartProducts, updateQuantity, removeItem }) => {
-  
+  console.log("cartProducts from CartView", cartProducts);
+
   return (
     <div className="cart-container">
       {cartProducts.map(product => (

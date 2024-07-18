@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class CartModel {
   static async fetchCartProducts(User_Id) {
-    console.log("fetchCartProducts userId",User_Id);
+    console.log("User_Id of fetchCartProducts in CartModel",User_Id);
     try {
       const response = await axios.post('http://localhost:3001/api/Cartproducts', {
         User_Id,

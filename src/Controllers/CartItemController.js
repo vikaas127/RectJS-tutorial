@@ -7,7 +7,8 @@ const CartItemController = ({ cartProducts, setTotalPrice, updateQuantity, remov
   console.log("updateQuantity from CartItemController", updateQuantity);
   console.log("removeItem from CartItemController", removeItem);
 
-  const updateQuantity = async (productId, newQuantity) => {
+  const updateQuantity = async (User_Id, productId, newQuantity) => {
+    console.error('User_Id updatequantity in the CartItemController',User_Id);
     const item = cartProducts.find(product => product.P_Id === productId);
     if (item && newQuantity >= 1) {
       try {

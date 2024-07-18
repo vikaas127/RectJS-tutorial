@@ -28,6 +28,7 @@ const App = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const User_Id = sessionStorage.getItem("User_Id")
 
@@ -106,14 +107,19 @@ const removeItem = async (productId) => {
     setSearchTerm(searchTerm);
   };
 
+  const handleCategory= (category) => {
+    console.log("handleCategoryClick working",category);
+    setSelectedCategory(category);
+  };
+
   return (
     <Router>
       <div>
         <Routes>
         <Route path="/home" element={<>
           <HeaderView User_Id = {User_Id} handleSearch={handleSearch}/>
-          <CategoryController />
-          <ProductController searchTerm={searchTerm} User_Id={User_Id} />
+          <CategoryController handleCategory={handleCategory} />
+          <ProductController User_Id={User_Id} searchTerm={searchTerm} category={selectedCategory} />
         </>} />
           <Route path="/cart" element={
           <CartIView 

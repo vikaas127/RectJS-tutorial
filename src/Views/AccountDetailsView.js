@@ -1,7 +1,9 @@
 // userView.js
 import React from 'react';
 
-export const AccountDetailsView = ({ accountDetails, error }) => (
+export const AccountDetailsView = ({ accountDetails, error }) => {
+  console.log("UserDetails from AccountDetailsView", accountDetails);
+  return (
   <div>
     {error && <p>{error}</p>}
     {Array.isArray(accountDetails) && accountDetails.map((account) => (
@@ -19,4 +21,5 @@ export const AccountDetailsView = ({ accountDetails, error }) => (
       </div>
     ))}
   </div>
-);
+  );
+};

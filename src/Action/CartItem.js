@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 class CartItemModel {
-static updateCartProduct = async (productId, newQuantity) => {
+static updateCartProduct = async (User_Id, productId, newQuantity) => {
   console.log('productId on CartItem:', productId);
   console.log('newQuantity on CartItem:', newQuantity);
   try {

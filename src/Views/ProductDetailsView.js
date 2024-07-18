@@ -2,13 +2,17 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-const ProductDetailsView = (handleAddToCart) => {
+const ProductDetailsView = ({User_Id, handleAddToCart}) => {
  // Get productId from URL params
  const location = useLocation();
   const { product } = location.state;
+  const Buy_Quantity = 1;
 
+  console.log("User_Id on ProductViewDetails",User_Id);
  console.log("ProductView Product",product.P_Id);
+ console.log("ProductView Product Price",product.Price);
 
+ console.log("ProductView Product Buy_Quantity",Buy_Quantity);
 
   if (!product) {
     return <p>Loading....</p>;
@@ -26,7 +30,7 @@ const ProductDetailsView = (handleAddToCart) => {
           {/* {product.isAvailable()} */}
         </span>
       </p>
-      <button onClick={() => handleAddToCart(product.User_Id, product.P_Id, product.Buy_Quantity, product.Price)}>Add to Cart</button>
+      <button onClick={() => handleAddToCart(User_Id, product.P_Id, Buy_Quantity, product.Price)}>Add to Cart</button>
    
     </div>
   );

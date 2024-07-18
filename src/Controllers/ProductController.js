@@ -6,15 +6,18 @@ import { useNavigate } from 'react-router-dom';
 
 const ProductController = ({ category, searchTerm, User_Id }) => {
     const [products, setProducts] = useState([]);
+    const [SearchTerm, setSearchTerm] = useState();
     const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchProducts = async () => {
             console.log("Fetching products with category:", category);
             console.log("Fetching products with searchTerm:", searchTerm);
+            setProducts([]);
             try {
                 const productList = await ProductModel.fetchProductList(category, searchTerm)
-                console.log("productList on ProductController",productList)
+                console.log("productList on ProductController",productList);
                 setProducts(productList);
             } catch (error) {
                 console.error('Error setting product list:', error);
@@ -23,6 +26,10 @@ const ProductController = ({ category, searchTerm, User_Id }) => {
 
         fetchProducts();
     }, [category, searchTerm]);
+
+    useEffect(() => {
+        console.log("Number of products:", products.length);
+    }, [products]);
 
     const handleProductClick = (product) => {
         navigate('/product-details', { state: { product } });
