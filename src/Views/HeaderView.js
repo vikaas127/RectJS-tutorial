@@ -6,10 +6,10 @@ import {UserAccountDetails} from '../Action/AccountDetails';
 import UserLocationModel from '../Action/UserLocation';
 
 const HeaderView = ({
-  User_Id,
   selectedLanguage,
   handleLanguageChange,
   handleSearch,
+  cartData,
 }) => {
   const [username, setUsername] = useState('User');
   const [error, setError] = useState(null);
@@ -22,19 +22,6 @@ const HeaderView = ({
   const isLogin = sessionStorage.getItem('isLogin');
   const token = sessionStorage.getItem('authToken');
   const navigate = useNavigate();
-  
-  // const isLogin = sessionStorage.getItem('isLogin');
-
-  
-  
-  // console.log("LocationData",LocationData);
-
-  // const { Name = ' ', City = '', Pincode = '' } = LocationData || {};
-  // const locationDisplay = LocationData ? `${City}, ${Pincode}` : 'Update Location';
-  // const username = LocationData ? `${Name}` : 'User';
-
-  // console.log("locationDisplay",locationDisplay);
-  // console.log("username",username);
 
   useEffect(() => {
     const handleUserAccount = async () => {
@@ -49,7 +36,7 @@ const HeaderView = ({
         const accountDetails = await UserAccountDetails(token);
         if (accountDetails.length > 0) {
           const fullName = accountDetails[0].Name;
-          const firstName = fullName.split(' ')[0]; // Extract the first name
+          const firstName = fullName.split(' ')[0]; 
           setUsername(firstName);
           console.log("User from HeaderView", accountDetails[0].Name);
         }
@@ -63,7 +50,7 @@ const HeaderView = ({
       console.log("under fetchUserLocation on HeaderView",token);
       try {
           const LocationData = await userLocationModel.fetchUserLocation(token);
-          // console.log("userLocationData from HeaderView",LocationData);
+          
           setLocationData(LocationData);
       } catch (error) {
           console.error("Error fetching user location:", error);

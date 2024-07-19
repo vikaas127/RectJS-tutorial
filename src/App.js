@@ -43,21 +43,33 @@ const App = () => {
         } catch (error) {
             console.error('Error setting product list:', error);
         }
+      } else {
+         // Retrieve cart data from localStorage if User_Id is not available
+    try {
+      const localStorageCart = localStorage.getItem('cart');
+      const parsedCart = localStorageCart ? JSON.parse(localStorageCart) : [];
+      console.log("cart data from localStorage", parsedCart);
+      setCartProducts(parsedCart);
+    } catch (error) {
+      console.error('Error parsing localStorage cart data:', error);
+      setCartProducts([]); // Set an empty array in case of error
+    }
       }
-    };
+    }; 
 
     handleCartClick();
 }, [User_Id]);
 
-const updateQuantity = async ( productId, newQuantity) => {
-  console.log("productId in updateQuantity on App",productId);
-  console.log("newQuantity in updateQuantity on App",newQuantity);
-  try{
-    const updateProducts = await CartItemModel.updateCartProduct (User_Id, productId, newQuantity);
-    console.log("updateQuantity is working", updateProducts);
-    setUpdateProducts(updateProducts => 
-      updateProducts.map(product =>
-        product.P_Id === productId ? { ...product, Buy_Quantity: newQuantity } : product
+const updateQuantity = async (productId, newQuantity) => {
+  try {
+    await CartItemModel.updateCartProduct(User_Id, productId, newQuantity);
+    setCartProducts(prevProducts =>
+      prevProducts.map(product =>
+        product.P_Id === productId ? { 
+          ...product, 
+          Buy_Quantity: newQuantity,
+          Total_Price: newQuantity * product.Price 
+        } : product
       )
     );
   } catch (error) {
@@ -69,8 +81,8 @@ const removeItem = async (productId) => {
   try{
     const removeProduct = await CartItemModel.removeCartProduct (productId);
     console.log("removeProduct is working", removeProduct);
-    setremoveProduct(removeProduct => 
-      removeProduct.filter(product => product.P_Id !== productId)
+    setCartProducts(prevProducts => 
+      prevProducts.filter(product => product.P_Id !== productId)
     );
   } catch (error) {
     console.error("Error updating product quantity:", error);

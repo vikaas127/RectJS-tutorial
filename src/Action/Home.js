@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class HomeModel {
-  
+
   // Product related methods
   static async fetchProducts(categoryId) {
     try {
@@ -13,23 +13,21 @@ export class HomeModel {
     }
   }
 
-  static async handleAddToCart( User_Id, P_Id, Buy_Quantity ,Price) {
+  static async handleAddToCart(User_Id, P_Id, Buy_Quantity, Price) {
     console.log("handleAddToCart on Home");
     const isLogin = sessionStorage.getItem("isLogin");
 
-    // // if (!userId) {
-    // //   alert("User ID not found. Please try again.");
-    // //   return;
-    // // }
-
-    // let cart = localStorage.getItem('cart');
+    // if (!User_Id) {
+    //   alert("User ID not found. Please try again.");
+    //   return;
+    // } 
 
     if (isLogin) {
-      console.log("isLogin on HomeModel working",isLogin);
-      console.log("User_Id on home",User_Id);
-      console.log("P_Id on home",P_Id);
-      console.log("Buy_Quantity on home",Buy_Quantity);
-      console.log("Price on home",Price);
+      console.log("isLogin on HomeModel working", isLogin);
+      console.log("User_Id on home", User_Id);
+      console.log("P_Id on home", P_Id);
+      console.log("Buy_Quantity on home", Buy_Quantity);
+      console.log("Price on home", Price);
       try {
         const response = await axios.post('http://localhost:3001/api/Add_productcart', 
           { User_Id: Number(User_Id), 
@@ -39,7 +37,7 @@ export class HomeModel {
           { headers: { 'Content-Type': 'application/json' }
         });
         console.log("Add_productcart API response", response);
-        if(response.status===200 ){
+        if(response.status === 200 ){
           alert("Products added to the cart successfully");
           console.log("Products added to the cart successfully");
           return response.data;
@@ -50,28 +48,10 @@ export class HomeModel {
       } catch (error) {
         console.error('Error storing cart data to database:', error);
         alert("An error occurred while storing cart data");
-      }
-    // } else {
-    //   try {
-    //     cart = cart ? JSON.parse(cart) : [];
-    //   } catch (e) {
-    //     console.error('Error parsing cart data from local storage:', e);
-    //     cart = [];
-    //   }
-
-    //   const existingProductIndex = cart.findIndex(item => item.P_Id === product.P_Id);
-
-    //   if (existingProductIndex !== -1) {
-    //     cart[existingProductIndex].Buy_Quantity += 1;
-    //   } else {
-    //     cart.push({ ...product, Buy_Quantity: 1});  // , User_Id: userId 
-    //   }
-
-    //   localStorage.setItem('cart', JSON.stringify(cart));
-    // }
+      }  
+    }
   }
-};
-  
+
   static isLogin() {
     return sessionStorage.getItem('isLogin') === 'True';
   }
@@ -81,4 +61,4 @@ export class HomeModel {
     sessionStorage.setItem('isLogin', 'False');
     console.log("handleLogout is working fine, session storage updated");
   }
-}
+};
