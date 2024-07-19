@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import ProductModel from '../Action/Product';
 import ProductView from '../Views/ProductView';
 import { useNavigate } from 'react-router-dom';
-import HomeController from './HomeController';
-import { handleAddToCart } from './HomeController';
 
 const ProductController = ({ category, searchTerm, User_Id }) => {
     const [products, setProducts] = useState([]);
@@ -35,18 +33,8 @@ const ProductController = ({ category, searchTerm, User_Id }) => {
     const handleProductClick = (product) => {
         navigate('/product-details', { state: { product } });
       };
-
-      const addToCart = (product) => {
-        const { P_Id, P_Name, Desc, Price, P_Thumbnail } = product;
-        handleAddToCart(User_Id, P_Id, 1, Price, P_Name, Desc, P_Thumbnail);
-      };
     
-    return (
-        <>
-          <ProductView products={products} onProductClick={handleProductClick} addToCart={addToCart} User_Id={User_Id} />
-          <HomeController products={products} />
-        </>
-      );
+    return <ProductView products={products} onProductClick={handleProductClick} User_Id={User_Id} />;
 };
 
 export default ProductController;

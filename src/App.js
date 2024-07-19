@@ -44,16 +44,10 @@ const App = () => {
             console.error('Error setting product list:', error);
         }
       } else {
-         // Retrieve cart data from localStorage if User_Id is not available
-    try {
-      const localStorageCart = localStorage.getItem('cart');
-      const parsedCart = localStorageCart ? JSON.parse(localStorageCart) : [];
-      console.log("cart data from localStorage", parsedCart);
-      setCartProducts(parsedCart);
-    } catch (error) {
-      console.error('Error parsing localStorage cart data:', error);
-      setCartProducts([]); // Set an empty array in case of error
-    }
+        // Retrieve cart data from localStorage if User_Id is not available
+        const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
+        console.log("cart data from localStorage", localStorageCart);
+        setCartProducts(localStorageCart);
       }
     }; 
 

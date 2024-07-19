@@ -6,14 +6,14 @@ const ProductView = ({ products, onProductClick, User_Id }) => {
 
     console.log("ProductView handleclick Product",products);
     
-   const handleclick = ( User_Id, P_Id, Buy_Quantity, Price, P_Name, Desc, P_Thumbnail) =>{                          
+   const handleclick = ( User_Id, P_Id, Buy_Quantity ,Price) =>{                          
     Buy_Quantity = Buy_Quantity || 1;
     console.log("User_Id",User_Id);
     console.log("P_Id",P_Id);
     console.log("Buy_Quantity",Buy_Quantity);
     console.log("Price",Price);
     
-    handleAddToCart(User_Id, P_Id, Buy_Quantity, Price, P_Name, Desc, P_Thumbnail);           
+    handleAddToCart(User_Id, P_Id, Buy_Quantity, Price);           
     console.log("User_Id",User_Id);
     console.log("P_Id",P_Id);
     console.log("Buy_Quantity",Buy_Quantity);
