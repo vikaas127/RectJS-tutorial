@@ -8,12 +8,20 @@ const CartController = ({User_Id}) => {
   
   useEffect(() => {
     const fetchCartProducts = async () => {
-      try {
-        const products = await CartModel.fetchCartProducts(User_Id);
-        console.log("products from CartController",products);
+      if (User_Id) {
+        try {
+          const products = await CartModel.fetchCartProducts(User_Id);
+          console.log("products from CartController", products);
+          setCartProducts(products);
+        } catch (error) {
+          console.error('Error fetching cart products:', error);
+        }
+      } else {
+        // Retrieve cart data from localStorage
+        const localStorageCart = localStorage.getItem('cart');
+        const products = localStorageCart ? JSON.parse(localStorageCart) : [];
+        console.log("products from localStorage", products);
         setCartProducts(products);
-      } catch (error) {
-        console.error('Error fetching cart products:', error);
       }
     };
 

@@ -3,7 +3,7 @@ import { HomeModel } from '../Action/Home';
 import HeaderView from '../Views/HeaderView';
 import UserLocationModel from '../Action/UserLocation';
 
-export const handleAddToCart = async ( User_Id, P_Id, Buy_Quantity ,Price) => {
+export const handleAddToCart = async ( User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail ) => {
   const token = sessionStorage.getItem('authToken');  
   const isLogin = sessionStorage.getItem('isLogin') === 'True';
 
@@ -21,7 +21,7 @@ export const handleAddToCart = async ( User_Id, P_Id, Buy_Quantity ,Price) => {
     }
   } else {
     // Logic for handling cart when not logged in
-    const cartItem = { User_Id, P_Id, Buy_Quantity, Price };
+    const cartItem = { User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail };
     try {
       let cart = localStorage.getItem('cart');
       cart = cart ? JSON.parse(cart) : [];
@@ -53,15 +53,16 @@ const HomeController = () => {
         fetchUserLocation(token);
       } else {
         // Load cart data from localStorage when not logged in
-      try {
-        const cart = localStorage.getItem('cart');
-        setCartData(cart ? JSON.parse(cart) : []);
-      } catch (error) {
-        console.error('Error parsing localStorage cart data:', error);
-        setCartData([]);
-      }
+        try {
+          const cart = localStorage.getItem('cart');
+          setCartData(cart ? JSON.parse(cart) : []);
+        } catch (error) {
+          console.error('Error parsing localStorage cart data:', error);
+          setCartData([]);
+        }
       }
     }, [isLogin, token]);
+    
 
 const fetchUserLocation = async (token) => {
   console.log("under fetchUserLocation on HomeController");

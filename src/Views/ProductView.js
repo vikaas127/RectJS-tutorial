@@ -3,26 +3,14 @@ import React from 'react';
 import {handleAddToCart} from '../Controllers/HomeController';
 
 const ProductView = ({ products, onProductClick, User_Id }) => {
-
+    const Buy_Quantity = 1;
     console.log("ProductView handleclick Product",products);
-    
-   const handleclick = ( User_Id, P_Id, Buy_Quantity ,Price) =>{                          
-    Buy_Quantity = Buy_Quantity || 1;
-    console.log("User_Id",User_Id);
-    console.log("P_Id",P_Id);
-    console.log("Buy_Quantity",Buy_Quantity);
-    console.log("Price",Price);
-    
-    handleAddToCart(User_Id, P_Id, Buy_Quantity, Price);           
-    console.log("User_Id",User_Id);
-    console.log("P_Id",P_Id);
-    console.log("Buy_Quantity",Buy_Quantity);
-    console.log("Price",Price);
-    };
 
-    if (!products || products.length === 0) {
-        return <div></div>;
-      }
+    
+    const handleclick = (User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail) => {
+        console.log("products on productview", { P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail });
+        handleAddToCart(User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail);
+    };
 
     return (
         <div className="product-list">
@@ -35,7 +23,8 @@ const ProductView = ({ products, onProductClick, User_Id }) => {
                     <div className='stock'>
                     <p>{product.inStock ? "In Stock" : "Out of Stock"}</p>
                     </div>                    
-                    <button className= 'cart-btn' onClick={() => handleclick(User_Id, product.P_Id, product.Buy_Quantity , product.Price)}>Add to Cart</button>
+                    <button className= 'cart-btn' onClick={() => handleclick(User_Id, product.P_Id, product
+                        .P_Name, product.Desc, Buy_Quantity, product.Price, product.P_Thumbnail)}>Add to Cart</button>
                 </div>
             ))}
         </div>

@@ -9,7 +9,6 @@ const HeaderView = ({
   selectedLanguage,
   handleLanguageChange,
   handleSearch,
-  cartData,
 }) => {
   const [username, setUsername] = useState('User');
   const [error, setError] = useState(null);
@@ -97,6 +96,7 @@ console.log("pincode",pincode);
     if(handleSearch){
       console.log("Search term after triggering handleSearch:", searchTerm);
       handleSearch(searchTerm);
+      setSearchTerm(''); // Clear the search term after search is triggered
     } else {
       console.log("handleSearch function is not defined");
     }

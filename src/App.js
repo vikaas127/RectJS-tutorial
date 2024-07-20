@@ -54,32 +54,45 @@ const App = () => {
     handleCartClick();
 }, [User_Id]);
 
-const updateQuantity = async (productId, newQuantity) => {
-  try {
-    await CartItemModel.updateCartProduct(User_Id, productId, newQuantity);
+const updateQuantity = (productId, newQuantity) => {
+  if (User_Id) {
+    CartItemModel.updateCartProduct(User_Id, productId, newQuantity)
+      .then(() => {
+        setCartProducts(prevProducts =>
+          prevProducts.map(product =>
+            product.P_Id === productId
+              ? { ...product, Buy_Quantity: newQuantity, Total_Price: newQuantity * product.Price }
+              : product
+          )
+        );
+      })
+      .catch(error => {
+        console.error('Error updating product quantity:', error);
+      });
+  } else {
     setCartProducts(prevProducts =>
       prevProducts.map(product =>
-        product.P_Id === productId ? { 
-          ...product, 
-          Buy_Quantity: newQuantity,
-          Total_Price: newQuantity * product.Price 
-        } : product
+        product.P_Id === productId
+          ? { ...product, Buy_Quantity: newQuantity, Total_Price: newQuantity * product.Price }
+          : product
       )
     );
-  } catch (error) {
-    console.error("Error updating product quantity:", error);
+    localStorage.setItem('cart', JSON.stringify(cartProducts));
   }
 };
 
-const removeItem = async (productId) => {
-  try{
-    const removeProduct = await CartItemModel.removeCartProduct (productId);
-    console.log("removeProduct is working", removeProduct);
-    setCartProducts(prevProducts => 
-      prevProducts.filter(product => product.P_Id !== productId)
-    );
-  } catch (error) {
-    console.error("Error updating product quantity:", error);
+const removeItem = (productId) => {
+  if (User_Id) {
+    CartItemModel.removeCartProduct(productId)
+      .then(() => {
+        setCartProducts(prevProducts => prevProducts.filter(product => product.P_Id !== productId));
+      })
+      .catch(error => {
+        console.error('Error removing product:', error);
+      });
+  } else {
+    setCartProducts(prevProducts => prevProducts.filter(product => product.P_Id !== productId));
+    localStorage.setItem('cart', JSON.stringify(cartProducts));
   }
 };
 
@@ -111,11 +124,13 @@ const removeItem = async (productId) => {
   const handleSearch = (searchTerm) => {
     console.log("Setting searchTerm on App", searchTerm);
     setSearchTerm(searchTerm);
+    setSelectedCategory(null); // Clear category when search term is set
   };
 
   const handleCategory= (category) => {
     console.log("handleCategoryClick working",category);
     setSelectedCategory(category);
+    setSearchTerm(''); // Clear search term when category is set
   };
 
   return (

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ProductModel from '../Action/Product';
 import ProductView from '../Views/ProductView';
 import { useNavigate } from 'react-router-dom';
+import HomeController from './HomeController';
 
 const ProductController = ({ category, searchTerm, User_Id }) => {
     const [products, setProducts] = useState([]);
@@ -26,6 +27,7 @@ const ProductController = ({ category, searchTerm, User_Id }) => {
         fetchProducts();
     }, [category, searchTerm]);
 
+
     useEffect(() => {
         console.log("Number of products:", products.length);
     }, [products]);
@@ -34,7 +36,10 @@ const ProductController = ({ category, searchTerm, User_Id }) => {
         navigate('/product-details', { state: { product } });
       };
     
-    return <ProductView products={products} onProductClick={handleProductClick} User_Id={User_Id} />;
-};
+    return  (
+        <>
+          <ProductView products={products} onProductClick={handleProductClick} User_Id={User_Id} />
+        </>
+      );};
 
 export default ProductController;
