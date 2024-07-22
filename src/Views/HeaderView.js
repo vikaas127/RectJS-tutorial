@@ -1,4 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import  React, {useState, useEffect} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { HomeModel } from '../Action/Home';
 import CartModel from '../Action/Cart';
@@ -9,7 +11,11 @@ const HeaderView = ({
   selectedLanguage,
   handleLanguageChange,
   handleSearch,
+  CartItemCount,
 }) => {
+
+  console.log("Received cartItemCount in HeaderView:", CartItemCount);
+
   const [username, setUsername] = useState('User');
   const [error, setError] = useState(null);
   const [LocationData, setLocationData] = useState(null);
@@ -140,12 +146,39 @@ console.log("pincode",pincode);
         </nav>
       
         <div className="account-lists">
-          <span className="greeting">Hello, {isLogin ? username : 'User'}</span>
-          <a href="/account">Account & Lists</a>
+          {isLogin ? (
+            <>
+              <span className="greeting">Hello, {username}</span>
+              <a href="/account">Account Details</a>
+            </>
+          ) : (
+            <>
+              <span className="greeting-text">Hello,</span>
+              <div>
+              <a href="/login">Sign In</a>
+              </div>
+            </>
+          )}
         </div>
         <div className="account-options">
-          <a href="#">Returns & Orders</a>
-          <a href="/Cart" onClick={handleCartClick}>Cart</a>
+        <a href="#">Returns & Orders</a>
+          <a href="/Cart" onClick={handleCartClick} style={{ cursor: 'pointer', position: 'relative' }}>
+          <FontAwesomeIcon icon={faShoppingCart} />
+            {CartItemCount > 0 && (
+              <span style={{
+                position: 'absolute',
+                top: '-10px',
+                right: '-10px',
+                backgroundColor: 'red',
+                borderRadius: '50%',
+                padding: '5px',
+                color: 'white',
+                fontSize: '12px',
+              }}>
+                {CartItemCount}
+              </span>
+            )}
+          </a>
           {isLogin ? (
             <a onClick={() => {console.log("Logout clicked"); handleLogout();}} style={{ cursor: 'pointer' }}>Logout</a>
           ) : (

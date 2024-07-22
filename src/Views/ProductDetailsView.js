@@ -18,6 +18,11 @@ const ProductDetailsView = ({User_Id, handleAddToCart}) => {
     return <p>Loading....</p>;
   }
 
+  const handleclick = (User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail) => {
+    console.log("products on ProductDetailsView", { P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail });
+    handleAddToCart(User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail);
+};
+
   return (
     <div className="product-detail">
       <img src={product.P_Thumbnail} alt={product.P_Name} width={300} height={300} />
@@ -30,7 +35,7 @@ const ProductDetailsView = ({User_Id, handleAddToCart}) => {
           {/* {product.isAvailable()} */}
         </span>
       </p>
-      <button onClick={() => handleAddToCart(User_Id, product.P_Id, Buy_Quantity, product.Price)}>Add to Cart</button>
+      <button onClick={() => handleclick(User_Id, product.P_Id, product.P_Name, product.Desc, Buy_Quantity, product.Price, product.P_Thumbnail)}>Add to Cart</button>
    
     </div>
   );

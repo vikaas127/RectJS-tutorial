@@ -29,125 +29,135 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [CartItemCount, setCartItemCount] = useState(0);
 
-  const User_Id = sessionStorage.getItem("User_Id")
+  const User_Id = sessionStorage.getItem("User_Id");
 
   useEffect(() => {
     const handleCartClick = async () => {
-      if(User_Id){  
+      if (User_Id) {
         console.log("User_Id on App in handleCartClick", User_Id);
-      try {
-            const cartProduts = await CartModel.fetchCartProducts(User_Id);
-            console.log("cartProduts from App:", cartProduts);
-            setCartProducts(cartProduts);
+        try {
+          const cartProduts = await CartModel.fetchCartProducts(User_Id);
+          console.log("cartProduts from App:", cartProduts);
+          setCartProducts(cartProduts);
         } catch (error) {
-            console.error('Error setting product list:', error);
+          console.error('Error setting product list:', error);
         }
       } else {
-        // Retrieve cart data from localStorage if User_Id is not available
         const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
         console.log("cart data from localStorage", localStorageCart);
         setCartProducts(localStorageCart);
       }
-    }; 
+    };
 
+    console.log("CartItemCount state updated:", CartItemCount);
+
+    fetchCartItemCount();
     handleCartClick();
-}, [User_Id]);
+  }, [User_Id, CartItemCount]);
 
-const updateQuantity = (productId, newQuantity) => {
-  if (User_Id) {
-    CartItemModel.updateCartProduct(User_Id, productId, newQuantity)
-      .then(() => {
-        setCartProducts(prevProducts =>
-          prevProducts.map(product =>
-            product.P_Id === productId
-              ? { ...product, Buy_Quantity: newQuantity, Total_Price: newQuantity * product.Price }
-              : product
-          )
-        );
-      })
-      .catch(error => {
-        console.error('Error updating product quantity:', error);
-      });
-  } else {
-    setCartProducts(prevProducts =>
-      prevProducts.map(product =>
-        product.P_Id === productId
-          ? { ...product, Buy_Quantity: newQuantity, Total_Price: newQuantity * product.Price }
-          : product
-      )
-    );
-    localStorage.setItem('cart', JSON.stringify(cartProducts));
-  }
-};
+  const fetchCartItemCount = async () => {
+    if (User_Id) {
+      try {
+        const cartProducts = await CartModel.fetchCartProducts(User_Id);
+        console.log("CartItemCount of cartProducts from App:", cartProducts.length);
+        setCartItemCount(cartProducts.length);
+      } catch (error) {
+        console.error("Error fetching cart item count:", error);
+      }
+    } else {
+      const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
+      console.log("CartItemCount data from localStorage on App", localStorageCart.length);
+      setCartItemCount(localStorageCart.length);
+    }
+  };
 
-const removeItem = (productId) => {
-  if (User_Id) {
-    CartItemModel.removeCartProduct(productId)
-      .then(() => {
-        setCartProducts(prevProducts => prevProducts.filter(product => product.P_Id !== productId));
-      })
-      .catch(error => {
-        console.error('Error removing product:', error);
+  const updateQuantity = (productId, newQuantity) => {
+    if (User_Id) {
+      CartItemModel.updateCartProduct(User_Id, productId, newQuantity)
+        .then(() => {
+          setCartProducts(prevProducts =>
+            prevProducts.map(product =>
+              product.P_Id === productId
+                ? { ...product, Buy_Quantity: newQuantity, Total_Price: newQuantity * product.Price }
+                : product
+            )
+          );
+        })
+        .catch(error => {
+          console.error('Error updating product quantity:', error);
+        });
+    } else {
+      setCartProducts(prevProducts =>
+        prevProducts.map(product =>
+          product.P_Id === productId
+            ? { ...product, Buy_Quantity: newQuantity, Total_Price: newQuantity * product.Price }
+            : product
+        )
+      );
+      localStorage.setItem('cart', JSON.stringify(cartProducts));
+    }
+  };
+
+  const removeItem = (productId) => {
+    if (User_Id) {
+      CartItemModel.removeCartProduct(productId)
+        .then(() => {
+          setCartProducts(prevProducts => prevProducts.filter(product => product.P_Id !== productId));
+        })
+        .catch(error => {
+          console.error('Error removing product:', error);
+        });
+    } else {
+      setCartProducts(prevProducts => {
+        const updatedProducts = prevProducts.filter(product => product.P_Id !== productId);
+        localStorage.setItem('cart', JSON.stringify(updatedProducts));
+        return updatedProducts;
       });
-  } else {
-    setCartProducts(prevProducts => {
-      const updatedProducts = prevProducts.filter(product => product.P_Id !== productId);
-      localStorage.setItem('cart', JSON.stringify(updatedProducts));
-      return updatedProducts;
-    });
-  }
-};
+    }
+  };
 
   const setTotalPrice = (productId, newTotalPrice) => {
-    setCartProducts(prevProducts => 
+    setCartProducts(prevProducts =>
       prevProducts.map(product =>
         product.P_Id === productId ? { ...product, Total_Price: newTotalPrice } : product
       )
     );
   };
 
-  const handleAddToCart = async(User_Id, productId, Buy_Quantity, price) => {
-    try {
-      const products = await HomeModel.handleAddToCart(User_Id, productId, Buy_Quantity, price);
-      console.log("productList on ProductController",products)
-      setProducts(products);
-  } catch (error) {
-      console.error('Error setting product list:', error);
-  }
-    console.log(`User ${User_Id} added product ${productId} with quantity ${Buy_Quantity} and price ${price} to the cart.`);
-  };
-
-  const handleLogout =()=> {
+  const handleLogout = () => {
     console.log("inside handleLogout function");
     HomeModel.handleLogout();
     console.log('User logged out');
   };
-  
+
   const handleSearch = (searchTerm) => {
     console.log("Setting searchTerm on App", searchTerm);
     setSearchTerm(searchTerm);
     setSelectedCategory(null); // Clear category when search term is set
   };
 
-  const handleCategory= (category) => {
-    console.log("handleCategoryClick working",category);
+  const handleCategory = (category) => {
+    console.log("handleCategoryClick working", category);
     setSelectedCategory(category);
     setSearchTerm(''); // Clear search term when category is set
   };
+
+console.log("CartItemCount before sending as a prop",CartItemCount);
 
   return (
     <Router>
       <div>
         <Routes>
-        <Route path="/home" element={<>
-          <HeaderView User_Id = {User_Id} handleSearch={handleSearch}/>
-          <CategoryController handleCategory={handleCategory} />
-          <ProductController User_Id={User_Id} searchTerm={searchTerm} category={selectedCategory} />
-        </>} />
+          <Route path="/home" element={<>
+            <HeaderView User_Id={User_Id} handleSearch={handleSearch} CartItemCount={CartItemCount} />
+            <CategoryController handleCategory={handleCategory} />
+            <ProductController User_Id={User_Id} searchTerm={searchTerm} category={selectedCategory} />
+          </>} />
           <Route path="/cart" element={
-          <CartIView 
-              cartProducts={cartProducts} 
+            <CartIView
+              cartProducts={cartProducts}
               setTotalPrice={setTotalPrice}
               updateQuantity={updateQuantity}
               removeItem={removeItem}
@@ -155,13 +165,12 @@ const removeItem = (productId) => {
           } />
           <Route path="/login" element={<LoginController />} />
           <Route path="/" element={<HomeController />} />
-          <Route path="/Signup" element={<SignUpView />} />  
-          <Route path="/Account" element={<AccountDetailsController />} />           
-          <Route path="/product-details" element={<ProductDetailsView User_Id = {User_Id} handleAddToCart={handleAddToCart}/>} />
-        </Routes> 
-        
-      </div>     
-    </Router>  
+          <Route path="/Signup" element={<SignUpView />} />
+          <Route path="/Account" element={<AccountDetailsController />} />
+          <Route path="/product-details" element={<ProductDetailsView User_Id={User_Id} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
