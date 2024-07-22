@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HomeModel } from '../Action/Home';
 import HeaderView from '../Views/HeaderView';
 import UserLocationModel from '../Action/UserLocation';
+import ProductDetailsController from './ProductDetailsController';
 
 export const handleAddToCart = async ( User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail ) => {
   const token = sessionStorage.getItem('authToken');  
@@ -91,6 +92,7 @@ const fetchUserLocation = async (token) => {
         error={error}
         cartData = {cartData}
       />
+      <ProductDetailsController handleAddToCart={handleAddToCart}/>
     </div>
   );
 };

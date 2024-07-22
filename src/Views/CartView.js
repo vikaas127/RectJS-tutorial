@@ -4,7 +4,7 @@ const CartView = ({ cartProducts, updateQuantity, removeItem }) => {
   console.log("cartProducts from CartView", cartProducts);
 
   // Calculate grand total price
-  const grandTotalPrice = cartProducts.reduce((total, product) => total + product.Total_Price, 0);
+  const grandTotalPrice = cartProducts.reduce((total, product) => total + product.Price*product.Buy_Quantity, 0);
 
   return (
     <div className="cart-container">
@@ -26,7 +26,7 @@ const CartView = ({ cartProducts, updateQuantity, removeItem }) => {
                 </div>
               </div>
               <div className='total-price'>
-                <p>Total Price: ₹{product.Total_Price}</p>
+                <p>Total Price: ₹{product.Price* product.Buy_Quantity}</p>
                 <button onClick={() => { console.log("Remove button clicked", product.P_Id); removeItem(product.P_Id); }}>Remove</button>
               </div>
             </div>

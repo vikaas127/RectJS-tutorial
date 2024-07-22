@@ -91,8 +91,11 @@ const removeItem = (productId) => {
         console.error('Error removing product:', error);
       });
   } else {
-    setCartProducts(prevProducts => prevProducts.filter(product => product.P_Id !== productId));
-    localStorage.setItem('cart', JSON.stringify(cartProducts));
+    setCartProducts(prevProducts => {
+      const updatedProducts = prevProducts.filter(product => product.P_Id !== productId);
+      localStorage.setItem('cart', JSON.stringify(updatedProducts));
+      return updatedProducts;
+    });
   }
 };
 
