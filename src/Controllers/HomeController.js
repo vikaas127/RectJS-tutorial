@@ -4,7 +4,7 @@ import HeaderView from '../Views/HeaderView';
 import UserLocationModel from '../Action/UserLocation';
 import ProductDetailsController from './ProductDetailsController';
 
-export const handleAddToCart = async ( User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail ) => {
+export const handleAddToCart = async ( User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail) => {
   const token = sessionStorage.getItem('authToken');  
   const isLogin = sessionStorage.getItem('isLogin') === 'True';
 

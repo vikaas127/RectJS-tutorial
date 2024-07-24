@@ -73,10 +73,10 @@ const App = () => {
     }
   };
 
-  const updateQuantity = (productId, newQuantity) => {
+  const updateQuantity = async(productId, newQuantity) => {
     if (User_Id) {
-      CartItemModel.updateCartProduct(User_Id, productId, newQuantity)
-        .then(() => {
+      try{
+     await CartItemModel.updateCartProduct(User_Id, productId, newQuantity)
           setCartProducts(prevProducts =>
             prevProducts.map(product =>
               product.P_Id === productId
@@ -84,39 +84,39 @@ const App = () => {
                 : product
             )
           );
-        })
-        .catch(error => {
+          fetchCartItemCount(); // Call fetchCartItemCount after updating quantity
+        } catch (error) {
           console.error('Error updating product quantity:', error);
-        });
+        };
     } else {
-      setCartProducts(prevProducts =>
-        prevProducts.map(product =>
-          product.P_Id === productId
-            ? { ...product, Buy_Quantity: newQuantity, Total_Price: newQuantity * product.Price }
-            : product
-        )
+      const updatedProducts = cartProducts.map(product =>
+        product.P_Id === productId
+          ? { ...product, Buy_Quantity: newQuantity, Total_Price: newQuantity * product.Price }
+          : product
       );
-      localStorage.setItem('cart', JSON.stringify(cartProducts));
+      setCartProducts(updatedProducts);
+      localStorage.setItem('cart', JSON.stringify(updatedProducts));
+      fetchCartItemCount(); // Call fetchCartItemCount after updating quantity
     }
   };
 
-  const removeItem = (productId) => {
+  const removeItem = async (productId) => {
     if (User_Id) {
-      CartItemModel.removeCartProduct(productId)
-        .then(() => {
-          setCartProducts(prevProducts => prevProducts.filter(product => product.P_Id !== productId));
-        })
-        .catch(error => {
-          console.error('Error removing product:', error);
-        });
+      try {
+        await CartItemModel.removeCartProduct(productId);
+        setCartProducts(prevProducts => prevProducts.filter(product => product.P_Id !== productId));
+        fetchCartItemCount(); // Call fetchCartItemCount after removing item
+      } catch (error) {
+        console.error('Error removing product:', error);
+      }
     } else {
-      setCartProducts(prevProducts => {
-        const updatedProducts = prevProducts.filter(product => product.P_Id !== productId);
-        localStorage.setItem('cart', JSON.stringify(updatedProducts));
-        return updatedProducts;
-      });
+      const updatedProducts = cartProducts.filter(product => product.P_Id !== productId);
+      setCartProducts(updatedProducts);
+      localStorage.setItem('cart', JSON.stringify(updatedProducts));
+      fetchCartItemCount(); // Call fetchCartItemCount after removing item
     }
   };
+  
 
   const setTotalPrice = (productId, newTotalPrice) => {
     setCartProducts(prevProducts =>
@@ -143,35 +143,49 @@ const App = () => {
     setSelectedCategory(category);
     setSearchTerm(''); // Clear search term when category is set
   };
-
-console.log("CartItemCount before sending as a prop",CartItemCount);
+  const LayoutWithHeader = ({ children }) => (
+    <>
+      <HeaderView User_Id={User_Id} handleSearch={handleSearch} CartItemCount={CartItemCount} />
+      {children}
+    </>
+  );
 
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/home" element={<>
-            <HeaderView User_Id={User_Id} handleSearch={handleSearch} CartItemCount={CartItemCount} />
+      <Routes>
+        <Route path="/" element={<LayoutWithHeader><HomeController /></LayoutWithHeader>} />
+        <Route path="/home" element={
+          <LayoutWithHeader>
             <CategoryController handleCategory={handleCategory} />
             <ProductController User_Id={User_Id} searchTerm={searchTerm} category={selectedCategory} />
-          </>} />
-          <Route path="/cart" element={
+          </LayoutWithHeader>
+        } />
+        <Route path="/cart" element={
+          <LayoutWithHeader>
             <CartIView
               cartProducts={cartProducts}
               setTotalPrice={setTotalPrice}
               updateQuantity={updateQuantity}
               removeItem={removeItem}
             />
-          } />
-          <Route path="/login" element={<LoginController />} />
-          <Route path="/" element={<HomeController />} />
-          <Route path="/Signup" element={<SignUpView />} />
-          <Route path="/Account" element={<AccountDetailsController />} />
-          <Route path="/product-details" element={<ProductDetailsView User_Id={User_Id} />} />
-        </Routes>
-      </div>
+          </LayoutWithHeader>
+        } />
+        <Route path="/login" element={<LoginController />} />
+        <Route path="/Signup" element={<SignUpView />} />
+        <Route path="/Account" element={
+          <LayoutWithHeader>
+            <AccountDetailsController />
+          </LayoutWithHeader>
+        } />
+        <Route path="/product-details" element={
+          <LayoutWithHeader>
+            <ProductDetailsView User_Id={User_Id} />
+          </LayoutWithHeader>
+        } />
+      </Routes>
     </Router>
   );
+  
 };
 
 export default App;
