@@ -124,7 +124,7 @@ console.log("pincode",pincode);
         </div>
         <div className="search-bar">
           <input type="text" 
-          placeholder="Search..."
+          placeholder="Search your item..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} />
           <button type="button" onClick={handleSearchClick}>Search</button>
