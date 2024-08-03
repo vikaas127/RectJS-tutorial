@@ -153,7 +153,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LayoutWithHeader><HomeController /></LayoutWithHeader>} />
+        <Route path="/" element={<LayoutWithHeader><HomeController setCartItemCount={setCartItemCount} /></LayoutWithHeader>} />
         <Route path="/home" element={
           <LayoutWithHeader>
             <CategoryController handleCategory={handleCategory} />

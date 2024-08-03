@@ -2,14 +2,14 @@
 import React from 'react';
 import {handleAddToCart} from '../Controllers/HomeController';
 
-const ProductView = ({ products, onProductClick, User_Id }) => {
+const ProductView = ({ products, onProductClick, User_Id, setCartItemCount }) => {
     const Buy_Quantity = 1;
     console.log("ProductView handleclick Product",products);
 
     
     const handleclick = (User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail) => {
         console.log("products on productview", { P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail });
-        handleAddToCart(User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail);
+        handleAddToCart(User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail,setCartItemCount);
     };
 
     return (

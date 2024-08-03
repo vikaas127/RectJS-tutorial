@@ -2,7 +2,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-const ProductDetailsView = ({User_Id, handleAddToCart}) => {
+const ProductDetailsView = ({User_Id, handleAddToCart, setCartItemCount}) => {
  // Get productId from URL params
  const location = useLocation();
   const { product } = location.state;
@@ -11,7 +11,6 @@ const ProductDetailsView = ({User_Id, handleAddToCart}) => {
   console.log("User_Id on ProductViewDetails",User_Id);
  console.log("ProductView Product",product.P_Id);
  console.log("ProductView Product Price",product.Price);
-
  console.log("ProductView Product Buy_Quantity",Buy_Quantity);
 
   if (!product) {
@@ -20,7 +19,7 @@ const ProductDetailsView = ({User_Id, handleAddToCart}) => {
 
   const handleclick = (User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail) => {
     console.log("products on ProductDetailsView", { P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail });
-    handleAddToCart(User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail);
+    handleAddToCart(User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail, setCartItemCount);
 };
 
   return (

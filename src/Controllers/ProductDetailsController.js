@@ -4,17 +4,17 @@ import ProductDetailsModel from '../Action/ProductDetails';
 import ProductView from '../Views/ProductView';
 import ProductDetailsView from '../Views/ProductDetailsView';
 
-const ProductDetailsController = ({ handleAddToCart }) => {
+const ProductDetailsController = ({ handleAddToCart, setCartItemCount }) => {
   const location = useLocation();
   const { product } = location.state || {};
 
   if (!product) {
-    return <ProductView product={null} handleAddToCart={handleAddToCart} />;
+    return <ProductView product={null} handleAddToCart={handleAddToCart} setCartItemCount={setCartItemCount}/>;
   }
 
   const productModel = new ProductDetailsModel(product);
 
-  return <ProductDetailsView product={productModel} handleAddToCart={handleAddToCart} />;
+  return <ProductDetailsView product={productModel} handleAddToCart={handleAddToCart} setCartItemCount={setCartItemCount} />;
 };
 
 export default ProductDetailsController;

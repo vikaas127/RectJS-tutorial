@@ -4,7 +4,7 @@ import HeaderView from '../Views/HeaderView';
 import UserLocationModel from '../Action/UserLocation';
 import ProductDetailsController from './ProductDetailsController';
 
-export const handleAddToCart = async ( User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail) => {
+export const handleAddToCart = async (User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail, setCartItemCount) => {
   const token = sessionStorage.getItem('authToken');  
   const isLogin = sessionStorage.getItem('isLogin') === 'True';
 
@@ -16,6 +16,7 @@ export const handleAddToCart = async ( User_Id, P_Id, P_Name, Desc, Buy_Quantity
   if (isLogin && token) {
     try {
       await HomeModel.handleAddToCart(User_Id, P_Id, Buy_Quantity, Price);
+      setCartItemCount(prevCount => prevCount + 1); // Update cart item count
     } catch (error) {
       console.error('Error storing cart data to database:', error);
       alert("An error occurred while storing cart data");
@@ -28,7 +29,10 @@ export const handleAddToCart = async ( User_Id, P_Id, P_Name, Desc, Buy_Quantity
       cart = cart ? JSON.parse(cart) : [];
       cart.push(cartItem);
       localStorage.setItem('cart', JSON.stringify(cart));
+   //   console.log("setItem working on HomeController:", JSON.stringify(cart));
+   setCartItemCount(prevCount => prevCount + 1); // Update cart item count
       alert("Product added to local cart");
+
     } catch (error) {
       console.error('Error parsing or updating localStorage cart data:', error);
       alert("An error occurred while updating cart data");
@@ -36,11 +40,11 @@ export const handleAddToCart = async ( User_Id, P_Id, P_Name, Desc, Buy_Quantity
   }
 };
 
-const HomeController = () => {
+const HomeController = ({setCartItemCount}) => {
   const [LocationData, setUserLocationData] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('Eng');
   const [error, setError] = useState(null);
-  const [cartData, setCartData] = useState([]);
+  const [cartData, setCartData] = useState([]); 
   const userLocationModel = new UserLocationModel();
   
   const token = sessionStorage.getItem('authToken');
@@ -63,7 +67,6 @@ const HomeController = () => {
         }
       }
     }, [isLogin, token]);
-    
 
 const fetchUserLocation = async (token) => {
   console.log("under fetchUserLocation on HomeController");
@@ -92,7 +95,7 @@ const fetchUserLocation = async (token) => {
         error={error}
         cartData = {cartData}
       />
-      <ProductDetailsController handleAddToCart={handleAddToCart}/>
+      <ProductDetailsController handleAddToCart={handleAddToCart} setCartItemCount={setCartItemCount}/>
     </div>
   );
 };
