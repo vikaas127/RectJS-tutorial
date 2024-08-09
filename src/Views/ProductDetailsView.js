@@ -19,7 +19,8 @@ const ProductDetailsView = ({User_Id, handleAddToCart, setCartItemCount}) => {
 
   const handleclick = (User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail) => {
     console.log("products on ProductDetailsView", { P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail });
-    handleAddToCart(User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail, setCartItemCount);
+    console.log("ProductViewDetails handleAddToCart",handleAddToCart);
+    handleAddToCart(User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail);
 };
 
   return (
@@ -35,7 +36,6 @@ const ProductDetailsView = ({User_Id, handleAddToCart, setCartItemCount}) => {
         </span>
       </p>
       <button onClick={() => handleclick(User_Id, product.P_Id, product.P_Name, product.Desc, Buy_Quantity, product.Price, product.P_Thumbnail)}>Add to Cart</button>
-   
     </div>
   );
 };

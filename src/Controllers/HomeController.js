@@ -4,7 +4,7 @@ import HeaderView from '../Views/HeaderView';
 import UserLocationModel from '../Action/UserLocation';
 import ProductDetailsController from './ProductDetailsController';
 
-export const handleAddToCart = async (User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail, setCartItemCount) => {
+export const handleAddToCart = async (User_Id, P_Id, P_Name, Desc, Buy_Quantity, Price, P_Thumbnail, setCartItemCount, fetchCartItemCount) => {
   const token = sessionStorage.getItem('authToken');  
   const isLogin = sessionStorage.getItem('isLogin') === 'True';
 
@@ -16,7 +16,10 @@ export const handleAddToCart = async (User_Id, P_Id, P_Name, Desc, Buy_Quantity,
   if (isLogin && token) {
     try {
       await HomeModel.handleAddToCart(User_Id, P_Id, Buy_Quantity, Price);
-      setCartItemCount(prevCount => prevCount + 1); // Update cart item count
+      // setCartItemCount(prevCount => prevCount + 1); // Update cart item count
+      // fetchCartItemCount(); // Call fetchCartItemCount after removing item
+      alert("Products added to the cart successfully");
+      fetchCartItemCount(); // Fetch and update cart item count
     } catch (error) {
       console.error('Error storing cart data to database:', error);
       alert("An error occurred while storing cart data");
@@ -30,9 +33,10 @@ export const handleAddToCart = async (User_Id, P_Id, P_Name, Desc, Buy_Quantity,
       cart.push(cartItem);
       localStorage.setItem('cart', JSON.stringify(cart));
    //   console.log("setItem working on HomeController:", JSON.stringify(cart));
-   setCartItemCount(prevCount => prevCount + 1); // Update cart item count
+      // setCartItemCount(prevCount => prevCount + 1); // Update cart item count
+      //  fetchCartItemCount(); // Call fetchCartItemCount after removing item
       alert("Product added to local cart");
-
+      fetchCartItemCount(); // Fetch and update cart item count
     } catch (error) {
       console.error('Error parsing or updating localStorage cart data:', error);
       alert("An error occurred while updating cart data");
@@ -40,7 +44,7 @@ export const handleAddToCart = async (User_Id, P_Id, P_Name, Desc, Buy_Quantity,
   }
 };
 
-const HomeController = ({setCartItemCount}) => {
+const HomeController = ({setCartItemCount, fetchCartItemCount}) => {
   const [LocationData, setUserLocationData] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('Eng');
   const [error, setError] = useState(null);
@@ -66,6 +70,8 @@ const HomeController = ({setCartItemCount}) => {
           setCartData([]);
         }
       }
+
+      fetchCartItemCount();
     }, [isLogin, token]);
 
 const fetchUserLocation = async (token) => {
@@ -95,7 +101,10 @@ const fetchUserLocation = async (token) => {
         error={error}
         cartData = {cartData}
       />
-      <ProductDetailsController handleAddToCart={handleAddToCart} setCartItemCount={setCartItemCount}/>
+       <>
+      {console.log('handleAddToCart:', handleAddToCart)}
+      <ProductDetailsController handleAddToCart={handleAddToCart} setCartItemCount={setCartItemCount} />
+    </>
     </div>
   );
 };

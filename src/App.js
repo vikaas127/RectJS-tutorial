@@ -6,6 +6,7 @@ import './CategoryList.css';
 import './ProductDetails.css';
 import './Header.css';
 import './CSS/cart.css';
+import './CSS/Account.css'
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HeaderView from './Views/HeaderView';
@@ -153,7 +154,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LayoutWithHeader><HomeController setCartItemCount={setCartItemCount} /></LayoutWithHeader>} />
+        <Route path="/" element={<LayoutWithHeader><HomeController setCartItemCount={setCartItemCount} fetchCartItemCount={fetchCartItemCount}/></LayoutWithHeader>} />
         <Route path="/home" element={
           <LayoutWithHeader>
             <CategoryController handleCategory={handleCategory} />

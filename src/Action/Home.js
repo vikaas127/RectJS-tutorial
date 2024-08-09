@@ -17,17 +17,12 @@ export class HomeModel {
     console.log("handleAddToCart on Home");
     const isLogin = sessionStorage.getItem("isLogin");
 
-    // if (!User_Id) {
-    //   alert("User ID not found. Please try again.");
-    //   return;
-    // } 
-
     if (isLogin) {
-      console.log("isLogin on HomeModel working", isLogin);
-      console.log("User_Id on home", User_Id);
-      console.log("P_Id on home", P_Id);
-      console.log("Buy_Quantity on home", Buy_Quantity);
-      console.log("Price on home", Price);
+      // console.log("isLogin on HomeModel working", isLogin);
+      // console.log("User_Id on home", User_Id);
+      // console.log("P_Id on home", P_Id);
+      // console.log("Buy_Quantity on home", Buy_Quantity);
+      // console.log("Price on home", Price);
       try {
         const response = await axios.post('http://localhost:3001/api/Add_productcart', 
           { User_Id: Number(User_Id), 
@@ -38,7 +33,7 @@ export class HomeModel {
         });
         console.log("Add_productcart API response", response);
         if(response.status === 200 ){
-          alert("Products added to the cart successfully");
+          // alert("Products added to the cart successfully");
           console.log("Products added to the cart successfully");
           return response.data;
         } else {

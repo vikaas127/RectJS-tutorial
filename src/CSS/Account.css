@@ -1,0 +1,38 @@
+.AccountDetails {
+    background-color: rgb(97, 29, 29);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .AccountDetails ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .AccountDetails li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .AccountDetails img {
+    border-radius: 50%;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .AccountDetails h1 {
+    font-size: 24px;
+    margin: 10px 0;
+    color: #afa2a2;
+  }
+  
+  .AccountDetails p {
+    margin: 5px 0;
+    color: #afa2a2;
+  }
+  
